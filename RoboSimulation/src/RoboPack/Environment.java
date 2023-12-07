@@ -1,4 +1,4 @@
-package thu.robots.components;
+package RoboPack;
 
 import georegression.metric.ClosestPoint2D_F64;
 import georegression.metric.Intersection2D_F64;
