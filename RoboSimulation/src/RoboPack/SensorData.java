@@ -1,4 +1,4 @@
-package thu.robots.components;
+package RoboPack;
 
 public class SensorData {
     private double angle;

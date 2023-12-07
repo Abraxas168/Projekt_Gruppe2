@@ -1,4 +1,4 @@
-package thu.robots.components;
+package RoboPack;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
