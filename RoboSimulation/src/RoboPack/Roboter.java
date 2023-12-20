@@ -9,6 +9,8 @@ public class Roboter implements IRobot{
     private Sensor sensor2;
     private Sensor sensor3;
     private String name;
+    private int radius;
+
 
     public Roboter(Sensor sensor1, Sensor sensor2, Sensor sensor3, String name) {
         this.sensor1=sensor1;
@@ -65,10 +67,17 @@ public class Roboter implements IRobot{
     public int getVelocity() {
         return 0;
     }
-
+    public void setRadius(int newRadius) {
+        if (newRadius >= 1 && newRadius <= 100) {
+            this.radius = newRadius;
+        }
+        else {
+            throw new IllegalStateException("Radius muss zwischen 1 und 100 liegen.");
+        }
+    }
     @Override
     public int getRadius() {
-        return 0;
+        return this.radius;
     }
 
     @Override
