@@ -68,11 +68,10 @@ public class Roboter implements IRobot{
         return 0;
     }
     public void setRadius(int newRadius) {
-        if (newRadius >= 1 && newRadius <= 100) {
-            this.radius = newRadius;
-        }
-        else {
+        if (newRadius < 1 || newRadius > 100) {
             throw new IllegalStateException("Radius muss zwischen 1 und 100 liegen.");
+        } else {
+            this.radius = newRadius;
         }
     }
     @Override
