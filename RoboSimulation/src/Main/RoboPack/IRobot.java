@@ -75,7 +75,9 @@ public interface IRobot {
      * Liefert die Breite des Roboters zurück
      * @return
      */
-    public int getRadius();
+    public int getRadius(
+
+    );
 
 
     /**

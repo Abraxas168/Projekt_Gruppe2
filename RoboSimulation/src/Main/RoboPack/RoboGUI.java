@@ -21,7 +21,7 @@ public class RoboGUI {
 
                 if (newValue < 1 || newValue > 100) {
                     JOptionPane.showMessageDialog(null, "Der Wert des Radius muss zwischen 1 und 100 liegen!");
-            }
+                }
             }
         });
     }
