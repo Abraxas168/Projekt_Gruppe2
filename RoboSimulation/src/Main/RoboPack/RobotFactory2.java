@@ -1,9 +1,11 @@
 package RoboPack;
 
+import java.awt.*;
+
 public class RobotFactory2 extends AbstractRobotFactory{
 
     @Override
-    public IRobot createRobot(){
+    public Roboter createRobot(){
         //Sensoreigenschaften:
         double orientationToRobo1=1;
         double orientationToRobo2=2;
@@ -19,7 +21,14 @@ public class RobotFactory2 extends AbstractRobotFactory{
         Sensor sensor3=new Sensor(orientationToRobo3, beamWidth3, measurementRate3);
         //Robotereigenschaften:
         String name= "coolerName";
-        IRobot hotWheels= new Roboter(sensor1, sensor2, sensor3, name);
+        int init_posX=50;
+        int init_posY=50;
+        int init_velocity=0;
+        int init_orientation=0;
+        int init_radius=20;
+        Color color= Color.MAGENTA;
+        Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, name,  init_velocity,  init_radius, color);
+        hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
         return hotWheels;
     }
 }
