@@ -21,8 +21,8 @@ public class RobotFactory2 extends AbstractRobotFactory{
         Sensor sensor3=new Sensor(orientationToRobo3, beamWidth3, measurementRate3);
         //Robotereigenschaften:
         String name= "coolerName";
-        int init_posX=50;
-        int init_posY=50;
+        int init_posX=30;
+        int init_posY=30;
         int init_velocity=0;
         int init_orientation=0;
         int init_radius=20;

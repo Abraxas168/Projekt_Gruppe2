@@ -15,6 +15,8 @@ public class Roboter implements IRobot{
     private double orientation;
     private int velocity;
     private Color color;
+    private ManuelleSteuerung manu;
+    private AutoSteuerung auto;
 
 
     public Roboter(Sensor sensor1, Sensor sensor2, Sensor sensor3, String name, int velocity, int radius, Color color) {
@@ -99,14 +101,19 @@ public class Roboter implements IRobot{
 
     public Color getColor(){return this.color;}
 
+
     @Override
     public void move(double deltaTimeSec) {
-        if (posX>=572 | posX<=26 | posY>=373 | posY<=25 ) {
-            orientation=orientation+45;
+        double deltaX=deltaTimeSec*velocity*Math.cos(orientation*Math.PI/180.0);
+        double deltaY=deltaTimeSec*velocity*Math.sin(orientation*Math.PI/180.0);
+        if (posX+deltaX<=radius||posY+deltaY<=radius||posX+deltaX>=800-radius||posY+deltaY>=600-radius) {
+            velocity = 0;
         }
-        double x_neu= posX+deltaTimeSec*velocity*Math.cos(orientation*Math.PI/180.0);
-        double y_neu= posY+deltaTimeSec*velocity*Math.sin(orientation*Math.PI/180.0);
-        posX=(int) x_neu;
-        posY=(int) y_neu;
-    }
+        else{
+            double x_neu= posX+deltaX;
+            double y_neu= posY+deltaY;
+            posX=(int) x_neu;
+            posY=(int) y_neu;
+        }
+        }
     }

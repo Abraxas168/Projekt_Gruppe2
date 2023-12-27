@@ -16,10 +16,13 @@ public class Main {
             } catch (UnsupportedLookAndFeelException e) {
                 e.printStackTrace();
             }
+
             RoboGUI guiFrame = new RoboGUI("RoboGUI");
             guiFrame.setVisible(true);
             RobotFactory2 factory2=new RobotFactory2();
             Roboter HotWheels= factory2.createRobot();
             guiFrame.setRobot(HotWheels);
+            EnvironmentLoader env= new EnvironmentLoader();
+            guiFrame.setEnv(env);
         }
     }

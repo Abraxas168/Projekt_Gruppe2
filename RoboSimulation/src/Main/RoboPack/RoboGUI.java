@@ -8,6 +8,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 public class RoboGUI extends JFrame {
     private JSlider sRadius;
@@ -23,6 +24,9 @@ public class RoboGUI extends JFrame {
     private final int velocityIncrement = 10;
     private final int orientationIncrement = 5;
     private Thread updateThread;
+    private Environment environment;
+    private int width;
+    private int hight;
 
 
     public RoboGUI(String title) {
@@ -85,7 +89,7 @@ public class RoboGUI extends JFrame {
             }
         }
 
-        private double normalizeOrientation ( double orientation){
+        private double normalizeOrientation (double orientation){
             if (orientation <= -180) {
                 orientation = 360 + orientation;
             } else if (orientation > 180) {
@@ -114,19 +118,27 @@ public class RoboGUI extends JFrame {
         updateThread.start();
     }
 
+    public void setEnv(EnvironmentLoader env){
+        File file= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
+        this.environment= env.loadFromFile(file);
+        this.width= environment.getWidth();
+        this.hight= environment.getHeight();
+        createUIComponents();
+    }
+
     private void createUIComponents() {
         pDrawPanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                if (robot == null) {
+                if (robot == null || environment==null) {
                     return;
                 }
 
                 Color color = robot.getColor();
                 int posX = robot.getPosX();
                 int posY = robot.getPosY();
-                posY = pDrawPanel.getHeight() - posY;
+                posY = environment.getHeight() - posY;
                 double orientation = robot.getOrientation();
                 int velocity = robot.getVelocity();
                 int radius = robot.getRadius();
@@ -136,7 +148,11 @@ public class RoboGUI extends JFrame {
                 statusStr += "Y: " + posY + "\n";
                 statusStr += "Orientierung: " + orientation + "°\n";
                 statusStr += "Geschwindigkeit: " + velocity + " Pixel/s\n";
-                statusStr += "Höhe: " +pDrawPanel.getHeight();
+                statusStr += "Höhe Frame: " +pDrawPanel.getHeight() +"\n";
+                statusStr += "Breite Frame: " + pDrawPanel.getWidth() + "\n";
+                statusStr += "Höhe Bild: " +environment.getHeight() +"\n";
+                statusStr += "Breite Bild: " + environment.getWidth() + "\n";
+
 
                 tRoboinfo.setText(statusStr);
 
@@ -146,10 +162,11 @@ public class RoboGUI extends JFrame {
                 g.setColor(Color.BLACK);
                 g.fillArc(posX -radius, posY -radius, radius*2, radius*2, (int)orientation - 45, 90);
 
+                g.drawRect(0, 0, environment.getWidth(), environment.getHeight());
 
-                int maxX = pDrawPanel.getWidth() +radius;
+                int maxX = environment.getWidth() +radius;
                 int minX = -radius;
-                int maxY = pDrawPanel.getHeight() +radius;
+                int maxY = environment.getHeight() +radius;
                 int minY = -radius;
 
                 if (posX > maxX || posX < minX || posY > maxY || posY < minY) {
@@ -157,6 +174,9 @@ public class RoboGUI extends JFrame {
                     JOptionPane.showMessageDialog(this, "Der Roboter ist verschwunden!", "Roboter ist verschwunden", JOptionPane.ERROR_MESSAGE);
                 }
             }
+
         };
+        pDrawPanel.setPreferredSize(new Dimension(800, 600));
+        repaint();
     }
 }
