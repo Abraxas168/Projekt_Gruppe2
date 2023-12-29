@@ -8,7 +8,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 public class RoboGUI extends JFrame {
     private JSlider sRadius;
@@ -27,6 +31,7 @@ public class RoboGUI extends JFrame {
     private Environment environment;
     private int width;
     private int hight;
+    private List<EnvironmentObject> objects;
 
 
     public RoboGUI(String title) {
@@ -123,6 +128,7 @@ public class RoboGUI extends JFrame {
         this.environment= env.loadFromFile(file);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();
+        this.objects= environment.getObjects();
         createUIComponents();
     }
 
@@ -148,13 +154,29 @@ public class RoboGUI extends JFrame {
                 statusStr += "Y: " + posY + "\n";
                 statusStr += "Orientierung: " + orientation + "°\n";
                 statusStr += "Geschwindigkeit: " + velocity + " Pixel/s\n";
-                statusStr += "Höhe Frame: " +pDrawPanel.getHeight() +"\n";
-                statusStr += "Breite Frame: " + pDrawPanel.getWidth() + "\n";
+                //statusStr += "Höhe Frame: " +pDrawPanel.getHeight() +"\n";
+                //statusStr += "Breite Frame: " + pDrawPanel.getWidth() + "\n";
                 statusStr += "Höhe Bild: " +environment.getHeight() +"\n";
                 statusStr += "Breite Bild: " + environment.getWidth() + "\n";
 
 
                 tRoboinfo.setText(statusStr);
+                int listengr = objects.size();
+                //System.out.println(listengr);
+
+                for(int n=0; n<listengr; n++){
+                    EnvironmentObject obj= objects.get(n);
+                    Color objColor= obj.getColor();
+                    Rectangle2D rechteck = obj.getRectangle();
+                    double objOrientation=obj.getOrientation();
+                    Graphics2D g2d= (Graphics2D) g;
+                    AffineTransform transform = new AffineTransform();
+                    transform.rotate(objOrientation, rechteck.getX() + rechteck.getWidth() / 2, rechteck.getY() + rechteck.getHeight() / 2);
+                    g2d.setTransform(transform);
+                    g.setColor(objColor);
+                    g.fillRect((int)rechteck.getX(), (int)rechteck.getY(), (int)rechteck.getWidth(), (int)rechteck.getHeight());
+                    g2d.setTransform(new AffineTransform());
+                }
 
 
                 g.setColor(color);
@@ -176,7 +198,7 @@ public class RoboGUI extends JFrame {
             }
 
         };
-        pDrawPanel.setPreferredSize(new Dimension(800, 600));
-        repaint();
+        //pDrawPanel.setPreferredSize(new Dimension(800, 600));
+        //repaint();
     }
 }
