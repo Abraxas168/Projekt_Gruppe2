@@ -32,6 +32,7 @@ public class RoboGUI extends JFrame {
     private int width;
     private int hight;
     private List<EnvironmentObject> objects;
+    private List<SensorData> datafromSensors;
 
 
     public RoboGUI(String title) {
@@ -126,10 +127,18 @@ public class RoboGUI extends JFrame {
     public void setEnv(EnvironmentLoader env){
         File file= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
         this.environment= env.loadFromFile(file);
+        environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();
         this.objects= environment.getObjects();
         createUIComponents();
+    }
+    public void setDatafromSensors(List<SensorData> sd){
+        this.datafromSensors=sd;
+    }
+
+    public List<SensorData> getDatafromSensors() {
+        return datafromSensors;
     }
 
     private void createUIComponents() {
@@ -140,7 +149,7 @@ public class RoboGUI extends JFrame {
                 if (robot == null || environment==null) {
                     return;
                 }
-
+                environment.simulateSensorData(robot);
                 Color color = robot.getColor();
                 int posX = robot.getPosX();
                 int posY = robot.getPosY();

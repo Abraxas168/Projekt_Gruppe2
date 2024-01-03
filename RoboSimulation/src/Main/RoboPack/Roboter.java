@@ -15,8 +15,8 @@ public class Roboter implements IRobot{
     private double orientation;
     private int velocity;
     private Color color;
-    private ManuelleSteuerung manu;
-    private AutoSteuerung auto;
+    private ManuelleSteuerung manuelleSteuerung;
+    private AutoSteuerung autoSteuerung;
 
 
     public Roboter(Sensor sensor1, Sensor sensor2, Sensor sensor3, String name, int velocity, int radius, Color color) {
@@ -40,7 +40,11 @@ public class Roboter implements IRobot{
 
     @Override
     public void activateAutonomousStearing() {
-
+        Roboter robo= manuelleSteuerung.getRobo();
+        this.autoSteuerung=new AutoSteuerung(robo);
+        sensor1.setAutoSteuerung(autoSteuerung);
+        sensor2.setAutoSteuerung(autoSteuerung);
+        sensor3.setAutoSteuerung(autoSteuerung);
     }
 
     @Override
@@ -100,10 +104,25 @@ public class Roboter implements IRobot{
     }
 
     public Color getColor(){return this.color;}
+    public void setManuelleSteuerung(ManuelleSteuerung manu){
+        this.manuelleSteuerung=manu;
+        sensor1.setManuelleSteuerung(manuelleSteuerung);
+        sensor2.setManuelleSteuerung(manuelleSteuerung);
+        sensor3.setManuelleSteuerung(manuelleSteuerung);
+    }
 
 
     @Override
     public void move(double deltaTimeSec) {
+        //******test**** steuern() muss jeweils noch geschrieben werden!
+        //if(autoSteuerung != null){
+        //System.out.println("AutoSteuerung aktiviert");
+        //        autoSteuerung.steuern();
+        //}else{
+        //    System.out.println("ManuelleSteuerung");
+        //        manuelleSteuerung.steuern();
+        //}
+
         double deltaX=deltaTimeSec*velocity*Math.cos(orientation*Math.PI/180.0);
         double deltaY=deltaTimeSec*velocity*Math.sin(orientation*Math.PI/180.0);
         if (posX+deltaX<=radius||posY+deltaY<=radius||posX+deltaX>=800-radius||posY+deltaY>=600-radius) {

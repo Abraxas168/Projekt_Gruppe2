@@ -22,6 +22,7 @@ public class Main {
             RobotFactory2 factory2=new RobotFactory2();
             Roboter HotWheels= factory2.createRobot();
             guiFrame.setRobot(HotWheels);
+            // kann das innerhalb der GUI gemacht werden?:
             EnvironmentLoader env= new EnvironmentLoader();
             guiFrame.setEnv(env);
         }

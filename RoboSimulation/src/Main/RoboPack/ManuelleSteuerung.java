@@ -1,36 +1,37 @@
 package RoboPack;
 
-public class ManuelleSteuerung {
-   /* private int velocity=velocity;
-    private double orientation=orientation;
-    private int posX=posX;
-    private int posY=posY;
-    private int radius=radius;
-    private RoboGUI robokontroll;
+import java.util.List;
 
-    ManuelleSteuerung(int velocity, double orientation, int posX, int posY, int radius){
-        this.orientation=orientation;
-        this.velocity=velocity;
-        this.posX=posX;
-        this.posY=posY;
-        this.radius=radius;
-        this.robokontroll=robokontroll;
+public class ManuelleSteuerung extends Steuerung{
+    private List<SensorData> datafromSensors;
+    private Roboter robo;
+    //private Environment env;
+
+
+    ManuelleSteuerung(Roboter robo){
+        this.robo=robo;
+        //this.env=env;
+        //*********vorsicht, mehrere Daten-Listen von verschiedenen sensoren. Funktion measurment from Environment nutzen!************
+        //env.simulateSensorData(robo); --> evtl reicht es wenn GUI Daten simuliert?? möglicherweise muss es aber auch hier bzw. eher
+        //in der Funktion "Steuern" gemacht werden
+        //---> darf hier überhaupt environment verwendet werden?
+
+    }
+    public void steuern(){
+        int velocity=robo.getVelocity();
+        double orientation=robo.getOrientation();
+        //*************Berechnung mit Sensordaten!
+        robo.setVelocity(velocity);
+        robo.setOrientation(orientation);
     }
 
-    public void steuern(double deltaTimeSec) {
-            double deltaX = deltaTimeSec * velocity * Math.cos(orientation * Math.PI / 180.0);
-            double deltaY = deltaTimeSec * velocity * Math.sin(orientation * Math.PI / 180.0);
-            double futurX=deltaTimeSec * 10 * Math.cos(orientation * Math.PI / 180.0);
-            double futurY=deltaTimeSec * 10 * Math.sin(orientation * Math.PI / 180.0);
-            if (posX > 600 - deltaX | posX < radius + deltaX | posY > 400 - deltaY | posY < radius + deltaY) {
-               if(velocity != 0){
-                   this.velocity=0;
-               }if(velocity==0 && posX+futurX+radius > 0 && posX+futurX-radius<600 && posY+futurY+radius>0 && posY+futurY-radius<400){
-                   roboter.move(deltaTimeSec);
-                }
-            }
-            else {
-                roboter.move(deltaTimeSec);
-            }
-        }*/
+    public List<SensorData> getDatafromSensors() {
+        return datafromSensors;
+    }
+    public void setDatafromSensors(List<SensorData> sd){
+        this.datafromSensors=sd;
+    }
+    public Roboter getRobo(){
+        return robo;
+    }
     }

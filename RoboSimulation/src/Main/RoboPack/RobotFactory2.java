@@ -16,6 +16,7 @@ public class RobotFactory2 extends AbstractRobotFactory{
         int measurementRate1=1;
         int measurementRate2=2;
         int measurementRate3=3 ;
+        Steuerung steuerung=new Steuerung();
         Sensor sensor1=new Sensor(orientationToRobo1, beamWidth1, measurementRate1);
         Sensor sensor2=new Sensor(orientationToRobo2, beamWidth2, measurementRate2);
         Sensor sensor3=new Sensor(orientationToRobo3, beamWidth3, measurementRate3);
@@ -29,6 +30,13 @@ public class RobotFactory2 extends AbstractRobotFactory{
         Color color= Color.MAGENTA;
         Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, name,  init_velocity,  init_radius, color);
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
+        //EnvironmentLoader env= new EnvironmentLoader();
+
+        // Steuerung erstellen: Roboter übergeben: wie realisiere ich Aktivierung?
+        //ManuelleSteuerung manuelleSteuerung=new ManuelleSteuerung(hotWheels);
+        //hotWheels.setManuelleSteuerung(manuelleSteuerung);
+        //hotWheels.activateAutonomousStearing();
+
         return hotWheels;
     }
 }
