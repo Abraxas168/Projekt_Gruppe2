@@ -35,7 +35,7 @@ public class RobotFactory2 extends AbstractRobotFactory{
         // Steuerung erstellen: Roboter übergeben: wie realisiere ich Aktivierung?
         ManuelleSteuerung manuelleSteuerung=new ManuelleSteuerung(hotWheels);
         hotWheels.setManuelleSteuerung(manuelleSteuerung);
-        hotWheels.activateAutonomousStearing();
+        //hotWheels.activateAutonomousStearing();
 
         return hotWheels;
     }
