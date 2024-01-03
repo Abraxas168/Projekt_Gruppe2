@@ -25,5 +25,8 @@ public class Main {
             // kann das innerhalb der GUI gemacht werden?:
             EnvironmentLoader env= new EnvironmentLoader();
             guiFrame.setEnv(env);
+            ManuelleSteuerung manuelleSteuerung=new ManuelleSteuerung(HotWheels);
+            HotWheels.setManuelleSteuerung(manuelleSteuerung);
+            HotWheels.activateAutonomousStearing();
         }
     }
