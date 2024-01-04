@@ -22,8 +22,9 @@ public class AutoSteuerung extends Steuerung{
         int velocity=robo.getVelocity();
         double orientation=robo.getOrientation();
         //*************Berechnung mit Sensordaten!
-        if (datafromSensors != null && datafromSensors.size()>0){
-        System.out.println(""+datafromSensors.get(0).getAngle());}
+       if (datafromSensors != null && datafromSensors.size()>0){
+        //System.out.println(""+datafromSensors.get(0).getAngle());
+        }
         robo.setVelocity(velocity);
         robo.setOrientation(orientation);
     }
