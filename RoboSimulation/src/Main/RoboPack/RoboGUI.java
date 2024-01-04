@@ -4,21 +4,17 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RoboGUI extends JFrame {
     private JSlider sRadius;
     private JLabel lRadius;
-    private JButton bOben;
-    private JButton bUnten;
+    private JButton bschneller;
+    private JButton blangsamer;
     private JButton bLinks;
     private JButton rechtsButton;
     private JTextArea tRoboinfo;
@@ -46,18 +42,104 @@ public class RoboGUI extends JFrame {
         });
         pack();
 
+        //*Problem identifiziert!, nach Radiusänderung muss x-y Position neu gesetzt werden, da sonst robo
+        //außerhalb des Rahmens und dann die Steuerung nicht mehr funktioniert!
+        //Vorsicht, jetzt setzt sich robo immer an den anfang.. es müssen mehr Bedinungen rein, damit er sich nur
+        //entsprechend des neuen Radius vom rand weg bewegt.
+        //setInitialPose kann auch allgemein in abhängigkeit von Radius und Environment angepasst werden!!
+        //aber vorsicht, diese werte hat bisher nur die GUI, nicht der Roboter. Kann von hier aus gezielt aufgerufen
+        //werden damit steuerung nicht beeinträchtigt wird.
+
         sRadius.addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged (ChangeEvent e){
+            public void stateChanged(ChangeEvent e) {
+                if (!sRadius.isFocusOwner()) {
+                    return;
+                }
+                if (robot == null) {
+                    return;
+                }
                 int newValue = sRadius.getValue();
 
                 if (newValue < 1 || newValue > 100) {
                     JOptionPane.showMessageDialog(null, "Der Wert des Radius muss zwischen 1 und 100 liegen!");
                 }
                 robot.setRadius(newValue);
+                int xPose= newValue;
+                int yPose= newValue;
+                robot.setInitialPose(xPose, yPose, robot.getOrientation());
             }
         });
-    }
+        bschneller.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (robot == null) {
+                    return;
+                }
+                int velocity = robot.getVelocity();
+                robot.setVelocity(velocity + velocityIncrement);
+            }
+        });
+        blangsamer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (robot == null) {
+                    return;
+                }
+                int velocity = robot.getVelocity();
+                robot.setVelocity(velocity - velocityIncrement);
+            }
+        });
+        bLinks.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (robot == null) {
+                    return;
+                }
+                double orientation = robot.getOrientation() + orientationIncrement;
+                robot.setOrientation(normalizeOrientation(orientation));
+            }
+        });
+        rechtsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (robot == null) {
+                    return;
+                }
+                double orientation = robot.getOrientation() - orientationIncrement;
+                robot.setOrientation(normalizeOrientation(orientation));
+            }
+        });
+
+
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().
+
+    addKeyEventDispatcher(new KeyEventDispatcher() {
+        public boolean dispatchKeyEvent (KeyEvent e){
+            if (e.getID() == KeyEvent.KEY_PRESSED) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT -> {
+                        formKeyPressed(e);
+                        break;
+                    }
+                    case KeyEvent.VK_RIGHT -> {
+                        formKeyPressed(e);
+                        break;
+                    }
+                    case KeyEvent.VK_UP -> {
+                        formKeyPressed(e);
+                        break;
+                    }
+                    case KeyEvent.VK_DOWN -> {
+                        formKeyPressed(e);
+                        break;
+                    }
+                }
+            }
+            return false;
+        }
+    });
+}
 
 
     @Override
@@ -133,6 +215,16 @@ public class RoboGUI extends JFrame {
         this.objects= environment.getObjects();
         createUIComponents();
     }
+
+    public int getHight() {
+        return hight;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
     public void setDatafromSensors(List<SensorData> sd){
         this.datafromSensors=sd;
     }
