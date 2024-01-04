@@ -16,7 +16,7 @@ public class RoboGUI extends JFrame {
     private JButton bschneller;
     private JButton blangsamer;
     private JButton bLinks;
-    private JButton rechtsButton;
+    private JButton bRechts;
     private JTextArea tRoboinfo;
     private JPanel pDrawPanel;
     private JPanel pInfoPanel;
@@ -100,7 +100,7 @@ public class RoboGUI extends JFrame {
                 robot.setOrientation(normalizeOrientation(orientation));
             }
         });
-        rechtsButton.addActionListener(new ActionListener() {
+        bRechts.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (robot == null) {
