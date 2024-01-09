@@ -5,10 +5,12 @@ import java.util.List;
 public class ManuelleSteuerung extends Steuerung{
     private List<SensorData> datafromSensors;
     private Roboter robo;
-    //private Environment env;
+
+    private Validator validator;
 
 
-    ManuelleSteuerung(Roboter robo){
+    ManuelleSteuerung(Roboter robo, Validator validator){
+        this.validator=validator;
         this.robo=robo;
         //this.env=env;
         //*********vorsicht, mehrere Daten-Listen von verschiedenen sensoren. Funktion measurment from Environment nutzen!************
@@ -34,4 +36,9 @@ public class ManuelleSteuerung extends Steuerung{
     public Roboter getRobo(){
         return robo;
     }
+
+    public Validator getValidator() {
+        return validator;
     }
+}
+

@@ -139,7 +139,10 @@ public class RoboGUI extends JFrame {
             return false;
         }
     });
-}
+        createUIComponents();
+
+        //addComponentsToContentPane();
+    }
 
 
     @Override
@@ -245,8 +248,9 @@ public class RoboGUI extends JFrame {
                 Color color = robot.getColor();
                 int posX = robot.getPosX();
                 int posY = robot.getPosY();
-                posY = environment.getHeight() - posY;
+                //posY = environment.getHeight() - posY;
                 double orientation = robot.getOrientation();
+                //System.out.println(orientation);
                 int velocity = robot.getVelocity();
                 int radius = robot.getRadius();
 
@@ -262,6 +266,7 @@ public class RoboGUI extends JFrame {
 
 
                 tRoboinfo.setText(statusStr);
+
                 int listengr = objects.size();
                 //System.out.println(listengr);
 
@@ -299,6 +304,7 @@ public class RoboGUI extends JFrame {
             }
 
         };
+        //pInfoPanel.add(bRechts);
         //pDrawPanel.setPreferredSize(new Dimension(800, 600));
         //repaint();
     }
