@@ -114,7 +114,7 @@ public class Roboter implements IRobot{
 
     @Override
     public void move(double deltaTimeSec) {
-        //******test**** steuern() muss jeweils noch geschrieben werden!
+        /* ******test**** steuern() muss jeweils noch geschrieben werden! */
         if(autoSteuerung != null){
         System.out.println("AutoSteuerung aktiviert");
                 autoSteuerung.steuern();
@@ -127,8 +127,7 @@ public class Roboter implements IRobot{
         double deltaY=deltaTimeSec*velocity*Math.sin(orientation*Math.PI/180.0);
         if (posX+deltaX<=radius||posY+deltaY<=radius||posX+deltaX>=800-radius||posY+deltaY>=600-radius) {
             velocity = 0;
-        }
-        else{
+        } else{
             double x_neu= posX+deltaX;
             double y_neu= posY+deltaY;
             posX=(int) x_neu;
