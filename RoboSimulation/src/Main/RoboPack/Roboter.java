@@ -41,7 +41,8 @@ public class Roboter implements IRobot{
     @Override
     public void activateAutonomousStearing() {
         Roboter robo= manuelleSteuerung.getRobo();
-        this.autoSteuerung=new AutoSteuerung(robo);
+        Validator validator=manuelleSteuerung.getValidator();
+        this.autoSteuerung=new AutoSteuerung(robo, validator);
         sensor1.setAutoSteuerung(autoSteuerung);
         sensor2.setAutoSteuerung(autoSteuerung);
         sensor3.setAutoSteuerung(autoSteuerung);
@@ -83,6 +84,15 @@ public class Roboter implements IRobot{
         this.orientation=orientation;
     }
 
+    private double normalizeOrientation (double orientation){
+        if (orientation <= -180) {
+            orientation = 360 + orientation;
+        } else if (orientation > 180) {
+            orientation = (orientation - 360);
+        }
+        return orientation;
+    }
+
     @Override
     public int getVelocity() {
         return this.velocity;
@@ -116,16 +126,16 @@ public class Roboter implements IRobot{
     public void move(double deltaTimeSec) {
         /* ******test**** steuern() muss jeweils noch geschrieben werden! */
         if(autoSteuerung != null){
-        System.out.println("AutoSteuerung aktiviert");
+        //System.out.println("AutoSteuerung aktiviert");
                 autoSteuerung.steuern();
         }else if (manuelleSteuerung != null){
-            System.out.println("ManuelleSteuerung");
+            //System.out.println("ManuelleSteuerung");
                 manuelleSteuerung.steuern();
         }
 
         double deltaX=deltaTimeSec*velocity*Math.cos(orientation*Math.PI/180.0);
-        double deltaY=deltaTimeSec*velocity*Math.sin(orientation*Math.PI/180.0);
-        if (posX+deltaX<=radius||posY+deltaY<=radius||posX+deltaX>=800-radius||posY+deltaY>=600-radius) {
+        double deltaY=deltaTimeSec*velocity*Math.sin(-orientation*Math.PI/180.0);
+        if (posX+deltaX<=radius||posY+deltaY<=radius||posY+deltaY>=600-radius) {
             velocity = 0;
         } else{
             double x_neu= posX+deltaX;
