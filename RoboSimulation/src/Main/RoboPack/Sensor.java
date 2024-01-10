@@ -32,9 +32,6 @@ public class Sensor extends BaseSensor{
             autoSteuerung.setDatafromSensors(data);}
         else if (manuelleSteuerung!= null) {
             manuelleSteuerung.setDatafromSensors(data);}
-        if(gui != null){
-            gui.setDatafromSensors(data);
-        }
         //this.gui.setDatafromSensors(data); ***** wie komme ich an Gui ran?
     }
 

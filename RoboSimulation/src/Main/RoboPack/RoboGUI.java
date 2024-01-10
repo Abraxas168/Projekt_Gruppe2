@@ -228,12 +228,9 @@ public class RoboGUI extends JFrame {
         return width;
     }
 
-    public void setDatafromSensors(List<SensorData> sd){
-        this.datafromSensors=sd;
-    }
 
     public List<SensorData> getDatafromSensors() {
-        return datafromSensors;
+        return robot.getAutoSteuerung().getDatafromSensors();
     }
 
     private void createUIComponents() {
@@ -249,7 +246,7 @@ public class RoboGUI extends JFrame {
                 int posX = robot.getPosX();
                 int posY = robot.getPosY();
                 //posY = environment.getHeight() - posY;
-                double orientation = robot.getOrientation();
+                double orientation = -robot.getOrientation();
                 //System.out.println(orientation);
                 int velocity = robot.getVelocity();
                 int radius = robot.getRadius();
@@ -286,9 +283,9 @@ public class RoboGUI extends JFrame {
 
 
                 g.setColor(color);
-                g.fillOval(posX - radius, posY -radius,radius*2, radius*2);
+                g.fillOval(posX - radius, posY - radius,radius*2, radius*2);
                 g.setColor(Color.BLACK);
-                g.fillArc(posX -radius, posY -radius, radius*2, radius*2, (int)orientation - 45, 90);
+                g.fillArc(posX -radius, posY - radius, radius*2, radius*2, (int)orientation - 45, 90);
 
                 g.drawRect(0, 0, environment.getWidth(), environment.getHeight());
 

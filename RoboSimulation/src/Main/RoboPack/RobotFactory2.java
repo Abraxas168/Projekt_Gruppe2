@@ -17,7 +17,6 @@ public class RobotFactory2 extends AbstractRobotFactory{
         int measurementRate1=1;
         int measurementRate2=2;
         int measurementRate3=3 ;
-        Steuerung steuerung=new Steuerung();
         Sensor sensor1=new Sensor(orientationToRobo1, beamWidth1, measurementRate1);
         Sensor sensor2=new Sensor(orientationToRobo2, beamWidth2, measurementRate2);
         Sensor sensor3=new Sensor(orientationToRobo3, beamWidth3, measurementRate3);
