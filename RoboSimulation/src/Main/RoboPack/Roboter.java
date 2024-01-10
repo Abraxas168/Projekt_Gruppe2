@@ -81,13 +81,13 @@ public class Roboter implements IRobot{
     }
 
     public void setOrientation(double orientation){
-        this.orientation=orientation;
+        this.orientation=normalizeOrientation(orientation);
     }
 
     private double normalizeOrientation (double orientation){
-        if (orientation <= -180) {
-            orientation = 360 + orientation;
-        } else if (orientation > 180) {
+        if (orientation <= -360) {
+            orientation = orientation + 360;
+        } else if (orientation > 360) {
             orientation = (orientation - 360);
         }
         return orientation;
@@ -121,27 +121,33 @@ public class Roboter implements IRobot{
         sensor3.setManuelleSteuerung(manuelleSteuerung);
     }
 
+    public ManuelleSteuerung getManuelleSteuerung(){return this.manuelleSteuerung;}
+
+    public AutoSteuerung getAutoSteuerung(){return this.autoSteuerung;}
 
     @Override
     public void move(double deltaTimeSec) {
-        /* ******test**** steuern() muss jeweils noch geschrieben werden! */
-        if(autoSteuerung != null){
-        //System.out.println("AutoSteuerung aktiviert");
-                autoSteuerung.steuern();
-        }else if (manuelleSteuerung != null){
-            //System.out.println("ManuelleSteuerung");
-                manuelleSteuerung.steuern();
-        }
-
+        if(velocity >0){
         double deltaX=deltaTimeSec*velocity*Math.cos(orientation*Math.PI/180.0);
-        double deltaY=deltaTimeSec*velocity*Math.sin(-orientation*Math.PI/180.0);
-        if (posX+deltaX<=radius||posY+deltaY<=radius||posY+deltaY>=600-radius) {
-            velocity = 0;
-        } else{
+        double deltaY=deltaTimeSec*velocity*Math.sin(orientation*Math.PI/180.0);
             double x_neu= posX+deltaX;
             double y_neu= posY+deltaY;
             posX=(int) x_neu;
-            posY=(int) y_neu;
+            posY=(int) y_neu;}
+        else{
+            double future_deltaX=deltaTimeSec*velocity*Math.cos(orientation*Math.PI/180.0);
+            double future_deltaY=deltaTimeSec*velocity*Math.sin(-orientation*Math.PI/180.0);
+            double x_neu= posX+future_deltaX;
+            double y_neu= posY+future_deltaY;
+            posX=(int) x_neu;
+            posY=(int) y_neu;}
+        //******test**** steuern() muss jeweils noch geschrieben werden!
+        if(autoSteuerung != null){
+            //System.out.println("AutoSteuerung aktiviert");
+            autoSteuerung.steuern();
+        }else if (manuelleSteuerung != null){
+            //System.out.println("ManuelleSteuerung");
+            manuelleSteuerung.steuern();
             }
         }
     }

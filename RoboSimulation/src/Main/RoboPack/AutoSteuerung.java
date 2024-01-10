@@ -26,24 +26,46 @@ public class AutoSteuerung extends Steuerung{
         }
         if (validator.checkTargetZone(robo)){
             System.out.println("Ziel erreicht!");
+            robo.setVelocity(0);
         }
-        if (datafromSensors==null || datafromSensors.size()==0){
-            return;
+        int velocity=robo.getVelocity();
+        double orientation=robo.getOrientation();
+        System.out.println(orientation);
+
+        if (datafromSensors!=null && datafromSensors.size()>0){
+            for(int n=0; n<datafromSensors.size(); n++) {
+                BaseSensor relatedSensor = datafromSensors.get(n).getRelatedSensor();
+                relatedSensor.getOrientationToRobot();
+                double distance = datafromSensors.get(n).getDistance();
+                //System.out.println(distance);
+                double angle = datafromSensors.get(n).getAngle();
+                double beamwidth=relatedSensor.getBeamWidth();
+                //System.out.println(angle*180/Math.PI);
+                datafromSensors.get(n).getX(); //distance
+                datafromSensors.get(n).getY(); //distance
+                if(distance<=30+robo.getRadius()){
+                    robo.setVelocity(10);
+                  //  if(angle>=0){
+                   //     robo.setOrientation(orientation-((1/2)*beamwidth-angle)*180/Math.PI);}
+                  //   else{robo.setOrientation(orientation+((1/2)*beamwidth+angle)*180/Math.PI);}
+                   // if(angle>=0){
+                    //    robo.setOrientation(orientation-5);}
+                   // else{robo.setOrientation(orientation+5);}
+                }
+            }
         }
-                EnvironmentObject hindernis =validator.checkCollosion(robo);
+
+        EnvironmentObject hindernis =validator.checkCollosion(robo);
         if ( hindernis != null){
             int x_hindernis = hindernis.getX();
             int y_hindernis = hindernis.getY();
-            /*
-            System.out.println("x-Position Hindernis: " + x_hindernis + "  y-Position Hindernis: " +y_hindernis);
-            System.out.println("xPos Roboter:  " + robo.getPosX() + "  yPos Roboter: " + robo.getPosY());
-            */
+            //System.out.println("x-Position Hindernis: " + x_hindernis + "  y-Position Hindernis: " +y_hindernis);
+            //System.out.println("xPos Roboter:  " + robo.getPosX() + "  yPos Roboter: " + robo.getPosY());
             robo.setVelocity(0);
-            return;
         }
-        int velocity=robo.getVelocity();
-        double orientation = robo.getOrientation();
+
         //*************Berechnung mit Sensordaten!
+
         //robo.setVelocity(velocity);
         //robo.setOrientation(orientation);
     }
