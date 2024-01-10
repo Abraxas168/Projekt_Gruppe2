@@ -34,13 +34,15 @@ public class AutoSteuerung extends Steuerung{
         if ( hindernis != null){
             int x_hindernis = hindernis.getX();
             int y_hindernis = hindernis.getY();
+            /*
             System.out.println("x-Position Hindernis: " + x_hindernis + "  y-Position Hindernis: " +y_hindernis);
             System.out.println("xPos Roboter:  " + robo.getPosX() + "  yPos Roboter: " + robo.getPosY());
+            */
             robo.setVelocity(0);
             return;
         }
         int velocity=robo.getVelocity();
-        double orientation=robo.getOrientation();
+        double orientation = robo.getOrientation();
         //*************Berechnung mit Sensordaten!
         //robo.setVelocity(velocity);
         //robo.setOrientation(orientation);

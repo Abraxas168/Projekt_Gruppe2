@@ -32,7 +32,7 @@ public class RobotFactory2 extends AbstractRobotFactory{
         Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, name,  init_velocity,  init_radius, color);
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
         EnvironmentLoader env= new EnvironmentLoader();
-        File file= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
+        File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
         Environment environment= env.loadFromFile(file);
         Validator validator=new Validator(environment);
         // Steuerung erstellen: Roboter übergeben: wie realisiere ich Aktivierung?
