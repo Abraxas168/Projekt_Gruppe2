@@ -286,7 +286,9 @@ public class RoboGUI extends JFrame {
                 g.setColor(color);
                 g.fillOval(posX - radius, posY - radius,radius*2, radius*2);
                 g.setColor(Color.BLACK);
-                g.fillArc(posX -radius, posY - radius, radius*2, radius*2, (int)orientation - 45, 90);
+
+                int startAngle = (int)(orientation/Math.PI*180.) - 45;
+                g.fillArc(posX -radius, posY - radius, radius*2, radius*2, -startAngle, -90);
 
                 g.drawRect(0, 0, environment.getWidth(), environment.getHeight());
 
