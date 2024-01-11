@@ -27,17 +27,19 @@ public class RobotFactory2 extends AbstractRobotFactory{
         int init_velocity=0;
         int init_orientation=0;
         int init_radius=20;
-        Color color= Color.MAGENTA;
+        Color color= Color.BLUE;
         Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, name,  init_velocity,  init_radius, color);
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
+        /* Wird aktuell in Main gemacht!
         EnvironmentLoader env= new EnvironmentLoader();
         File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
         Environment environment= env.loadFromFile(file);
         Validator validator=new Validator(environment);
-        // Steuerung erstellen: Roboter übergeben: wie realisiere ich Aktivierung?
+        Steuerung erstellen: Roboter übergeben: wie realisiere ich Aktivierung?
         ManuelleSteuerung manuelleSteuerung=new ManuelleSteuerung(hotWheels, validator);
         hotWheels.setManuelleSteuerung(manuelleSteuerung);
-        //hotWheels.activateAutonomousStearing();
+        hotWheels.activateAutonomousStearing();
+        */
 
         return hotWheels;
     }

@@ -48,10 +48,6 @@ public class Roboter implements IRobot{
         sensor3.setAutoSteuerung(autoSteuerung);
     }
 
-    @Override
-    public Image getImage() {
-        return null;
-    }
 
     @Override
     public void setInitialPose(int posX, int posY, double orientation) {
