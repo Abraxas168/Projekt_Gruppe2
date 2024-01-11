@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoboGUI extends JFrame implements IObserver{
@@ -198,6 +199,15 @@ public class RoboGUI extends JFrame implements IObserver{
         updateThread.start();
     }
 
+    public void setRegister(){
+        List<IObserver> register=new ArrayList<>();
+        register.add(robot.getSteuerung());
+        register.add(this);
+        List <BaseSensor> sensoren= robot.getSensors();
+        for(int n=0; n<sensoren.size(); n++){
+            Sensor sensor= (Sensor) sensoren.get(n);
+            sensor.setRegister(register);}
+    }
     public void setEnv(EnvironmentLoader env){
         File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
         File file1= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");

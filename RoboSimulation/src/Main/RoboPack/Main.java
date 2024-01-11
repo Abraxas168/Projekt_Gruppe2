@@ -23,22 +23,13 @@ public class Main {
         EnvironmentLoader env = new EnvironmentLoader();
         RobotFactory2 factory2 = new RobotFactory2();
         IRobot HotWheels = factory2.createRobot();
-        //File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
-        //Environment environment= env.loadFromFile(file);
-        //Validator validator=new Validator(environment);
+
         HotWheels.activateAutonomousStearing();
         RoboGUI guiFrame = new RoboGUI("RoboGUI");
         guiFrame.setVisible(true);
-        List<IObserver> register=new ArrayList<>();
-        Roboter hotWheels=(Roboter)HotWheels;
-        register.add(hotWheels.getSteuerung());
-        register.add(guiFrame);
-        List <BaseSensor> sensoren= hotWheels.getSensors();
-        for(int n=0; n<sensoren.size(); n++){
-            Sensor sensor= (Sensor) sensoren.get(n);
-            sensor.setRegister(register);}
-            // kann das innerhalb der GUI gemacht werden?:
-        guiFrame.setRobot(hotWheels);
+        guiFrame.setRobot((Roboter)HotWheels);
+        guiFrame.setRegister();
         guiFrame.setEnv(env);
+
         }
     }
