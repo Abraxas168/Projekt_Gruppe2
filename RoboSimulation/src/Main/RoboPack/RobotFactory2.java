@@ -14,9 +14,9 @@ public class RobotFactory2 extends AbstractRobotFactory{
         double beamWidth1=Math.PI/4;
         double beamWidth2=Math.PI/4;
         double beamWidth3=Math.PI/4;
-        int measurementRate1=11;
-        int measurementRate2=11;
-        int measurementRate3=11;
+        int measurementRate1=30;
+        int measurementRate2=30;
+        int measurementRate3=30;
         Sensor sensor1=new Sensor(orientationToRobo1, beamWidth1, measurementRate1);
         Sensor sensor2=new Sensor(orientationToRobo2, beamWidth2, measurementRate2);
         Sensor sensor3=new Sensor(orientationToRobo3, beamWidth3, measurementRate3);
