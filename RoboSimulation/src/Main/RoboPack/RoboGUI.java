@@ -22,7 +22,7 @@ public class RoboGUI extends JFrame {
     private JPanel pInfoPanel;
     private Roboter robot;
     private final int velocityIncrement = 10;
-    private final int orientationIncrement = 5;
+    private final double orientationIncrement = 5./180.*Math.PI;
     private Thread updateThread;
     private Environment environment;
     private int width;
@@ -96,7 +96,8 @@ public class RoboGUI extends JFrame {
                 if (robot == null) {
                     return;
                 }
-                double orientation = robot.getOrientation() + orientationIncrement;
+
+                double orientation = robot.getOrientation() - orientationIncrement;
                 robot.setOrientation(normalizeOrientation(orientation));
             }
         });
@@ -106,7 +107,7 @@ public class RoboGUI extends JFrame {
                 if (robot == null) {
                     return;
                 }
-                double orientation = robot.getOrientation() - orientationIncrement;
+                double orientation = robot.getOrientation() + orientationIncrement;
                 robot.setOrientation(normalizeOrientation(orientation));
             }
         });
@@ -150,11 +151,11 @@ public class RoboGUI extends JFrame {
             }
             int key = evt.getKeyCode();
             if (key == KeyEvent.VK_LEFT) {
-                double orientation = robot.getOrientation() + orientationIncrement;
+                double orientation = robot.getOrientation() - orientationIncrement;
                 robot.setOrientation(normalizeOrientation(orientation));
                 evt.consume();
             } else if (key == KeyEvent.VK_RIGHT) {
-                double orientation = robot.getOrientation() - orientationIncrement;
+                double orientation = robot.getOrientation() + orientationIncrement;
                 robot.setOrientation(normalizeOrientation(orientation));
                 evt.consume();
             } else if (key == KeyEvent.VK_UP) {
@@ -169,10 +170,10 @@ public class RoboGUI extends JFrame {
         }
 
         private double normalizeOrientation (double orientation){
-            if (orientation <= -180) {
-                orientation = 360 + orientation;
-            } else if (orientation > 180) {
-                orientation = (orientation - 360);
+            if (orientation <= -Math.PI) {
+                orientation = 2*Math.PI + orientation;
+            } else if (orientation > Math.PI) {
+                orientation = (orientation - Math.PI*2);
             }
             return orientation;
         }
@@ -217,7 +218,7 @@ public class RoboGUI extends JFrame {
     }
 
 
-    public List<SensorData> getDatafromSensors() {
+    public List<List<SensorData>> getDatafromSensors() {
         return robot.getAutoSteuerung().getDatafromSensors();
     }
 
@@ -234,7 +235,7 @@ public class RoboGUI extends JFrame {
                 int posX = robot.getPosX();
                 int posY = robot.getPosY();
                 //posY = environment.getHeight() - posY;
-                double orientation = -robot.getOrientation();
+                double orientation = robot.getOrientation();
                 //System.out.println(orientation);
                 int velocity = robot.getVelocity();
                 int radius = robot.getRadius();
@@ -242,7 +243,7 @@ public class RoboGUI extends JFrame {
 
                 String statusStr = "X: " + posX + "\n";
                 statusStr += "Y: " + posY + "\n";
-                statusStr += "Orientierung: " + orientation + "°\n";
+                statusStr += "Orientierung: " + (orientation*180/Math.PI) + "°\n";
                 statusStr += "Geschwindigkeit: " + velocity + " Pixel/s\n";
                 //statusStr += "Höhe Frame: " +pDrawPanel.getHeight() +"\n";
                 //statusStr += "Breite Frame: " + pDrawPanel.getWidth() + "\n";
@@ -273,7 +274,9 @@ public class RoboGUI extends JFrame {
                 g.setColor(color);
                 g.fillOval(posX - radius, posY - radius,radius*2, radius*2);
                 g.setColor(Color.BLACK);
-                g.fillArc(posX -radius, posY - radius, radius*2, radius*2, (int)orientation - 45, 90);
+
+                int startAngle = (int)(orientation/Math.PI*180.) - 45;
+                g.fillArc(posX -radius, posY - radius, radius*2, radius*2, -startAngle, -90);
 
                 g.drawRect(0, 0, environment.getWidth(), environment.getHeight());
 

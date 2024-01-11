@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AutoSteuerung extends Steuerung{
-    private List<SensorData> datafromSensors;
+    private List<List<SensorData>> sensorData=new ArrayList<>();
     private Roboter robo;
 
     private Validator validator;
+    private int gelesen;
 
 
     AutoSteuerung(Roboter robo, Validator validator){
         this.robo=robo;
         this.validator=validator;
+        this.gelesen=0;
         //this.env=env;
         //*********vorsicht, mehrere Daten-Listen von verschiedenen sensoren. Funktion measurment from Environment nutzen!************
         //env.simulateSensorData(robo); --> evtl reicht es wenn GUI Daten simuliert?? möglicherweise muss es aber auch hier bzw. eher
@@ -30,30 +32,44 @@ public class AutoSteuerung extends Steuerung{
         }
         int velocity=robo.getVelocity();
         double orientation=robo.getOrientation();
-        System.out.println(orientation);
-
-        if (datafromSensors!=null && datafromSensors.size()>0){
-            for(int n=0; n<datafromSensors.size(); n++) {
-                BaseSensor relatedSensor = datafromSensors.get(n).getRelatedSensor();
-                relatedSensor.getOrientationToRobot();
-                double distance = datafromSensors.get(n).getDistance();
-                //System.out.println(distance);
-                double angle = datafromSensors.get(n).getAngle();
-                double beamwidth=relatedSensor.getBeamWidth();
-                //System.out.println(angle*180/Math.PI);
-                datafromSensors.get(n).getX(); //distance
-                datafromSensors.get(n).getY(); //distance
-                if(distance<=30+robo.getRadius()){
-                    robo.setVelocity(10);
-                  //  if(angle>=0){
-                   //     robo.setOrientation(orientation-((1/2)*beamwidth-angle)*180/Math.PI);}
-                  //   else{robo.setOrientation(orientation+((1/2)*beamwidth+angle)*180/Math.PI);}
-                   // if(angle>=0){
-                    //    robo.setOrientation(orientation-5);}
-                   // else{robo.setOrientation(orientation+5);}
+        //System.out.println(orientation);
+        int n=this.gelesen;
+        if (sensorData !=null && sensorData.size()>0){
+            while(n< sensorData.size()) {
+                List<SensorData> daten=sensorData.get(n);
+                for (int j = 0; j < daten.size(); j++) {
+                    SensorData sensorData1=daten.get(j);
+                    BaseSensor relatedSensor = sensorData1.getRelatedSensor();
+                    double relation_toRobo = relatedSensor.getOrientationToRobot();
+                    double distance = sensorData1.getDistance();
+                    //System.out.println(distance);
+                    double angle = sensorData1.getAngle();
+                    double beamwidth = relatedSensor.getBeamWidth();
+                    //System.out.println(beamwidth);
+                    //System.out.println(angle);
+                    sensorData1.getX(); //distance
+                    sensorData1.getY(); //distance
+                    if (distance <= 30 + robo.getRadius()) {
+                        robo.setVelocity(10);
+                        if (relation_toRobo == 0) {
+                            System.out.println(angle);
+                            if (angle >= 0) {
+                                orientation=robo.getOrientation();
+                                robo.setOrientation(orientation - (angle*180/Math.PI));
+                                break;
+                            } else {
+                                orientation=robo.getOrientation();
+                                robo.setOrientation(orientation + (angle*180/Math.PI));
+                                break;
+                            }
+                        }
+                        //  if(angle>=0){
+                        //     robo.setOrientation(orientation-5);}
+                        // else{robo.setOrientation(orientation+5);}
+                    }
                 }
-            }
-        }
+            n=n+1;}
+        } this.gelesen=sensorData.size();
 
         EnvironmentObject hindernis =validator.checkCollosion(robo);
         if ( hindernis != null){
@@ -70,10 +86,10 @@ public class AutoSteuerung extends Steuerung{
         //robo.setOrientation(orientation);
     }
 
-    public List<SensorData> getDatafromSensors() {
-        return datafromSensors;
+    public List<List<SensorData>> getDatafromSensors() {
+        return sensorData;
     }
     public void setDatafromSensors(List<SensorData> sd){
-        this.datafromSensors=sd;
+        this.sensorData.add(sd);
     }
 }
