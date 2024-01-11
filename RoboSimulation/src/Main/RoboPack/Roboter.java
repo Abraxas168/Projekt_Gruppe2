@@ -93,7 +93,7 @@ public class Roboter implements IRobot {
     }
 
     public void setVelocity(int velocity) {
-        if (velocity <= 50) {
+        if (velocity <= 50 && velocity>=-50) {
             this.velocity = velocity;
         }
     }
