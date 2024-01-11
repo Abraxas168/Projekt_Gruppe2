@@ -23,9 +23,9 @@ public class Main {
         EnvironmentLoader env = new EnvironmentLoader();
         RobotFactory2 factory2 = new RobotFactory2();
         IRobot HotWheels = factory2.createRobot();
-        File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
-        Environment environment= env.loadFromFile(file);
-        Validator validator=new Validator(environment);
+        //File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
+        //Environment environment= env.loadFromFile(file);
+        //Validator validator=new Validator(environment);
         HotWheels.activateAutonomousStearing();
         RoboGUI guiFrame = new RoboGUI("RoboGUI");
         guiFrame.setVisible(true);

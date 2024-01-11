@@ -199,12 +199,13 @@ public class RoboGUI extends JFrame implements IObserver{
     }
 
     public void setEnv(EnvironmentLoader env){
-        File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
+        File file= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
         this.environment= env.loadFromFile(file);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();
         this.objects= environment.getObjects();
+        Validator validator=new Validator(environment);
         createUIComponents();
     }
 
