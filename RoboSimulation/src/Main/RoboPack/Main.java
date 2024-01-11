@@ -32,6 +32,5 @@ public class Main {
             guiFrame.setRobot(HotWheels);
             // kann das innerhalb der GUI gemacht werden?:
             guiFrame.setEnv(env);
-            HotWheels.activateAutonomousStearing();
         }
     }
