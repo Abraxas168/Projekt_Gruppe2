@@ -46,10 +46,6 @@ public class Roboter implements IRobot {
         //steuerung=(AutoSteuerung)steuerung;
     }
 
-    @Override
-    public Image getImage() {
-        return null;
-    }
 
     @Override
     public void setInitialPose(int posX, int posY, double orientation) {

@@ -27,11 +27,6 @@ public interface IRobot {
      */
     public void activateAutonomousStearing();
 
-    /**
-     *  gibt ein Bild zurück, das zur Darstellung des Sensors verwendet werden kann.
-      * @return Ein Bild oder null (dann wird kein Bild angezeigt)
-     */
-    public Image getImage();
 
     /**
      * Legt die initiale Position und Orientierung fest

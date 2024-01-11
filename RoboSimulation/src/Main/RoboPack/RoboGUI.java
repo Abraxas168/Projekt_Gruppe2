@@ -119,19 +119,7 @@ public class RoboGUI extends JFrame implements IObserver{
         public boolean dispatchKeyEvent (KeyEvent e){
             if (e.getID() == KeyEvent.KEY_PRESSED) {
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT -> {
-                        formKeyPressed(e);
-                        break;
-                    }
-                    case KeyEvent.VK_RIGHT -> {
-                        formKeyPressed(e);
-                        break;
-                    }
-                    case KeyEvent.VK_UP -> {
-                        formKeyPressed(e);
-                        break;
-                    }
-                    case KeyEvent.VK_DOWN -> {
+                    case KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN -> {
                         formKeyPressed(e);
                         break;
                     }
@@ -211,7 +199,7 @@ public class RoboGUI extends JFrame implements IObserver{
     }
 
     public void setEnv(EnvironmentLoader env){
-        File file= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
+        File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
         this.environment= env.loadFromFile(file);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
