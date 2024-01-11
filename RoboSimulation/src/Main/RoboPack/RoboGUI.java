@@ -22,7 +22,7 @@ public class RoboGUI extends JFrame {
     private JPanel pInfoPanel;
     private Roboter robot;
     private final int velocityIncrement = 10;
-    private final int orientationIncrement = 5;
+    private final double orientationIncrement = 5./180.*Math.PI;
     private Thread updateThread;
     private Environment environment;
     private int width;
@@ -181,10 +181,10 @@ public class RoboGUI extends JFrame {
         }
 
         private double normalizeOrientation (double orientation){
-            if (orientation <= -180) {
-                orientation = 360 + orientation;
-            } else if (orientation > 180) {
-                orientation = (orientation - 360);
+            if (orientation <= -Math.PI) {
+                orientation = 2*Math.PI + orientation;
+            } else if (orientation > Math.PI) {
+                orientation = (orientation - Math.PI*2);
             }
             return orientation;
         }
@@ -254,7 +254,7 @@ public class RoboGUI extends JFrame {
 
                 String statusStr = "X: " + posX + "\n";
                 statusStr += "Y: " + posY + "\n";
-                statusStr += "Orientierung: " + orientation + "°\n";
+                statusStr += "Orientierung: " + (orientation*180/Math.PI) + "°\n";
                 statusStr += "Geschwindigkeit: " + velocity + " Pixel/s\n";
                 //statusStr += "Höhe Frame: " +pDrawPanel.getHeight() +"\n";
                 //statusStr += "Breite Frame: " + pDrawPanel.getWidth() + "\n";

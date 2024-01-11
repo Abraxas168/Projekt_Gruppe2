@@ -85,10 +85,10 @@ public class Roboter implements IRobot{
     }
 
     private double normalizeOrientation (double orientation){
-        if (orientation <= -180) {
-            orientation = orientation + 360;
-        } else if (orientation > 180) {
-            orientation = (orientation - 360);
+        if (orientation <= -Math.PI) {
+            orientation = 2*Math.PI + orientation;
+        } else if (orientation > Math.PI) {
+            orientation = (orientation - Math.PI*2);
         }
         return orientation;
     }
@@ -128,15 +128,15 @@ public class Roboter implements IRobot{
     @Override
     public void move(double deltaTimeSec) {
         if(velocity >0){
-        double deltaX=deltaTimeSec*velocity*Math.cos(orientation*Math.PI/180.0);
-        double deltaY=deltaTimeSec*velocity*Math.sin(orientation*Math.PI/180.0);
+        double deltaX=deltaTimeSec*velocity*Math.cos(orientation);
+        double deltaY=deltaTimeSec*velocity*Math.sin(orientation);
             double x_neu= posX+deltaX;
             double y_neu= posY+deltaY;
             posX=(int) x_neu;
             posY=(int) y_neu;}
         else{
-            double future_deltaX=deltaTimeSec*velocity*Math.cos(orientation*Math.PI/180.0);
-            double future_deltaY=deltaTimeSec*velocity*Math.sin(orientation*Math.PI/180.0);
+            double future_deltaX=deltaTimeSec*velocity*Math.cos(orientation);
+            double future_deltaY=deltaTimeSec*velocity*Math.sin(orientation);
             double x_neu= posX+future_deltaX;
             double y_neu= posY+future_deltaY;
             posX=(int) x_neu;
