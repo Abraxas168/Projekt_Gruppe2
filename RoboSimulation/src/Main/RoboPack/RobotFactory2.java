@@ -6,7 +6,7 @@ import java.io.File;
 public class RobotFactory2 extends AbstractRobotFactory{
 
     @Override
-    public Roboter createRobot(){
+    public IRobot createRobot(){
         //Sensoreigenschaften:
         double orientationToRobo1=-Math.PI/4;
         double orientationToRobo2=0;

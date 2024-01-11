@@ -20,11 +20,12 @@ public class Main {
             RoboGUI guiFrame = new RoboGUI("RoboGUI");
             guiFrame.setVisible(true);
             RobotFactory2 factory2=new RobotFactory2();
-            Roboter HotWheels= factory2.createRobot();
-            guiFrame.setRobot(HotWheels);
+            IRobot HotWheels= factory2.createRobot();
+            guiFrame.setRobot((Roboter) HotWheels);
             // kann das innerhalb der GUI gemacht werden?:
             EnvironmentLoader env= new EnvironmentLoader();
             guiFrame.setEnv(env);
             HotWheels.activateAutonomousStearing();
+            //********hier noch um Validator kümmern!!
         }
     }

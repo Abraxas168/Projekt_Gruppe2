@@ -26,6 +26,7 @@ public class Sensor extends BaseSensor{
         return this.manuelleSteuerung;
     }
 
+    //*********Observer Regestrieren!!
     @Override
     public void measurementFromEnvironment(List<SensorData> data) {
         if(autoSteuerung != null){
