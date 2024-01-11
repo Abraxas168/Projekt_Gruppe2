@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AutoSteuerung extends Steuerung{
-    private List<SensorData> datafromSensors;
+    private List<List<SensorData>> datafromSensors=new ArrayList<>();
     private Roboter robo;
 
     private Validator validator;
@@ -30,27 +30,36 @@ public class AutoSteuerung extends Steuerung{
         }
         int velocity=robo.getVelocity();
         double orientation=robo.getOrientation();
-        System.out.println(orientation);
+        //System.out.println(orientation);
 
         if (datafromSensors!=null && datafromSensors.size()>0){
             for(int n=0; n<datafromSensors.size(); n++) {
-                BaseSensor relatedSensor = datafromSensors.get(n).getRelatedSensor();
-                relatedSensor.getOrientationToRobot();
-                double distance = datafromSensors.get(n).getDistance();
-                //System.out.println(distance);
-                double angle = datafromSensors.get(n).getAngle();
-                double beamwidth=relatedSensor.getBeamWidth();
-                //System.out.println(angle*180/Math.PI);
-                datafromSensors.get(n).getX(); //distance
-                datafromSensors.get(n).getY(); //distance
-                if(distance<=30+robo.getRadius()){
-                    robo.setVelocity(10);
-                  //  if(angle>=0){
-                   //     robo.setOrientation(orientation-((1/2)*beamwidth-angle)*180/Math.PI);}
-                  //   else{robo.setOrientation(orientation+((1/2)*beamwidth+angle)*180/Math.PI);}
-                   // if(angle>=0){
-                    //    robo.setOrientation(orientation-5);}
-                   // else{robo.setOrientation(orientation+5);}
+                List<SensorData> sensorData=datafromSensors.get(n);
+                for (int j = 0; j < sensorData.size(); j++) {
+                    SensorData sensorData1=sensorData.get(j);
+                    BaseSensor relatedSensor = sensorData1.getRelatedSensor();
+                    double relation_toRobo = relatedSensor.getOrientationToRobot();
+                    double distance = sensorData1.getDistance();
+                    //System.out.println(distance);
+                    double angle = sensorData1.getAngle();
+                    double beamwidth = relatedSensor.getBeamWidth();
+                    //System.out.println(beamwidth);
+                    System.out.println(angle);
+                    sensorData1.getX(); //distance
+                    sensorData1.getY(); //distance
+                    if (distance <= 30 + robo.getRadius()) {
+                        robo.setVelocity(10);
+                        if (relation_toRobo == 0) {
+                            if (angle >= 0) {
+                                robo.setOrientation(orientation - (angle));
+                            } else {
+                                robo.setOrientation(orientation + (angle));
+                            }
+                        }
+                        //  if(angle>=0){
+                        //     robo.setOrientation(orientation-5);}
+                        // else{robo.setOrientation(orientation+5);}
+                    }
                 }
             }
         }
@@ -70,10 +79,10 @@ public class AutoSteuerung extends Steuerung{
         //robo.setOrientation(orientation);
     }
 
-    public List<SensorData> getDatafromSensors() {
+    public List<List<SensorData>> getDatafromSensors() {
         return datafromSensors;
     }
     public void setDatafromSensors(List<SensorData> sd){
-        this.datafromSensors=sd;
+        this.datafromSensors.add(sd);
     }
 }

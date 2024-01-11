@@ -229,7 +229,7 @@ public class RoboGUI extends JFrame {
     }
 
 
-    public List<SensorData> getDatafromSensors() {
+    public List<List<SensorData>> getDatafromSensors() {
         return robot.getAutoSteuerung().getDatafromSensors();
     }
 

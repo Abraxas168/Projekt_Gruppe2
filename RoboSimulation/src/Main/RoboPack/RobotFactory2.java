@@ -8,22 +8,22 @@ public class RobotFactory2 extends AbstractRobotFactory{
     @Override
     public Roboter createRobot(){
         //Sensoreigenschaften:
-        double orientationToRobo1=1;
-        double orientationToRobo2=2;
-        double orientationToRobo3=3;
-        double beamWidth1=1;
-        double beamWidth2=2;
-        double beamWidth3=3;
-        int measurementRate1=1;
-        int measurementRate2=2;
-        int measurementRate3=3 ;
+        double orientationToRobo1=-Math.PI/4;
+        double orientationToRobo2=0;
+        double orientationToRobo3=Math.PI/4;
+        double beamWidth1=Math.PI/4;
+        double beamWidth2=Math.PI/4;
+        double beamWidth3=Math.PI/4;
+        int measurementRate1=11;
+        int measurementRate2=11;
+        int measurementRate3=11;
         Sensor sensor1=new Sensor(orientationToRobo1, beamWidth1, measurementRate1);
         Sensor sensor2=new Sensor(orientationToRobo2, beamWidth2, measurementRate2);
         Sensor sensor3=new Sensor(orientationToRobo3, beamWidth3, measurementRate3);
         //Robotereigenschaften:
         String name= "coolerName";
         int init_posX=40;
-        int init_posY=40;
+        int init_posY=200;
         int init_velocity=0;
         int init_orientation=0;
         int init_radius=20;
