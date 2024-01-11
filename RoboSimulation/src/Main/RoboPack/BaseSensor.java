@@ -3,7 +3,7 @@ package RoboPack;
 import java.util.List;
 
 
-public abstract class BaseSensor {
+public abstract class BaseSensor{
     protected double orientationToRobot;
     protected int measurementRate;
     protected double beamWidth;

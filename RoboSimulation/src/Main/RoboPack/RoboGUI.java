@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.List;
 
-public class RoboGUI extends JFrame {
+public class RoboGUI extends JFrame implements IObserver{
     private JSlider sRadius;
     private JLabel lRadius;
     private JButton bschneller;
@@ -28,7 +28,7 @@ public class RoboGUI extends JFrame {
     private int width;
     private int hight;
     private List<EnvironmentObject> objects;
-    private List<SensorData> datafromSensors;
+    private List<SensorData> sensorData;
 
 
     public RoboGUI(String title) {
@@ -230,9 +230,9 @@ public class RoboGUI extends JFrame {
     }
 
 
-    public List<List<SensorData>> getDatafromSensors() {
-        return robot.getAutoSteuerung().getDatafromSensors();
-    }
+   // public List<List<SensorData>> getDatafromSensors() {
+     //   return robot.getAutoSteuerung().getDatafromSensors();
+    //}
 
     private void createUIComponents() {
         pDrawPanel = new JPanel() {
@@ -307,5 +307,10 @@ public class RoboGUI extends JFrame {
         //pInfoPanel.add(bRechts);
         //pDrawPanel.setPreferredSize(new Dimension(800, 600));
         //repaint();
+    }
+
+    @Override
+    public void update(List<SensorData> sd) {
+        this.sensorData=sd;
     }
 }
