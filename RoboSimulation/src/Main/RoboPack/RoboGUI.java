@@ -96,7 +96,8 @@ public class RoboGUI extends JFrame {
                 if (robot == null) {
                     return;
                 }
-                double orientation = robot.getOrientation() + orientationIncrement;
+
+                double orientation = robot.getOrientation() - orientationIncrement;
                 robot.setOrientation(normalizeOrientation(orientation));
             }
         });
@@ -106,7 +107,7 @@ public class RoboGUI extends JFrame {
                 if (robot == null) {
                     return;
                 }
-                double orientation = robot.getOrientation() - orientationIncrement;
+                double orientation = robot.getOrientation() + orientationIncrement;
                 robot.setOrientation(normalizeOrientation(orientation));
             }
         });
@@ -162,11 +163,11 @@ public class RoboGUI extends JFrame {
             }
             int key = evt.getKeyCode();
             if (key == KeyEvent.VK_LEFT) {
-                double orientation = robot.getOrientation() + orientationIncrement;
+                double orientation = robot.getOrientation() - orientationIncrement;
                 robot.setOrientation(normalizeOrientation(orientation));
                 evt.consume();
             } else if (key == KeyEvent.VK_RIGHT) {
-                double orientation = robot.getOrientation() - orientationIncrement;
+                double orientation = robot.getOrientation() + orientationIncrement;
                 robot.setOrientation(normalizeOrientation(orientation));
                 evt.consume();
             } else if (key == KeyEvent.VK_UP) {
@@ -246,7 +247,7 @@ public class RoboGUI extends JFrame {
                 int posX = robot.getPosX();
                 int posY = robot.getPosY();
                 //posY = environment.getHeight() - posY;
-                double orientation = -robot.getOrientation();
+                double orientation = robot.getOrientation();
                 //System.out.println(orientation);
                 int velocity = robot.getVelocity();
                 int radius = robot.getRadius();
