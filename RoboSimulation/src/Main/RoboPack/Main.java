@@ -2,6 +2,9 @@ package RoboPack;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,19 +22,14 @@ public class Main {
             }
         EnvironmentLoader env = new EnvironmentLoader();
         RobotFactory2 factory2 = new RobotFactory2();
-       // File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
-        // Environment environment= env.loadFromFile(file);
-       // Validator validator=new Validator(environment);
-        //ManuelleSteuerung manuelleSteuerung=new ManuelleSteuerung(HotWheels, validator);
-        //HotWheels.setManuelleSteuerung(manuelleSteuerung);
-       // HotWheels.activateAutonomousStearing();
+        IRobot HotWheels = factory2.createRobot();
 
-            RoboGUI guiFrame = new RoboGUI("RoboGUI");
-            guiFrame.setVisible(true);
-            IRobot HotWheels= factory2.createRobot();
-            guiFrame.setRobot((Roboter) HotWheels);
-            HotWheels.activateAutonomousStearing();
-            // kann das innerhalb der GUI gemacht werden?:
-            guiFrame.setEnv(env);
+        HotWheels.activateAutonomousStearing();
+        RoboGUI guiFrame = new RoboGUI("RoboGUI");
+        guiFrame.setVisible(true);
+        guiFrame.setRobot((Roboter)HotWheels);
+        guiFrame.setRegister();
+        guiFrame.setEnv(env);
+
         }
     }

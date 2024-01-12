@@ -2,6 +2,9 @@ package RoboPack;
 
 import java.awt.*;
 import java.io.File;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RobotFactory2 extends AbstractRobotFactory{
 
@@ -27,18 +30,15 @@ public class RobotFactory2 extends AbstractRobotFactory{
         int init_velocity=0;
         int init_orientation=0;
         int init_radius=20;
-        Color color= Color.BLUE;
-        Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, name,  init_velocity,  init_radius, color);
+        Color color= Color.MAGENTA;
+        Steuerung steuerung=new Steuerung();
+        Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, name,  init_velocity,  init_radius, color, steuerung);
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
-        EnvironmentLoader env= new EnvironmentLoader();
-        File file= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
-        Environment environment= env.loadFromFile(file);
-        Validator validator=new Validator(environment);
-        //Steuerung erstellen: Roboter übergeben: wie realisiere ich Aktivierung?
-        ManuelleSteuerung manuelleSteuerung=new ManuelleSteuerung(hotWheels, validator);
-        hotWheels.setManuelleSteuerung(manuelleSteuerung);
-        hotWheels.activateAutonomousStearing();
 
+        //EnvironmentLoader env= new EnvironmentLoader();
+        //File file= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
+        //Environment environment= env.loadFromFile(file);
+        //Validator validator=new Validator(environment);
 
         return hotWheels;
     }

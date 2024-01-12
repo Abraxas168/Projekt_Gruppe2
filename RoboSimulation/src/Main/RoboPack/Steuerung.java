@@ -1,9 +1,16 @@
 package RoboPack;
 
-public class Steuerung {
+import java.util.List;
+
+public class Steuerung implements IObserver{
 
     Steuerung(){
 
     }
-    public void steuern(){}
+    public void steuern(Roboter robo){}
+
+    @Override
+    public void update(List<SensorData> sd) {
+
+    }
 }

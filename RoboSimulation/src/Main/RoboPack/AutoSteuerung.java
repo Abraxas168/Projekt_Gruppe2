@@ -3,33 +3,24 @@ package RoboPack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutoSteuerung extends Steuerung{
+public class AutoSteuerung extends Steuerung implements IObserver{
     private List<List<SensorData>> sensorData=new ArrayList<>();
-    private Roboter robo;
 
-    private Validator validator;
     private int gelesen;
 
 
-    AutoSteuerung(Roboter robo, Validator validator){
-        this.robo=robo;
-        this.validator=validator;
+    AutoSteuerung(){
         this.gelesen=0;
-        //this.env=env;
-        //*********vorsicht, mehrere Daten-Listen von verschiedenen sensoren. Funktion measurment from Environment nutzen!************
-        //env.simulateSensorData(robo); --> evtl reicht es wenn GUI Daten simuliert?? möglicherweise muss es aber auch hier bzw. eher
-        //in der Funktion "Steuern" gemacht werden
-        //---> darf hier überhaupt environment verwendet werden?
-
     }
-    public void steuern(){
-        if (this.validator == null){
-            return;
-        }
-        if (validator.checkTargetZone(robo)){
-            System.out.println("Ziel erreicht!");
-            robo.setVelocity(0);
-        }
+    @Override
+    public void steuern(Roboter robo){
+       // if (this.validator == null){
+       //     return;
+        //}
+        //if (validator.checkTargetZone(robo)){
+         //   System.out.println("Ziel erreicht!");
+         //   robo.setVelocity(0);
+       // }
         int velocity=robo.getVelocity();
         double orientation=robo.getOrientation();
         //System.out.println(orientation);
@@ -51,7 +42,7 @@ public class AutoSteuerung extends Steuerung{
                     if (distance <= 35 + robo.getRadius()) {
 
                         if (relation_toRobo == 0) {
-                            System.out.println("Sensor: 0  - " + angle);
+                            //System.out.println("Sensor: 0  - " + angle);
                             if (angle >= 0) {
                                 orientation=robo.getOrientation();
                                 robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
@@ -63,7 +54,7 @@ public class AutoSteuerung extends Steuerung{
                             }
                         }
                         if (relation_toRobo == Math.PI/4) {
-                            System.out.println("Sensor: pi/4 - "+ angle);
+                            //System.out.println("Sensor: pi/4 - "+ angle);
                             if (angle >= 0) {
                                 orientation=robo.getOrientation();
                                 robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
@@ -75,7 +66,7 @@ public class AutoSteuerung extends Steuerung{
                             }
                         }
                         if (relation_toRobo == -Math.PI/4) {
-                            System.out.println("Sensor: -pi/4:  -" + angle);
+                            //System.out.println("Sensor: -pi/4:  -" + angle);
                             if (angle >= 0) {
                                 orientation=robo.getOrientation();
                                 robo.setOrientation(orientation + (beamwidth/2-Math.abs(angle)));
@@ -91,14 +82,14 @@ public class AutoSteuerung extends Steuerung{
             n=n+1;}
         } this.gelesen=sensorData.size();
 
-        EnvironmentObject hindernis =validator.checkCollosion(robo);
-        if ( hindernis != null){
-            int x_hindernis = hindernis.getX();
-            int y_hindernis = hindernis.getY();
+       // EnvironmentObject hindernis =validator.checkCollosion(robo);
+       // if ( hindernis != null){
+        //    int x_hindernis = hindernis.getX();
+       //     int y_hindernis = hindernis.getY();
             //System.out.println("x-Position Hindernis: " + x_hindernis + "  y-Position Hindernis: " +y_hindernis);
             //System.out.println("xPos Roboter:  " + robo.getPosX() + "  yPos Roboter: " + robo.getPosY());
-            robo.setVelocity(0);
-        }
+          //  robo.setVelocity(0);
+        //}
 
         //*************Berechnung mit Sensordaten!
 
@@ -106,10 +97,15 @@ public class AutoSteuerung extends Steuerung{
         //robo.setOrientation(orientation);
     }
 
+    @Override
+    public void update(List<SensorData> sd) {
+        this.sensorData.add(sd);
+    }
+
     public List<List<SensorData>> getDatafromSensors() {
         return sensorData;
     }
-    public void setDatafromSensors(List<SensorData> sd){
-        this.sensorData.add(sd);
-    }
+  //  public void setDatafromSensors(List<SensorData> sd){
+   //     this.sensorData.add(sd);
+    //}
 }
