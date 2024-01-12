@@ -42,15 +42,14 @@ public class AutoSteuerung extends Steuerung{
                     BaseSensor relatedSensor = sensorData1.getRelatedSensor();
                     double relation_toRobo = relatedSensor.getOrientationToRobot();
                     double distance = sensorData1.getDistance();
-                    //System.out.println(distance);
                     double angle = sensorData1.getAngle();
                     double beamwidth = relatedSensor.getBeamWidth();
                     //System.out.println(beamwidth);
                     //System.out.println(angle);
                     sensorData1.getX(); //distance
                     sensorData1.getY(); //distance
-                    if (distance <= 30 + robo.getRadius()) {
-                       // robo.setVelocity(10);
+                    if (distance <= 35 + robo.getRadius()) {
+
                         if (relation_toRobo == 0) {
                             System.out.println("Sensor: 0  - " + angle);
                             if (angle >= 0) {
@@ -71,7 +70,7 @@ public class AutoSteuerung extends Steuerung{
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation - (beamwidth+Math.abs(angle)));
+                                robo.setOrientation(orientation - (beamwidth/2+Math.abs(angle)));
                                 break;
                             }
                         }
@@ -83,7 +82,7 @@ public class AutoSteuerung extends Steuerung{
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth+Math.abs(angle)));
+                                robo.setOrientation(orientation + (beamwidth/2+Math.abs(angle)));
                                 break;
                             }
                         }
