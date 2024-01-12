@@ -35,38 +35,38 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     sensorData1.getY(); //distance
                     if (distance <= 35 + robo.getRadius()) {
                         if (relation_toRobo == 0) {
-                            //System.out.println("Sensor: 0  - " + angle);
+                            //System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
                             if (angle >= 0) {
                                 orientation=robo.getOrientation();
                                 robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth/2-Math.abs(angle)));
+                                robo.setOrientation(orientation + (beamwidth/4+Math.abs(angle)));
                                 break;
                             }
                         }
                         if (relation_toRobo == Math.PI/4) {
-                            //System.out.println("Sensor: pi/4 - "+ angle);
+                            //System.out.println("Sensor: pi/4 - "+ angle+ "Distance:" + distance);
                             if (angle >= 0) {
                                 orientation=robo.getOrientation();
                                 robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation - (beamwidth/2+Math.abs(angle)));
+                                robo.setOrientation(orientation - (beamwidth/4+Math.abs(angle)));
                                 break;
                             }
                         }
                         if (relation_toRobo == -Math.PI/4) {
-                            //System.out.println("Sensor: -pi/4:  -" + angle);
+                            //System.out.println("Sensor: -pi/4:  -" + angle + "Distance:" + distance);
                             if (angle >= 0) {
                                 orientation=robo.getOrientation();
                                 robo.setOrientation(orientation + (beamwidth/2-Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth/2+Math.abs(angle)));
+                                robo.setOrientation(orientation + (beamwidth/4+Math.abs(angle)));
                                 break;
                             }
                         }
