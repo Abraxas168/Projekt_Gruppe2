@@ -30,7 +30,7 @@ public class RoboGUI extends JFrame implements IObserver{
     private int hight;
     private List<EnvironmentObject> objects;
     private List<SensorData> sensorData;
-
+    private Validator validator;
 
     public RoboGUI(String title) {
         setTitle(title);
@@ -42,7 +42,6 @@ public class RoboGUI extends JFrame implements IObserver{
             }
         });
         pack();
-
         //*Problem identifiziert!, nach Radiusänderung muss x-y Position neu gesetzt werden, da sonst robo
         //außerhalb des Rahmens und dann die Steuerung nicht mehr funktioniert!
         //Vorsicht, jetzt setzt sich robo immer an den anfang.. es müssen mehr Bedinungen rein, damit er sich nur
@@ -168,8 +167,8 @@ public class RoboGUI extends JFrame implements IObserver{
                 robot.setVelocity(velocity - velocityIncrement);
                 evt.consume();
             }
-        }
 
+        }
         private double normalizeOrientation (double orientation){
             if (orientation <= -Math.PI) {
                 orientation = 2*Math.PI + orientation;
@@ -187,7 +186,19 @@ public class RoboGUI extends JFrame implements IObserver{
             public void run() {
                 while (true) {
                     robot.move(deltaT);
+                    if (validator != null) {
+                        EnvironmentObject hindernis = validator.checkCollosion(robot);
+                        if (hindernis != null) {
+                            robot.setVelocity(0);
+                            showCollisionMessage();
+                        }
+                        if (validator.checkTargetZone(robot)){
+                            robot.setVelocity(0);
+                            showTargetReachedMessage();
+                             }
+                    }
                     repaint();
+
                     try {
                         Thread.sleep((long) (deltaT * 1000));
                     } catch (InterruptedException ex) {
@@ -209,14 +220,14 @@ public class RoboGUI extends JFrame implements IObserver{
             sensor.setRegister(register);}
     }
     public void setEnv(EnvironmentLoader env){
-        File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
+        File file2= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
         File file1= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
         this.environment= env.loadFromFile(file2);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();
         this.objects= environment.getObjects();
-        Validator validator=new Validator(environment);
+        this.validator=new Validator(environment);
         createUIComponents();
     }
 
@@ -308,9 +319,16 @@ public class RoboGUI extends JFrame implements IObserver{
         //pDrawPanel.setPreferredSize(new Dimension(800, 600));
         //repaint();
     }
-
-    @Override
-    public void update(List<SensorData> sd) {
-        this.sensorData=sd;
+    private void showCollisionMessage() {
+        JOptionPane.showMessageDialog(this, "Der Roboter ist kollidiert!", "Kollision", JOptionPane.ERROR_MESSAGE);
     }
-}
+
+    private void showTargetReachedMessage() {
+        JOptionPane.showMessageDialog(this, "Ziel erreicht!", "Ziel erreicht", JOptionPane.INFORMATION_MESSAGE);
+    }
+    @Override
+    public void update(List<SensorData> sd) {this.sensorData=sd;
+
+            }
+        }
+

@@ -14,13 +14,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     }
     @Override
     public void steuern(Roboter robo){
-       // if (this.validator == null){
-       //     return;
-        //}
-        //if (validator.checkTargetZone(robo)){
-         //   System.out.println("Ziel erreicht!");
-         //   robo.setVelocity(0);
-       // }
+
         int velocity=robo.getVelocity();
         double orientation=robo.getOrientation();
         //System.out.println(orientation);
@@ -40,7 +34,6 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     sensorData1.getX(); //distance
                     sensorData1.getY(); //distance
                     if (distance <= 35 + robo.getRadius()) {
-
                         if (relation_toRobo == 0) {
                             //System.out.println("Sensor: 0  - " + angle);
                             if (angle >= 0) {
@@ -81,16 +74,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                 }
             n=n+1;}
         } this.gelesen=sensorData.size();
-
-       // EnvironmentObject hindernis =validator.checkCollosion(robo);
-       // if ( hindernis != null){
-        //    int x_hindernis = hindernis.getX();
-       //     int y_hindernis = hindernis.getY();
-            //System.out.println("x-Position Hindernis: " + x_hindernis + "  y-Position Hindernis: " +y_hindernis);
-            //System.out.println("xPos Roboter:  " + robo.getPosX() + "  yPos Roboter: " + robo.getPosY());
-          //  robo.setVelocity(0);
-        //}
-
+        
         //*************Berechnung mit Sensordaten!
 
         //robo.setVelocity(velocity);
