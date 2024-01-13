@@ -33,7 +33,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     //System.out.println(angle);
                     sensorData1.getX(); //distance
                     sensorData1.getY(); //distance
-                    if (distance <= 35 + robo.getRadius()) {
+                    if (distance <= robo.getVelocity()*3) {
                         if (relation_toRobo == 0) {
                             //System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
                             if (angle >= 0) {
@@ -45,6 +45,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                                 robo.setOrientation(orientation + (beamwidth/1.8+Math.abs(angle)));
                                 break;
                             }
+
                         }
                         if (relation_toRobo == Math.PI/4) {
                             //System.out.println("Sensor: pi/4 - "+ angle+ "Distance:" + distance);
