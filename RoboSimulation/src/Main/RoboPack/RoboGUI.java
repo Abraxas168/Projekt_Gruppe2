@@ -180,7 +180,7 @@ public class RoboGUI extends JFrame implements IObserver{
 
 
     private void startCalculating() {
-        double deltaT = 0.2;
+        double deltaT = 0.1;
         updateThread = new Thread(new Runnable() {
             @Override
 
@@ -226,7 +226,7 @@ public class RoboGUI extends JFrame implements IObserver{
         File file3= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
         File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
         File file1= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
-        this.environment= env.loadFromFile(file1);
+        this.environment= env.loadFromFile(file2);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();

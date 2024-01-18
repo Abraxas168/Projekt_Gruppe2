@@ -7,13 +7,16 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     private List<List<SensorData>> sensorData=new ArrayList<>();
 
     private int gelesen;
+    private int count;
 
 
     AutoSteuerung(){
         this.gelesen=0;
+        this.count=0;
     }
     @Override
     public void steuern(Roboter robo){
+        int count=this.count;
         int velocity=robo.getVelocity();
         robo.setVelocity(50);
         double orientation= robo.getOrientation();
@@ -22,6 +25,9 @@ public class AutoSteuerung extends Steuerung implements IObserver{
             while(n< sensorData.size()) {
                 List<SensorData> daten=sensorData.get(n);
                 System.out.println(daten.size()+ "");
+                if (daten.size()==0){
+                    count= count+1;
+                }
                 for (int j = 0; j < daten.size(); j++) {
                     SensorData sensorData1=daten.get(j);
                     BaseSensor relatedSensor = sensorData1.getRelatedSensor();
@@ -35,7 +41,8 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     sensorData1.getY(); //distance
 
                     if (distance <= robo.getVelocity()*3+robo.getRadius()) {
-                            robo.setVelocity(20);
+                        if(velocity>20){
+                            robo.setVelocity(velocity - (int) (robo.MAX_ACCELERATE*robo.getDeltaTimeSec()));}
                         if (relation_toRobo == 0) {
                             System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
                             if (angle >= 0.0) {
@@ -86,6 +93,12 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                 }
             n=n+1;}
         } this.gelesen=sensorData.size();
+        if(count>30){
+            robo.setOrientation(0);
+            robo.setVelocity((int) (velocity+robo.MAX_ACCELERATE*robo.getDeltaTimeSec()*count));
+            this.count=0;
+        }else{
+        this.count=count;}
         
         //*************Berechnung mit Sensordaten!
 
