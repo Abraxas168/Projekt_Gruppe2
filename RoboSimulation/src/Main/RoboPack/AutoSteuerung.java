@@ -21,6 +21,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
         if (sensorData !=null && sensorData.size()>0){
             while(n< sensorData.size()) {
                 List<SensorData> daten=sensorData.get(n);
+                System.out.println(daten.size()+ "");
                 for (int j = 0; j < daten.size(); j++) {
                     SensorData sensorData1=daten.get(j);
                     BaseSensor relatedSensor = sensorData1.getRelatedSensor();

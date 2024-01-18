@@ -185,9 +185,7 @@ public class RoboGUI extends JFrame implements IObserver{
             @Override
 
             public void run() {
-                double aktuelleZeit=0;
                 while (true) {
-                    aktuelleZeit=aktuelleZeit + deltaT;
                     if(environment != null){
                     environment.simulateSensorData(robot);}
                     robot.move(deltaT);
@@ -228,7 +226,7 @@ public class RoboGUI extends JFrame implements IObserver{
         File file3= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
         File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
         File file1= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
-        this.environment= env.loadFromFile(file2);
+        this.environment= env.loadFromFile(file1);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();
@@ -321,7 +319,7 @@ public class RoboGUI extends JFrame implements IObserver{
                     int laserXi=(int)laserX;
                     int laserYi=(int)laserY;
                     g.setColor(Color.RED);
-                    g.fillOval(laserXi,laserYi , 6,6);
+                    g.fillOval(laserXi-3,laserYi-3 , 6,6);
 
                 }
 
