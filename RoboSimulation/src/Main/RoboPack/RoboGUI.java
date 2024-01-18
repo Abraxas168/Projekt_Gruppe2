@@ -183,8 +183,13 @@ public class RoboGUI extends JFrame implements IObserver{
         double deltaT = 0.2;
         updateThread = new Thread(new Runnable() {
             @Override
+
             public void run() {
+                double aktuelleZeit=0;
                 while (true) {
+                    aktuelleZeit=aktuelleZeit + deltaT;
+                    if(environment != null){
+                    environment.simulateSensorData(robot);}
                     robot.move(deltaT);
                     if (validator != null) {
                         EnvironmentObject hindernis = validator.checkCollosion(robot);
@@ -220,9 +225,9 @@ public class RoboGUI extends JFrame implements IObserver{
             sensor.setRegister(register);}
     }
     public void setEnv(EnvironmentLoader env){
-        File file3= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
-        File file2= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
-        File file1= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
+        File file3= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
+        File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
+        File file1= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
         this.environment= env.loadFromFile(file3);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
@@ -254,7 +259,7 @@ public class RoboGUI extends JFrame implements IObserver{
                 if (robot == null || environment==null) {
                     return;
                 }
-                environment.simulateSensorData(robot);
+
                 Color color = robot.getColor();
                 int posX = robot.getPosX();
                 int posY = robot.getPosY();
@@ -303,6 +308,22 @@ public class RoboGUI extends JFrame implements IObserver{
                 g.fillArc(posX -radius, posY - radius, radius*2, radius*2, -startAngle, -90);
 
                 g.drawRect(0, 0, environment.getWidth(), environment.getHeight());
+
+                for(int k=0; k<sensorData.size(); k=k+1){
+                    SensorData sensorData1=sensorData.get(k);
+                    BaseSensor sensor = sensorData1.getRelatedSensor();
+                    double orientationToRobot = sensor.getOrientationToRobot();
+                    double hindernisOrientation=sensorData1.getAngle();
+                    double distanceToRobo=sensorData1.getDistance();
+                    double gesamtOrientation= orientation+orientationToRobot+hindernisOrientation;
+                    double laserX=posX+Math.cos(gesamtOrientation)*distanceToRobo;
+                    double laserY=posY+Math.sin(gesamtOrientation)*distanceToRobo;
+                    int laserXi=(int)laserX;
+                    int laserYi=(int)laserY;
+                    g.setColor(Color.RED);
+                    g.fillOval(laserXi,laserYi , 6,6);
+
+                }
 
                 int maxX = environment.getWidth() +radius;
                 int minX = -radius;

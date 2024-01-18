@@ -14,8 +14,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     }
     @Override
     public void steuern(Roboter robo){
-
-        int velocity=robo.getVelocity();
+        robo.setVelocity(50);
         double orientation=robo.getOrientation();
         //System.out.println(orientation);
         int n=this.gelesen;
@@ -34,40 +33,44 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     sensorData1.getX(); //distance
                     sensorData1.getY(); //distance
                     if (distance <= robo.getVelocity()*3) {
+                            robo.setVelocity(20);
                         if (relation_toRobo == 0) {
-                            //System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
-                            if (angle >= 0) {
+                            System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
+                            if (angle >= 0.0) {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation - (beamwidth/1.8-Math.abs(angle)));
+                                robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth/1.8+Math.abs(angle)));
+                                robo.setOrientation(orientation + (beamwidth/2-Math.abs(angle)));
                                 break;
                             }
 
                         }
-                        if (relation_toRobo == Math.PI/4) {
-                            //System.out.println("Sensor: pi/4 - "+ angle+ "Distance:" + distance);
-                            if (angle >= 0) {
+                        if (relation_toRobo == Math.PI/3) {
+                            System.out.println("Sensor: pi/4 - "+ angle+ "Distance:" + distance);
+                            if (angle >= 0.0) {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation - (beamwidth/1.75-Math.abs(angle)));
+                                robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation - (beamwidth/4.5+Math.abs(angle)));
+                                robo.setOrientation(orientation - (beamwidth/2+Math.abs(angle)));
                                 break;
                             }
                         }
-                        if (relation_toRobo == -Math.PI/4) {
-                            //System.out.println("Sensor: -pi/4:  -" + angle + "Distance:" + distance);
-                            if (angle >= 0) {
-                                orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth/1.75-Math.abs(angle)));
+                        if (relation_toRobo == -Math.PI/3) {
+
+                           System.out.println("Sensor: -pi/4:  -" + angle + "Distance:" + distance);
+                            if (angle >= 0.0) {
+                               orientation=robo.getOrientation();
+                                //robo.setOrientation(orientation+Math.PI/4);
+                                robo.setOrientation(orientation + (beamwidth/2-Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth/4.5+Math.abs(angle)));
+                                //robo.setOrientation(orientation+Math.PI/2);
+                                robo.setOrientation(orientation + (beamwidth/2+Math.abs(angle)));
                                 break;
                             }
                         }

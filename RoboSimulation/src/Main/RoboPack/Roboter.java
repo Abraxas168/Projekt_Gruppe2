@@ -8,6 +8,7 @@ public class Roboter implements IRobot {
     private Sensor sensor1;
     private Sensor sensor2;
     private Sensor sensor3;
+    private Sensor sensor4;
     private String name;
     private int radius;
     private int posX;
@@ -18,10 +19,11 @@ public class Roboter implements IRobot {
     private Steuerung steuerung;
 
 
-    public Roboter(Sensor sensor1, Sensor sensor2, Sensor sensor3, String name, int velocity, int radius, Color color, Steuerung steuerung) {
+    public Roboter(Sensor sensor1, Sensor sensor2, Sensor sensor3, Sensor sensor4, String name, int velocity, int radius, Color color, Steuerung steuerung) {
         this.sensor1 = sensor1;
         this.sensor2 = sensor2;
         this.sensor3 = sensor3;
+        this.sensor4 = sensor4;
         this.name = name;
         this.velocity = velocity;
         this.radius = radius;

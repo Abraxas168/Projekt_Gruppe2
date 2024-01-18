@@ -11,18 +11,20 @@ public class RobotFactory2 extends AbstractRobotFactory{
     @Override
     public IRobot createRobot(){
         //Sensoreigenschaften:
-        double orientationToRobo1=-Math.PI/4;
+        double orientationToRobo1=-Math.PI/3;
         double orientationToRobo2=0;
-        double orientationToRobo3=Math.PI/4;
-        double beamWidth1=Math.PI/4;
-        double beamWidth2=Math.PI/4;
-        double beamWidth3=Math.PI/4;
+        double orientationToRobo3=Math.PI/3;
+        double beamWidth1=Math.PI/3;
+        double beamWidth2=Math.PI/3;
+        double beamWidth3=Math.PI/3;
+        double beamWidth4=Math.PI/5;
         int measurementRate1=30;
         int measurementRate2=30;
         int measurementRate3=30;
         Sensor sensor1=new Sensor(orientationToRobo1, beamWidth1, measurementRate1);
         Sensor sensor2=new Sensor(orientationToRobo2, beamWidth2, measurementRate2);
         Sensor sensor3=new Sensor(orientationToRobo3, beamWidth3, measurementRate3);
+        Sensor sensor4=new Sensor(orientationToRobo1, beamWidth4, measurementRate3);
         //Robotereigenschaften:
         String name= "coolerName";
         int init_posX=40;
@@ -32,7 +34,7 @@ public class RobotFactory2 extends AbstractRobotFactory{
         int init_radius=20;
         Color color= Color.MAGENTA;
         Steuerung steuerung=new Steuerung();
-        Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, name,  init_velocity,  init_radius, color, steuerung);
+        Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, sensor4, name,  init_velocity,  init_radius, color, steuerung);
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
 
         //EnvironmentLoader env= new EnvironmentLoader();
