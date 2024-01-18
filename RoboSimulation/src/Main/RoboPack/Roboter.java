@@ -37,6 +37,7 @@ public class Roboter implements IRobot {
         sensoren.add(sensor1);
         sensoren.add(sensor2);
         sensoren.add(sensor3);
+        sensoren.add(sensor4);
         return sensoren;
     }
 
