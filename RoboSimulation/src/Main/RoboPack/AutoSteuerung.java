@@ -16,8 +16,8 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     public void steuern(Roboter robo){
 
         int velocity=robo.getVelocity();
-        double orientation=robo.getOrientation();
-        //System.out.println(orientation);
+        robo.setVelocity(50);
+        double orientation= robo.getOrientation();
         int n=this.gelesen;
         if (sensorData !=null && sensorData.size()>0){
             while(n< sensorData.size()) {
@@ -29,45 +29,44 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     double distance = sensorData1.getDistance();
                     double angle = sensorData1.getAngle();
                     double beamwidth = relatedSensor.getBeamWidth();
-                    //System.out.println(beamwidth);
-                    //System.out.println(angle);
                     sensorData1.getX(); //distance
                     sensorData1.getY(); //distance
+
                     if (distance <= robo.getVelocity()*3) {
                         if (relation_toRobo == 0) {
                             //System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
-                            if (angle >= 0) {
+                            if (angle >= 0.0) {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation - (beamwidth/1.8-Math.abs(angle)));
+                                robo.setOrientation(orientation - (beamwidth/2+Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth/1.8+Math.abs(angle)));
+                                robo.setOrientation(orientation + (beamwidth/2+Math.abs(angle)));
                                 break;
                             }
 
                         }
                         if (relation_toRobo == Math.PI/4) {
                             //System.out.println("Sensor: pi/4 - "+ angle+ "Distance:" + distance);
-                            if (angle >= 0) {
+                            if (angle >= 0.0) {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation - (beamwidth/1.75-Math.abs(angle)));
+                                robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation - (beamwidth/4.5+Math.abs(angle)));
+                                robo.setOrientation(orientation - (beamwidth/2+Math.abs(angle)));
                                 break;
                             }
                         }
                         if (relation_toRobo == -Math.PI/4) {
                             //System.out.println("Sensor: -pi/4:  -" + angle + "Distance:" + distance);
-                            if (angle >= 0) {
+                            if (angle >= 0.0) {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth/1.75-Math.abs(angle)));
+                                robo.setOrientation(orientation + (beamwidth/2-Math.abs(angle)));
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
-                                robo.setOrientation(orientation + (beamwidth/4.5+Math.abs(angle)));
+                                robo.setOrientation(orientation + (beamwidth/2+Math.abs(angle)));
                                 break;
                             }
                         }
@@ -75,7 +74,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                 }
             n=n+1;}
         } this.gelesen=sensorData.size();
-        
+
         //*************Berechnung mit Sensordaten!
 
         //robo.setVelocity(velocity);
