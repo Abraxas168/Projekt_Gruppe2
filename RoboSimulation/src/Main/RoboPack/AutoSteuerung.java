@@ -14,9 +14,10 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     }
     @Override
     public void steuern(Roboter robo){
+
+        int velocity=robo.getVelocity();
         robo.setVelocity(50);
-        double orientation=robo.getOrientation();
-        //System.out.println(orientation);
+        double orientation= robo.getOrientation();
         int n=this.gelesen;
         if (sensorData !=null && sensorData.size()>0){
             while(n< sensorData.size()) {
@@ -32,6 +33,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     //System.out.println(angle);
                     sensorData1.getX(); //distance
                     sensorData1.getY(); //distance
+
                     if (distance <= robo.getVelocity()*3) {
                             robo.setVelocity(20);
                         if (relation_toRobo == 0) {
