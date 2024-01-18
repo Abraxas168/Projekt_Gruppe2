@@ -41,14 +41,14 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                                 orientation=robo.getOrientation();
                                 robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
                                 if (beamwidth==Math.PI/5){
-                                    robo.setOrientation(robo.getOrientation()-(2*Math.PI)/5);
+                                    robo.setOrientation(robo.getOrientation()-(2*Math.PI)/6);
                                 }
                                 break;
                             } else {
                                 orientation=robo.getOrientation();
                                 robo.setOrientation(orientation + (beamwidth/2-Math.abs(angle)));
                                 if (beamwidth==Math.PI/5){
-                                    robo.setOrientation(robo.getOrientation()+(2*Math.PI)/5);
+                                    robo.setOrientation(robo.getOrientation()+(2*Math.PI)/6);
                                 }
                                 break;
                             }
