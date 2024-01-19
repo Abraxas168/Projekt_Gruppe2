@@ -1,10 +1,6 @@
 package RoboPack;
 
 import java.awt.*;
-import java.io.File;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RobotFactory2 extends AbstractRobotFactory{
 
@@ -36,12 +32,6 @@ public class RobotFactory2 extends AbstractRobotFactory{
         Steuerung steuerung=new Steuerung();
         Roboter hotWheels= new Roboter(sensor1, sensor2, sensor3, sensor4, name,  init_velocity,  init_radius, color, steuerung);
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
-
-        //EnvironmentLoader env= new EnvironmentLoader();
-        //File file= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
-        //Environment environment= env.loadFromFile(file);
-        //Validator validator=new Validator(environment);
-
         return hotWheels;
     }
 }

@@ -16,8 +16,8 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     }
     @Override
     public void steuern(Roboter robo){
+        robo.accelerate(50);
         int velocity=robo.getVelocity();
-        robo.setVelocity(50);
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastAlignmentTime >= ALIGNMENT_INTERVAL && velocity == 50) {
             robo.setOrientation(0.0);
@@ -42,7 +42,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     sensorData1.getY(); //distance
 
                     if (distance <= robo.getVelocity()*3+robo.getRadius()) {
-                            robo.setVelocity(20);
+                        robo.decelerate(20);
                         if (relation_toRobo == 0) {
                             //System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
                             if (angle >= 0.0) {
@@ -97,6 +97,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     public void update(List<SensorData> sd) {
         this.sensorData.add(sd);
     }
+
 
     public List<List<SensorData>> getDatafromSensors() {
         return sensorData;

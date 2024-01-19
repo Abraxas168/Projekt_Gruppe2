@@ -49,7 +49,6 @@ public class Roboter implements IRobot {
         //steuerung=(AutoSteuerung)steuerung;
     }
 
-
     @Override
     public void setInitialPose(int posX, int posY, double orientation) {
         this.posX = posX;
@@ -96,11 +95,22 @@ public class Roboter implements IRobot {
     }
 
     public void setVelocity(int velocity) {
-        if (velocity <= 50 && velocity>=-50) {
+        if (velocity <= MAX_VELOCITY && velocity>=-MAX_VELOCITY) {
             this.velocity = velocity;
         }
     }
-
+    public void accelerate(int targetVelocity) {
+        int acceleration = targetVelocity - velocity;
+        acceleration = Math.min(acceleration, MAX_ACCELERATE);
+        velocity += acceleration;
+        velocity = Math.min(velocity, MAX_VELOCITY);
+    }
+    public void decelerate(int targetVelocity) {
+        int deceleration = velocity - targetVelocity;
+        deceleration = Math.min(deceleration, MAX_ACCELERATE);
+        velocity -= deceleration;
+        velocity = Math.max(velocity, -MAX_VELOCITY);
+    }
     public void setRadius(int newRadius) {
         if (newRadius < 1 || newRadius > 100) {
             throw new IllegalStateException("Radius muss zwischen 1 und 100 liegen.");
@@ -141,7 +151,6 @@ public class Roboter implements IRobot {
             double y_neu = posY + deltaY;
             posX = (int) x_neu;
             posY = (int) y_neu;
-        //******test**** steuern() muss jeweils noch geschrieben werden!
         if (steuerung instanceof AutoSteuerung) {
             //System.out.println("AutoSteuerung aktiviert");
             steuerung.steuern(this);
