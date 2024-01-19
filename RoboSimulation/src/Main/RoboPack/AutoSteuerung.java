@@ -47,14 +47,14 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                             if (angle >= 0.0) {
                                 robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
                                 if (beamwidth==Math.PI/5){
-                                    robo.setOrientation(robo.getOrientation()-(2*Math.PI)/6);
+                                    robo.setOrientation(robo.getOrientation()-(2*Math.PI)/5);
                                 }
                                 break;
                             } else {
 
                                 robo.setOrientation(orientation + (beamwidth/2-Math.abs(angle)));
                                 if (beamwidth==Math.PI/5){
-                                    robo.setOrientation(robo.getOrientation()+(2*Math.PI)/6);
+                                    robo.setOrientation(robo.getOrientation()+(2*Math.PI)/5);
                                 }
                                 break;
                             }
