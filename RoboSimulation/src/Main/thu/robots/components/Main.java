@@ -1,5 +1,8 @@
 package thu.robots.components;
 
+import thu.robots.components.EnvironmentLoader;
+import thu.robots.components.IRobot;
+
 import javax.swing.*;
 
 public class Main {

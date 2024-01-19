@@ -1,5 +1,8 @@
 package thu.robots.components;
 
+import thu.robots.components.BaseSensor;
+import thu.robots.components.IRobot;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

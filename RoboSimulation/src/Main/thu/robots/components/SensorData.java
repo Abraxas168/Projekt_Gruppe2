@@ -1,5 +1,7 @@
 package thu.robots.components;
 
+import thu.robots.components.BaseSensor;
+
 public class SensorData {
     private double angle;
     private int distance;

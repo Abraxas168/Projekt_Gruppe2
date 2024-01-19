@@ -1,5 +1,7 @@
 package thu.robots.components;
 
+import thu.robots.components.*;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -13,12 +15,12 @@ import java.util.List;
 
 public class RoboGUI extends JFrame implements IObserver{
     private JSlider sRadius;
-    private JLabel lRadius;
     private JButton bschneller;
     private JButton blangsamer;
     private JButton bLinks;
     private JButton bRechts;
     private JTextArea tRoboinfo;
+    private JLabel lRadius;
     private JPanel pDrawPanel;
     private JPanel pInfoPanel;
     private Roboter robot;
@@ -216,10 +218,10 @@ public class RoboGUI extends JFrame implements IObserver{
             sensor.setRegister(register);}
     }
     public void setEnv(EnvironmentLoader env){
-        File file3= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
-        File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
-        File file1= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
-        this.environment= env.loadFromFile(file3);
+        File file3= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung.txt");
+        File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung2.txt");
+        File file1= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung3.txt");
+        this.environment= env.loadFromFile(file2);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();
