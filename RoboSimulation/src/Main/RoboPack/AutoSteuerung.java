@@ -39,7 +39,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                         if(velocity>20){
                             robo.setVelocity(velocity - (int) (robo.MAX_ACCELERATE*robo.getDeltaTimeSec()));}
                         if (relation_toRobo == 0) {
-                            System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
+                            //System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
                             if (angle >= 0.0) {
                                 robo.setOrientation(orientation - (beamwidth/2-Math.abs(angle)));
                                 if (beamwidth==Math.PI/5){
