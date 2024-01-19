@@ -1,8 +1,8 @@
-package RoboPack;
+package thu.robots.components;
 
 import java.awt.*;
 
-public class RobotFactory2 extends AbstractRobotFactory{
+public class RobotFactory extends AbstractRobotFactory{
 
     @Override
     public IRobot createRobot(){
@@ -24,7 +24,7 @@ public class RobotFactory2 extends AbstractRobotFactory{
         //Robotereigenschaften:
         String name= "coolerName";
         int init_posX=40;
-        int init_posY=200;
+        int init_posY=300;
         int init_velocity=0;
         int init_orientation=0;
         int init_radius=20;

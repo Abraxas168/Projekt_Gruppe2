@@ -1,4 +1,4 @@
-package RoboPack;
+package thu.robots.components;
 
 import java.awt.*;
 import java.util.ArrayList;

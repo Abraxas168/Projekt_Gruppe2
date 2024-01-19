@@ -1,10 +1,6 @@
-package RoboPack;
+package thu.robots.components;
 
 import javax.swing.*;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,7 +17,7 @@ public class Main {
                 e.printStackTrace();
             }
         EnvironmentLoader env = new EnvironmentLoader();
-        RobotFactory2 factory2 = new RobotFactory2();
+        RobotFactory factory2 = new RobotFactory();
         IRobot HotWheels = factory2.createRobot();
 
         HotWheels.activateAutonomousStearing();

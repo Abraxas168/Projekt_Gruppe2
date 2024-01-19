@@ -1,4 +1,4 @@
-package RoboPack;
+package thu.robots.components;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -219,7 +219,7 @@ public class RoboGUI extends JFrame implements IObserver{
         File file3= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
         File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
         File file1= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
-        this.environment= env.loadFromFile(file2);
+        this.environment= env.loadFromFile(file3);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();

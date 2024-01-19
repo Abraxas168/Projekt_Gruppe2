@@ -1,20 +1,12 @@
-package RoboPack;
+package thu.robots.components;
 
 import georegression.metric.ClosestPoint2D_F64;
 import georegression.metric.Intersection2D_F64;
 import georegression.struct.line.LineSegment2D_F64;
 import georegression.struct.point.Point2D_F64;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Environment {
 
