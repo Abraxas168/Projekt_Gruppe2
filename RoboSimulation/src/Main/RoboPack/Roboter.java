@@ -100,6 +100,19 @@ public class Roboter implements IRobot {
             this.velocity = velocity;
         }
     }
+
+    public void accelerate(int targetVelocity) {
+        int acceleration = targetVelocity - velocity;
+        acceleration = Math.min(acceleration, MAX_ACCELERATE);
+        velocity += acceleration;
+        velocity = Math.min(velocity, MAX_VELOCITY);
+    }
+    public void decelerate(int targetVelocity) {
+        int deceleration = velocity - targetVelocity;
+        deceleration = Math.min(deceleration, MAX_ACCELERATE);
+        velocity -= deceleration;
+        velocity = Math.max(velocity, -MAX_VELOCITY);
+    }
     public void setRadius(int newRadius) {
         if (newRadius < 1 || newRadius > 100) {
             throw new IllegalStateException("Radius muss zwischen 1 und 100 liegen.");
