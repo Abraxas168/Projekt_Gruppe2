@@ -17,6 +17,7 @@ public class Roboter implements IRobot {
     private int velocity;
     private Color color;
     private Steuerung steuerung;
+    private double deltaTimeSec;
 
 
     public Roboter(Sensor sensor1, Sensor sensor2, Sensor sensor3, Sensor sensor4, String name, int velocity, int radius, Color color, Steuerung steuerung) {
@@ -99,18 +100,6 @@ public class Roboter implements IRobot {
             this.velocity = velocity;
         }
     }
-    public void accelerate(int targetVelocity) {
-        int acceleration = targetVelocity - velocity;
-        acceleration = Math.min(acceleration, MAX_ACCELERATE);
-        velocity += acceleration;
-        velocity = Math.min(velocity, MAX_VELOCITY);
-    }
-    public void decelerate(int targetVelocity) {
-        int deceleration = velocity - targetVelocity;
-        deceleration = Math.min(deceleration, MAX_ACCELERATE);
-        velocity -= deceleration;
-        velocity = Math.max(velocity, -MAX_VELOCITY);
-    }
     public void setRadius(int newRadius) {
         if (newRadius < 1 || newRadius > 100) {
             throw new IllegalStateException("Radius muss zwischen 1 und 100 liegen.");
@@ -132,19 +121,13 @@ public class Roboter implements IRobot {
         return steuerung;
     }
 
-    // public void setManuelleSteuerung(ManuelleSteuerung manu){
-    //    this.manuelleSteuerung=manu;
-    //  sensor1.setManuelleSteuerung(manuelleSteuerung);
-    // sensor2.setManuelleSteuerung(manuelleSteuerung);
-    //  sensor3.setManuelleSteuerung(manuelleSteuerung);
-    //}
-
-    //public ManuelleSteuerung getManuelleSteuerung(){return this.manuelleSteuerung;}
-
-    // public AutoSteuerung getAutoSteuerung(){return this.autoSteuerung;}
+    public double getDeltaTimeSec() {
+        return deltaTimeSec;
+    }
 
     @Override
     public void move(double deltaTimeSec) {
+            this.deltaTimeSec=deltaTimeSec;
             double deltaX = deltaTimeSec * velocity * Math.cos(orientation);
             double deltaY = deltaTimeSec * velocity * Math.sin(orientation);
             double x_neu = posX + deltaX;
