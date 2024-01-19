@@ -1,4 +1,4 @@
-package RoboPack;
+package thu.robots.components;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;

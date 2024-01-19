@@ -1,8 +1,11 @@
 package RoboPack;
 
+import thu.robots.components.AbstractRobotFactory;
+import thu.robots.components.IRobot;
+
 import java.awt.*;
 
-public class RobotFactory2 extends AbstractRobotFactory{
+public class RobotFactory2 extends AbstractRobotFactory {
 
     @Override
     public IRobot createRobot(){

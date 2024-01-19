@@ -1,5 +1,9 @@
 package RoboPack;
 
+import thu.robots.components.BaseSensor;
+import thu.robots.components.IRobot;
+import thu.robots.components.SensorData;
+
 import java.util.ArrayList;
 import java.util.List;
 

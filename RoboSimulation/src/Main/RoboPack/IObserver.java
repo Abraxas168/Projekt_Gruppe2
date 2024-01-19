@@ -1,5 +1,7 @@
 package RoboPack;
 
+import thu.robots.components.SensorData;
+
 import java.util.List;
 
 public interface IObserver {

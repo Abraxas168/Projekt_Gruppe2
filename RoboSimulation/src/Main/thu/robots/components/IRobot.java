@@ -1,6 +1,7 @@
-package RoboPack;
+package thu.robots.components;
 
-import java.awt.*;
+import thu.robots.components.BaseSensor;
+
 import java.util.List;
 
 public interface IRobot {

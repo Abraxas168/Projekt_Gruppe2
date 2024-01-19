@@ -1,10 +1,9 @@
 package RoboPack;
 
+import thu.robots.components.EnvironmentLoader;
+import thu.robots.components.IRobot;
+
 import javax.swing.*;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.File;
 
 public class Main {
     public static void main(String[] args) {

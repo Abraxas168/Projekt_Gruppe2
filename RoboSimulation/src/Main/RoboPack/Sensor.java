@@ -1,8 +1,11 @@
 package RoboPack;
 
+import thu.robots.components.BaseSensor;
+import thu.robots.components.SensorData;
+
 import java.util.List;
 
-public class Sensor extends BaseSensor{
+public class Sensor extends BaseSensor {
 
 private List<IObserver> register;
 

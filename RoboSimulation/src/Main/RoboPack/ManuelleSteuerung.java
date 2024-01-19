@@ -1,5 +1,8 @@
 package RoboPack;
 
+import thu.robots.components.SensorData;
+import thu.robots.components.Validator;
+
 import java.util.List;
 
 public class ManuelleSteuerung extends Steuerung{
