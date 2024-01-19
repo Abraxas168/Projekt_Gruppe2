@@ -42,13 +42,6 @@ public class RoboGUI extends JFrame implements IObserver{
             }
         });
         pack();
-        //*Problem identifiziert!, nach Radiusänderung muss x-y Position neu gesetzt werden, da sonst robo
-        //außerhalb des Rahmens und dann die Steuerung nicht mehr funktioniert!
-        //Vorsicht, jetzt setzt sich robo immer an den anfang.. es müssen mehr Bedinungen rein, damit er sich nur
-        //entsprechend des neuen Radius vom rand weg bewegt.
-        //setInitialPose kann auch allgemein in abhängigkeit von Radius und Environment angepasst werden!!
-        //aber vorsicht, diese werte hat bisher nur die GUI, nicht der Roboter. Kann von hier aus gezielt aufgerufen
-        //werden damit steuerung nicht beeinträchtigt wird.
 
         sRadius.addChangeListener(new ChangeListener() {
             @Override
@@ -223,10 +216,10 @@ public class RoboGUI extends JFrame implements IObserver{
             sensor.setRegister(register);}
     }
     public void setEnv(EnvironmentLoader env){
-        File file3= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
-        File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
-        File file1= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
-        this.environment= env.loadFromFile(file1);
+        File file3= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung3.txt");
+        File file2= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung2.txt");
+        File file1= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\RoboPack\\Umgebung.txt");
+        this.environment= env.loadFromFile(file3);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();
