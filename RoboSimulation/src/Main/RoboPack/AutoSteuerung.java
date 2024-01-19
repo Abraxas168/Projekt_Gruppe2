@@ -7,7 +7,6 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     private List<List<SensorData>> sensorData=new ArrayList<>();
 
     private int gelesen;
-    private int count;
     private long lastAlignmentTime;
     private static final long ALIGNMENT_INTERVAL = 4000;
 
@@ -30,9 +29,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
             while(n< sensorData.size()) {
                 List<SensorData> daten=sensorData.get(n);
                 //System.out.println(daten.size()+ "");
-                if (daten.size()==0){
-                    count= count+1;
-                }
+
                 for (int j = 0; j < daten.size(); j++) {
                     SensorData sensorData1=daten.get(j);
                     BaseSensor relatedSensor = sensorData1.getRelatedSensor();
