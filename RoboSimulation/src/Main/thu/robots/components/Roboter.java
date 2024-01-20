@@ -105,12 +105,18 @@ public class Roboter implements IRobot {
     }
 
     public void accelerate(int targetVelocity) {
+       //while (velocity<targetVelocity){
+       //     velocity+=MAX_ACCELERATE;
+        //}
         int acceleration = targetVelocity - velocity;
         acceleration = Math.min(acceleration, MAX_ACCELERATE);
         velocity += acceleration;
         velocity = Math.min(velocity, MAX_VELOCITY);
     }
     public void decelerate(int targetVelocity) {
+        //while (velocity>targetVelocity){
+        //    velocity-=MAX_ACCELERATE;
+        //}
         int deceleration = velocity - targetVelocity;
         deceleration = Math.min(deceleration, MAX_ACCELERATE);
         velocity -= deceleration;
