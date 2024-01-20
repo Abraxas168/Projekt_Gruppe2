@@ -15,7 +15,7 @@ public class RobotFactory extends AbstractRobotFactory{
         Sensor sensor2=new Sensor(0, Math.PI/3, 40);
         Sensor sensor3=new Sensor(Math.PI/3, Math.PI/3, 40);
         Sensor sensor4=new Sensor(0, Math.PI/5, 30);
-        String name= "hotWheels";
+        String name= "christine";
         int init_velocity=50;
         int init_radius=20;
         Color color= Color.MAGENTA;

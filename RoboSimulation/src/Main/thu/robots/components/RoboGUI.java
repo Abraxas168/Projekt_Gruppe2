@@ -93,7 +93,7 @@ public class RoboGUI extends JFrame implements IObserver{
                 }
 
                 double orientation = robot.getOrientation() - orientationIncrement;
-                robot.setOrientation(normalizeOrientation(orientation));
+                robot.setOrientation(orientation);
             }
         });
         bRechts.addActionListener(new ActionListener() {
@@ -103,7 +103,7 @@ public class RoboGUI extends JFrame implements IObserver{
                     return;
                 }
                 double orientation = robot.getOrientation() + orientationIncrement;
-                robot.setOrientation(normalizeOrientation(orientation));
+                robot.setOrientation(orientation);
             }
         });
 
@@ -124,8 +124,6 @@ public class RoboGUI extends JFrame implements IObserver{
         }
     });
         createUIComponents();
-
-        //addComponentsToContentPane();
     }
 
 
@@ -147,11 +145,11 @@ public class RoboGUI extends JFrame implements IObserver{
             int key = evt.getKeyCode();
             if (key == KeyEvent.VK_LEFT) {
                 double orientation = robot.getOrientation() - orientationIncrement;
-                robot.setOrientation(normalizeOrientation(orientation));
+                robot.setOrientation(orientation);
                 evt.consume();
             } else if (key == KeyEvent.VK_RIGHT) {
                 double orientation = robot.getOrientation() + orientationIncrement;
-                robot.setOrientation(normalizeOrientation(orientation));
+                robot.setOrientation(orientation);
                 evt.consume();
             } else if (key == KeyEvent.VK_UP) {
                 int velocity = robot.getVelocity();
@@ -164,14 +162,15 @@ public class RoboGUI extends JFrame implements IObserver{
             }
 
         }
-        private double normalizeOrientation (double orientation){
+
+       /* private double normalizeOrientation (double orientation){
             if (orientation <= -Math.PI) {
                 orientation = 2*Math.PI + orientation;
             } else if (orientation > Math.PI) {
                 orientation = (orientation - Math.PI*2);
             }
             return orientation;
-        }
+        }*/
 
 
     private void startCalculating() {
@@ -257,9 +256,7 @@ public class RoboGUI extends JFrame implements IObserver{
                 Color color = robot.getColor();
                 int posX = robot.getPosX();
                 int posY = robot.getPosY();
-                //posY = environment.getHeight() - posY;
                 double orientation = robot.getOrientation();
-                //System.out.println(orientation);
                 int velocity = robot.getVelocity();
                 int radius = robot.getRadius();
 
@@ -268,16 +265,11 @@ public class RoboGUI extends JFrame implements IObserver{
                 statusStr += "Y: " + posY + "\n";
                 statusStr += "Orientierung: " + (orientation*180/Math.PI) + "°\n";
                 statusStr += "Geschwindigkeit: " + velocity + " Pixel/s\n";
-                //statusStr += "Höhe Frame: " +pDrawPanel.getHeight() +"\n";
-                //statusStr += "Breite Frame: " + pDrawPanel.getWidth() + "\n";
-                statusStr += "Höhe Bild: " +environment.getHeight() +"\n";
-                statusStr += "Breite Bild: " + environment.getWidth() + "\n";
 
 
                 tRoboinfo.setText(statusStr);
 
                 int listengr = objects.size();
-                //System.out.println(listengr);
 
                 for(int n=0; n<listengr; n++){
                     EnvironmentObject obj= objects.get(n);
@@ -316,7 +308,6 @@ public class RoboGUI extends JFrame implements IObserver{
                     int laserYi=(int)laserY;
                     g.setColor(Color.RED);
                     g.fillOval(laserXi-3,laserYi-3 , 6,6);
-
                 }
 
                 int maxX = environment.getWidth() +radius;
@@ -331,9 +322,6 @@ public class RoboGUI extends JFrame implements IObserver{
             }
 
         };
-        //pInfoPanel.add(bRechts);
-        //pDrawPanel.setPreferredSize(new Dimension(800, 600));
-        //repaint();
     }
     private void showCollisionMessage() {
         JOptionPane.showMessageDialog(this, "Der Roboter ist kollidiert!", "Kollision", JOptionPane.ERROR_MESSAGE);
@@ -343,7 +331,8 @@ public class RoboGUI extends JFrame implements IObserver{
         JOptionPane.showMessageDialog(this, "Ziel erreicht!", "Ziel erreicht", JOptionPane.INFORMATION_MESSAGE);
     }
     @Override
-    public void update(List<SensorData> sd) {this.sensorData=sd;
+    public void update(List<SensorData> sd) {
+            this.sensorData=sd;
 
             }
         }
