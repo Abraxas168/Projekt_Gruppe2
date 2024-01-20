@@ -17,7 +17,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     private int countZeros;
     private boolean abbremsvorgang;
 
-    AutoSteuerung(){
+    public AutoSteuerung(){
         this.gelesen=0;
         this.lastAlignmentTime = System.currentTimeMillis();
         this.countSensordaten=0;
