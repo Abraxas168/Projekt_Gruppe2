@@ -6,6 +6,8 @@ import thu.robots.components.IRobot;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Roboter implements IRobot {
     private Sensor sensor1;
@@ -110,8 +112,20 @@ public class Roboter implements IRobot {
         //}
         int acceleration = targetVelocity - velocity;
         acceleration = Math.min(acceleration, MAX_ACCELERATE);
-        velocity += acceleration;
-        velocity = Math.min(velocity, MAX_VELOCITY);
+
+        Timer accelerationTimer = new Timer();
+        int finalAcceleration = acceleration;
+        accelerationTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                velocity += finalAcceleration;
+                velocity = Math.min(velocity, MAX_VELOCITY);
+
+                if (velocity >= targetVelocity) {
+                    accelerationTimer.cancel();
+                }
+            }
+        }, 0, 100);
     }
     public void decelerate(int targetVelocity) {
         //while (velocity>targetVelocity){
@@ -119,8 +133,20 @@ public class Roboter implements IRobot {
         //}
         int deceleration = velocity - targetVelocity;
         deceleration = Math.min(deceleration, MAX_ACCELERATE);
-        velocity -= deceleration;
-        velocity = Math.max(velocity, -MAX_VELOCITY);
+
+        Timer decelerationTimer = new Timer();
+        int finalDeceleration = deceleration;
+        decelerationTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                velocity -= finalDeceleration;
+                velocity = Math.max(velocity, -MAX_VELOCITY);
+
+                if (velocity <= targetVelocity) {
+                    decelerationTimer.cancel();
+                }
+            }
+        }, 0, 100);
     }
     public void setRadius(int newRadius) {
         if (newRadius < 1 || newRadius > 100) {
