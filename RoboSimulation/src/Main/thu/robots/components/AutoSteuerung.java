@@ -66,6 +66,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     //    this.abbremsvorgang=true;
                     //    this.abbremsvorgang=robo.decelerate(20);
                    // }
+                            robo.decelerate(20);
                     if(gelenkt){
                         break;
                         }

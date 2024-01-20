@@ -128,13 +128,14 @@ public class Roboter implements IRobot {
         }, 0, 100);
     }
     public boolean decelerate(int targetVelocity) {
-        //while (velocity>targetVelocity){
-        //    velocity-=MAX_ACCELERATE;
-        //}
-        if(this.velocity<targetVelocity){
+        if (velocity>targetVelocity){
+            velocity-=MAX_ACCELERATE*deltaTimeSec;
             return false;
         }
-        int deceleration = velocity - targetVelocity;
+        else{
+            return false;
+        }
+        /*int deceleration = velocity - targetVelocity;
         deceleration = Math.min(deceleration, MAX_ACCELERATE);
 
         Timer decelerationTimer = new Timer();
@@ -150,8 +151,10 @@ public class Roboter implements IRobot {
                 }
             }
         }, 0, 100);
-        return false;
+        return false;*/
     }
+
+
     public void setRadius(int newRadius) {
         if (newRadius < 1 || newRadius > 100) {
             throw new IllegalStateException("Radius muss zwischen 1 und 100 liegen.");
