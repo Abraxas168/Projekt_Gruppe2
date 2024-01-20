@@ -145,6 +145,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     }
 
 
+
     @Override
     public void update(List<SensorData> sd) {
         this.sensorData.add(sd);

@@ -3,6 +3,7 @@ package thu.robots.components;
 import thu.robots.components.BaseSensor;
 import thu.robots.components.SensorData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sensor extends BaseSensor {
@@ -13,23 +14,15 @@ private List<IObserver> register;
         super(orientationToRobot, beamWidth, measurementRate);
     }
 
-    //public void setAutoSteuerung(AutoSteuerung auto){
-     //   this.autoSteuerung=auto;
-    //}
 
-    //public void setManuelleSteuerung(ManuelleSteuerung manu){
-     //   this.manuelleSteuerung=manu;
-   // }
-   // public AutoSteuerung getAutoSteuerung(){
-    //    return this.autoSteuerung;
-   // }
-    //public ManuelleSteuerung getManuelleSteuerung(){
-     //   return this.manuelleSteuerung;
-    //}
 
-    //*********Observer Regestrieren!!
     public void setRegister(List<IObserver> register){
         this.register=register;
+    }
+
+
+    public void addRegisterComponent(IObserver component){
+        register.add(component);
     }
     @Override
     public void measurementFromEnvironment(List<SensorData> data) {

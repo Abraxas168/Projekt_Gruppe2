@@ -4,6 +4,7 @@ import thu.robots.components.EnvironmentLoader;
 import thu.robots.components.IRobot;
 
 import javax.swing.*;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,10 +29,12 @@ public class Main {
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
         hotWheels.activateAutonomousStearing();
         RoboGUI guiFrame = new RoboGUI("RoboGUI");
+        Roboter christine= (Roboter)hotWheels;
+        christine.addToRegister(guiFrame);
         guiFrame.setVisible(true);
-        guiFrame.setRobot((Roboter)hotWheels);
-        guiFrame.setRegister();
+        guiFrame.setRobot(christine);
         guiFrame.setEnv(env);
+
 
         }
     }

@@ -208,7 +208,7 @@ public class RoboGUI extends JFrame implements IObserver{
         updateThread.start();
     }
 
-    public void setRegister(){
+    /*public void setRegister(){
         List<IObserver> register=new ArrayList<>();
         register.add(robot.getSteuerung());
         register.add(this);
@@ -216,7 +216,8 @@ public class RoboGUI extends JFrame implements IObserver{
         for(int n=0; n<sensoren.size(); n++){
             Sensor sensor= (Sensor) sensoren.get(n);
             sensor.setRegister(register);}
-    }
+    }*/
+
     public void setEnv(EnvironmentLoader env){
         File file3= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung.txt");
         File file2= new File("C:\\Users\\linda\\Studium_THU\\MT3\\Software_Entwicklung\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung2.txt");

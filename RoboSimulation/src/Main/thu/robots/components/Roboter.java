@@ -47,12 +47,25 @@ public class Roboter implements IRobot {
         return sensoren;
     }
 
+    public void buildRegister(){
+    java.util.List<IObserver> register=new ArrayList<>();
+        register.add(this.steuerung);
+    List<BaseSensor> sensoren= getSensors();
+        for(int n=0; n<sensoren.size(); n++){
+        Sensor sensor= (Sensor) sensoren.get(n);
+        sensor.setRegister(register);}}
+
+    public void addToRegister(IObserver component){
+        List<BaseSensor> sensoren= getSensors();
+        for(int n=0; n<sensoren.size(); n++){
+            Sensor sensor= (Sensor) sensoren.get(n);
+            sensor.addRegisterComponent(component);}}
+
+
     @Override
     public void activateAutonomousStearing() {
-        //Roboter robo= manuelleSteuerung.getRobo();
-        //Validator validator=manuelleSteuerung.getValidator();
         this.steuerung = new AutoSteuerung();
-        //steuerung=(AutoSteuerung)steuerung;
+        buildRegister();
     }
 
     @Override
