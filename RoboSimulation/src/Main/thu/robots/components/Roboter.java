@@ -1,7 +1,5 @@
 package thu.robots.components;
 
-import thu.robots.components.BaseSensor;
-import thu.robots.components.IRobot;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -106,7 +104,7 @@ public class Roboter implements IRobot {
         this.orientation = normalizeOrientation(orientation);
     }
 
-    private double normalizeOrientation(double orientation) {
+    public double normalizeOrientation(double orientation) {
         if (orientation <= -Math.PI) {
             orientation = 2 * Math.PI + orientation;
         } else if (orientation > Math.PI) {

@@ -1,10 +1,6 @@
 package thu.robots.components;
 
-import thu.robots.components.EnvironmentLoader;
-import thu.robots.components.IRobot;
-
 import javax.swing.*;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
