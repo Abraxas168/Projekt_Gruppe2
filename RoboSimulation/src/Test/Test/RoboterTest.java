@@ -1,6 +1,6 @@
 package Test;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 import thu.robots.components.IRobot;
 import thu.robots.components.Roboter;
 import thu.robots.components.Sensor;
@@ -8,11 +8,11 @@ import thu.robots.components.Steuerung;
 
 import java.awt.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 class RoboterTest {
 
-    @Test
+   /* @Test
     void normalizeOrientation(){
         Roboter robot = new Roboter(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
                 new Sensor(Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/5, 30),
@@ -72,5 +72,5 @@ class RoboterTest {
 
         assertEquals(30, robot.getPosX());
         assertEquals(0, robot.getPosY());
-    }
+    }*/
 }

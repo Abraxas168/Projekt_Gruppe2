@@ -44,8 +44,13 @@ public class Roboter implements IRobot {
         this.radius = radius;
         this.color = color;
         this.steuerung = steuerung;
+        buildRegister();
     }
 
+    /**
+     * Gibt eine Liste aller Sensoren des Typs BaseSensor zurück
+     * @return Liste der Sensoren
+     */
     @Override
     public List<BaseSensor> getSensors() {
         List<BaseSensor> sensoren = new ArrayList<>();
@@ -94,7 +99,7 @@ public class Roboter implements IRobot {
     @Override
     public void activateAutonomousStearing() {
         this.steuerung = new AutoSteuerung();
-        buildRegister();
+        addToRegister(this.steuerung);
     }
 
     /**
