@@ -21,9 +21,10 @@ private List<IObserver> register;
     }
 
 
-    public void addRegisterComponent(IObserver component){
+    public void register(IObserver component){
         register.add(component);
     }
+
     @Override
     public void measurementFromEnvironment(List<SensorData> data) {
         for(int n=0; n<register.size(); n++){

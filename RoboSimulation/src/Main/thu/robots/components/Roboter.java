@@ -55,11 +55,18 @@ public class Roboter implements IRobot {
         Sensor sensor= (Sensor) sensoren.get(n);
         sensor.setRegister(register);}}
 
-    public void addToRegister(IObserver component){
-        List<BaseSensor> sensoren= getSensors();
-        for(int n=0; n<sensoren.size(); n++){
-            Sensor sensor= (Sensor) sensoren.get(n);
-            sensor.addRegisterComponent(component);}}
+
+    public void addToRegister(IObserver component) {
+        List<BaseSensor> sensoren = getSensors();
+        for (int n = 0; n < sensoren.size(); n++) {
+            Sensor sensor = (Sensor) sensoren.get(n);
+            try {
+                sensor.register(component);
+            } catch (NullPointerException e) {
+                System.out.println("Die Autonome Steuerung muss aktiviert sein, bevor sich weitere Komponenten für die Sensordaten registrieren können.");
+            }
+        }
+    }
 
 
     @Override
@@ -203,7 +210,6 @@ public class Roboter implements IRobot {
             posX = (int) x_neu;
             posY = (int) y_neu;
         if (steuerung instanceof AutoSteuerung) {
-            //System.out.println("AutoSteuerung aktiviert");
             steuerung.steuern(this);
         }
     }
