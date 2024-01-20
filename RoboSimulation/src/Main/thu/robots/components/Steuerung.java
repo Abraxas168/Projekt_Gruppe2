@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Steuerung implements IObserver{
 
-    Steuerung(){
+    public Steuerung(){
 
     }
     public void steuern(Roboter robo){}

@@ -161,7 +161,7 @@ public class Roboter implements IRobot {
      * @param orientation double gewünschte Orientierung des Roboters in Radiant
      * @return orientation double normalisierte Orientierung des Roboters in Radiant
      */
-    private double normalizeOrientation(double orientation) {
+    public double normalizeOrientation(double orientation) {
         if (orientation <= -Math.PI) {
             orientation = 2 * Math.PI + orientation;
         } else if (orientation > Math.PI) {
