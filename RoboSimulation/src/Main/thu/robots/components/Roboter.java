@@ -127,10 +127,13 @@ public class Roboter implements IRobot {
             }
         }, 0, 100);
     }
-    public void decelerate(int targetVelocity) {
+    public boolean decelerate(int targetVelocity) {
         //while (velocity>targetVelocity){
         //    velocity-=MAX_ACCELERATE;
         //}
+        if(this.velocity<targetVelocity){
+            return false;
+        }
         int deceleration = velocity - targetVelocity;
         deceleration = Math.min(deceleration, MAX_ACCELERATE);
 
@@ -140,13 +143,14 @@ public class Roboter implements IRobot {
             @Override
             public void run() {
                 velocity -= finalDeceleration;
-                velocity = Math.max(velocity, -MAX_VELOCITY);
+                velocity = Math.max(velocity, 10);
 
                 if (velocity <= targetVelocity) {
                     decelerationTimer.cancel();
                 }
             }
         }, 0, 100);
+        return false;
     }
     public void setRadius(int newRadius) {
         if (newRadius < 1 || newRadius > 100) {
