@@ -36,14 +36,14 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     }
 
 
-    public void sensorDatenlesen(Roboter robo){
+    public void sensorDatenAuswerten(Roboter robo){
         int n=this.gelesen;
         double orientation=robo.getOrientation();
         int velocity =robo.getVelocity();
         if (sensorData !=null && sensorData.size()>0){
             while(n< sensorData.size()) {
                 List<SensorData> daten=sensorData.get(n);
-                boolean count = ractionDataSize(daten.size(), robo);
+                boolean count = reactionDataSize(daten.size(), robo);
                 if(!count){break;}
                 //System.out.println(daten.size()+ "");
                 for (int j = 0; j < daten.size(); j++) {
@@ -57,10 +57,11 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     boolean gelenkt=lenken(relation_toRobo, distance, angle,beamwidth, robo);
                     //*************logik zum abbremsen muss noch vervollständigt werden
                         //**********momentan werden keine weiteren daten mehr ausgelesen sobald robo zu nah am
-                         //************hindernis und abbremsen (mehrfach) ausgelöst wurde.
+                         //************hindernis und abbremsen (mehrfach) ausgelöst wurde zudem bleibt er stehen.
                             //**********bis auf das problem funktioniert alles gut. bitte nur an dieser stelle
-                                //*********oder in den beschleunigungsfunktionen oder höchstens noch bei reactonToSize()
+                                //*********oder in den beschleunigungsfunktionen oder höchstens noch bei reactionToSize()
                                     //********beim beschleunigen etwas ändern wenn nötig.
+
                     //if(velocity>20 && !abbremsvorgang){
                     //    this.abbremsvorgang=true;
                     //    this.abbremsvorgang=robo.decelerate(20);
@@ -74,7 +75,7 @@ public class AutoSteuerung extends Steuerung implements IObserver{
         } this.gelesen=sensorData.size();}
 
 
-    public boolean ractionDataSize(int size, Roboter robo){
+    public boolean reactionDataSize(int size, Roboter robo){
         double orientation=robo.getOrientation();
         if(size==1){
             countSensordaten+=1;
@@ -100,7 +101,6 @@ public class AutoSteuerung extends Steuerung implements IObserver{
             double orientation1 = orientation + ((beamwidth / 2) - Math.abs(angle));
             double orientation2 = orientation - ((beamwidth / 2) - Math.abs(angle));
             switch (relationRobot) {
-                //System.out.println("Sensor: 0  - " + angle + "Distance:" + distance);
                 case "0.0":
                 if (angle >= 0.0) {
                     robo.setOrientation(orientation2);
@@ -116,7 +116,6 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     return true;
                 }
                 case "1.0471975511965976":
-                //System.out.println("Sensor: pi/3 - "+ angle+ "Distance:" + distance);
                 if (angle >= 0.0) {
                     robo.setOrientation(orientation2);
                     return true;
@@ -125,8 +124,6 @@ public class AutoSteuerung extends Steuerung implements IObserver{
                     return true;
                 }
                 case "-1.0471975511965976":
-
-                //System.out.println("Sensor: -pi/3:  -" + angle + "Distance:" + distance);
                 if (angle >= 0.0) {
                     robo.setOrientation(orientation1);
                     return true;
@@ -143,17 +140,12 @@ public class AutoSteuerung extends Steuerung implements IObserver{
     @Override
     public void steuern(Roboter robo){
         zielAusrichtung(robo);
-        sensorDatenlesen(robo);
+        sensorDatenAuswerten(robo);
     }
 
 
     @Override
     public void update(List<SensorData> sd) {
         this.sensorData.add(sd);
-    }
-
-
-    public List<List<SensorData>> getDatafromSensors() {
-        return sensorData;
     }
 }
