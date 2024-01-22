@@ -1,11 +1,8 @@
 package thu.robots.components;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.locks.Lock;
+
 import java.util.concurrent.locks.ReentrantLock;
 
 
@@ -17,11 +14,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
     private static final long ALIGNMENT_INTERVAL = 4000;
     private int countSensordaten;
     private int countZeros;
-    public boolean abbremsvorgang;
-    public boolean beschleunigungsvorgang;
     private int stuckCountdown;
-    public int countAbbremsversuch;
-    private ReentrantLock emergencyLock = new ReentrantLock();
     private int steps;
     private int targetVelocity;
 
@@ -30,41 +23,28 @@ public class AutoSteuerung extends Steuerung implements IObserver {
         this.lastAlignmentTime = System.currentTimeMillis();
         this.countSensordaten = 0;
         this.countZeros = 0;
-        this.abbremsvorgang = false;
         this.stuckCountdown = 0;
-        this.countAbbremsversuch = 0;
-        this.beschleunigungsvorgang = false;
         this.steps = 0;
         this.targetVelocity = 50;
-
     }
 
 
     public void zielAusrichtung(Roboter robo) {
-        //emergencyLock.lock();
-        //try {
         int velocity = robo.getVelocity();
         long currentTime = System.currentTimeMillis();
-        if (((velocity == IRobot.MAX_VELOCITY) && ((currentTime - lastAlignmentTime) >= ALIGNMENT_INTERVAL)) && (countZeros >= 20)) {
+        if (((velocity == IRobot.MAX_VELOCITY) && ((currentTime - lastAlignmentTime) >= ALIGNMENT_INTERVAL)) && (countZeros >= 30)) {
             robo.setOrientation(0.0);
             System.out.println("zum Ziel ausgerichtet. zeros:  " + countZeros);
             lastAlignmentTime = currentTime;
         }
-        // } finally {
-        //    emergencyLock.unlock();
-        // }
-
     }
 
     //&&
     public void sensorDatenAuswerten(Roboter robo) {
         int n = this.gelesen;
-        double orientation = robo.getOrientation();
-        int velocity = robo.getVelocity();
         if ((sensorData != null) && (sensorData.size() > 0)) {
             while (n < sensorData.size()) {
                 List<SensorData> daten = sensorData.get(n);
-                // System.out.println(daten.size());
                 boolean count = reactionDataSize(daten.size(), robo);
                 if (!count) {
                     break;
@@ -76,52 +56,17 @@ public class AutoSteuerung extends Steuerung implements IObserver {
                     double distance = sensorData1.getDistance();
                     double angle = sensorData1.getAngle();
                     double beamwidth = relatedSensor.getBeamWidth();
-                    // Thread lenkenThread= new Thread(new Runnable() {
-                    // @Override
-                    // public void run() {
                     boolean gelenkt = lenken(relation_toRobo, distance, angle, beamwidth, robo);
-                    // }
-                    // });
-                    //  Thread geschwindigkeitRegulieren = new Thread(new Runnable() {
-                    //     @Override
-                    //    public void run() {
 
                     if ((distance <= ((robo.getVelocity() / 2) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordaten > 4)) {// && !abbremsvorgang && !beschleunigungsvorgang) {
-                        //              abbremsvorgang = true;
-                        // System.out.println("Schritte seit beschleunigen: " + steps);
+
                         targetVelocity = 20;
                         abbremsen(robo);
                         System.out.println("abgebremst auf:  " + robo.getVelocity());
                     }
-                    //             System.out.println("abbremsen gestartet");
-                    //        }
-                    // }
-                    //  });
-
-                    //lenkenThread.start();
-                    // geschwindigkeitRegulieren.start();
                     if (gelenkt) {
                         break;
                     }
-                    // if (distance <= 10+robo.getRadius()) {
-                    //boolean gelenkt=lenken(relation_toRobo, distance, angle,beamwidth, robo);
-                    //*************logik zum abbremsen muss noch vervollständigt werden
-                    //**********momentan werden keine weiteren daten mehr ausgelesen sobald robo zu nah am
-                    //************hindernis und abbremsen (mehrfach) ausgelöst wurde zudem bleibt er stehen.
-                    //**********bis auf das problem funktioniert alles gut. bitte nur an dieser stelle
-                    //*********oder in den beschleunigungsfunktionen oder höchstens noch bei reactionToSize()
-                    //********beim beschleunigen etwas ändern wenn nötig.
-
-                    //if(velocity>20 && !abbremsvorgang){
-                    //    this.abbremsvorgang=true;
-                    //    this.abbremsvorgang=robo.decelerate(20);
-                    // }
-                    //        robo.decelerate(20);
-                    //System.out.println(gelenkt);
-                    //if(gelenkt){
-                    //break;
-                    // }
-                    // }
                 }
                 n = n + 1;
             }
@@ -132,48 +77,27 @@ public class AutoSteuerung extends Steuerung implements IObserver {
 
     public boolean reactionDataSize(int size, Roboter robo) {
         double orientation = robo.getOrientation();
-        // System.out.println(size);
         if (size == 1) {
             countSensordaten += 1;
             countZeros = 0;
         } else {
             countSensordaten = 0;
             countZeros += 1;
-            //  System.out.println("gezähltenullen"+ countZeros);
             if (countZeros >= 2) {
-                //       System.out.println("Schritte seit bremsen: " + steps);
-                //      System.out.println("gezählte Nullen" + countZeros);
                 if (robo.getVelocity() < 50) {
                     targetVelocity = 50;
                     beschleunigen(robo);
                     System.out.println("beschleunigt auf: " + robo.getVelocity());
                 }
-                //     Thread geschwindigkeitRegulieren2 = new Thread(new Runnable() {
-                //         @Override
-                //       public void run() {
-                // if (!beschleunigungsvorgang) {
-                //    beschleunigungsvorgang = true;
-                //    beschleunigungsvorgang = accelerate(50, robo);
-                //    System.out.println("beschleunigen gestartet");
-                //           }
             }
-            // }
-            //  });
-            //    geschwindigkeitRegulieren2.start();
-            //countZeros = 0;
         }
 
-        // emergencyLock.lock();
-        // try {
         if (countSensordaten >= 20) {
             robo.setOrientation(orientation + Math.PI);
             System.out.println("emergency Steuerung");
             countSensordaten = 0;
             return false;
         }
-        // } finally {
-        //     emergencyLock.unlock();
-        // }
         return true;
     }
 
@@ -181,25 +105,18 @@ public class AutoSteuerung extends Steuerung implements IObserver {
     public boolean lenken(double relation_toRobo, double distance, double angle, double beamwidth, Roboter robo) {
         double orientation = robo.getOrientation();
         String relationRobot = Double.toString(relation_toRobo);
-        //System.out.println(relationRobot);
         int velocity = robo.getVelocity();
         if (velocity == 10) {
             stuckCountdown += 1;
-            //  System.out.println(velocity);
         } else {
             stuckCountdown = 0;
         }
         if (stuckCountdown >= 100) {
-            // emergencyLock.lock();
-            // try {
             robo.setOrientation(orientation + Math.PI);
             System.out.println(stuckCountdown);
             stuckCountdown = 0;
             System.out.println("EmergencyStuckOperation");
             return true;
-            // } finally {
-            //     emergencyLock.unlock();
-            // }
         }
         double orientation1 = orientation + ((beamwidth / 2) - Math.abs(angle));
         double orientation2 = orientation - ((beamwidth / 2) - Math.abs(angle));
@@ -255,39 +172,10 @@ public class AutoSteuerung extends Steuerung implements IObserver {
         return false;
     }
 
+
     /**
-     * beschleunigt den Roboter abhängig vom übergebenen Ziel-Wert
-     *
-     * @param targetVelocity int zielwert für die Geschwindigkeit auf die beschleunigt werden soll
+     * @param robo
      */
-    public boolean accelerate(int targetVelocity, Roboter robo) {
-       /* int velocity = robo.getVelocity();
-        if (velocity >= targetVelocity) {
-            return false;
-        }
-        int acceleration = targetVelocity - velocity;
-        acceleration = Math.min(acceleration, Roboter.MAX_ACCELERATE);
-
-        Timer accelerationTimer = new Timer();
-        int finalAcceleration = acceleration;
-        accelerationTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                int velocity = robo.getVelocity();
-                velocity += finalAcceleration;
-                velocity = Math.min(velocity, Roboter.MAX_VELOCITY);
-                robo.setVelocity(velocity);
-                System.out.println("beschleunigt run() auf: " + robo.getVelocity());
-
-                if (velocity >= targetVelocity) {
-                    accelerationTimer.cancel();
-                    System.out.println("beschleunigung beendet bei " + robo.getVelocity());
-                }
-            }
-        }, 0, 100);*/
-        return false;
-    }
-
     public void beschleunigen(Roboter robo) {
         int velocity = robo.getVelocity();
         if (velocity < targetVelocity - robo.MAX_ACCELERATE * robo.getDeltaTimeSec() * steps) {
@@ -299,42 +187,9 @@ public class AutoSteuerung extends Steuerung implements IObserver {
         }
     }
 
-    public boolean decelerate(int targetVelocity, Roboter robo) {
-      /*  int velocity = robo.getVelocity();
-
-        if (velocity <= targetVelocity) {
-            System.out.println("abbremsen nicht durchgeführt, zu langsam");
-            countAbbremsversuch += 1;
-            return false;
-        }
-        System.out.println("Abbremsvorgang try-Block");
-        int deceleration = velocity - targetVelocity;
-        deceleration = Math.min(deceleration, Roboter.MAX_ACCELERATE);
-
-        Timer decelerationTimer = new Timer();
-        int finalDeceleration = deceleration;
-        decelerationTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-
-                int velocity = robo.getVelocity();
-                velocity -= finalDeceleration;
-                velocity = Math.max(velocity, 10);
-                robo.setVelocity(velocity);
-                System.out.println("Abbremsvorgang run() auf:  " + robo.getVelocity());
-
-                if (velocity <= targetVelocity) {
-                    decelerationTimer.cancel();
-                    System.out.println("abbremsen beendet");
-                    countAbbremsversuch = 0;
-                }
-            }
-        }, 0, 100);
-*/
-        return false;
-
-    }
-
+    /**
+     * @param robo
+     */
     public void abbremsen(Roboter robo) {
         int velocity = robo.getVelocity();
         if (velocity > targetVelocity + robo.MAX_ACCELERATE * robo.getDeltaTimeSec() * steps) {
@@ -352,9 +207,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
         steps += 1;
         System.out.println("Schritte" + steps);
         zielAusrichtung(robo);
-        //System.out.println("ZielAusrichten() aufgerufen");
         sensorDatenAuswerten(robo);
-        // System.out.println(robo.getVelocity());
 
     }
 
