@@ -197,41 +197,6 @@ public class Roboter implements IRobot {
     }
 
 
-
-
-    /**
-     * bremst den Roboter ab, abhängig vom übergebenen Ziel-Wert und übergibt einen Wahrheitswert, um auf Laufzeit des Abbremsmanövers reagieren zu können
-     * @param targetVelocity int Zielwert für die Geschwindigkeit auf die Abgebremst werden soll
-     * @return boolean false, sobald Methode durchgeführt wurde
-     */
-   /* public boolean decelerate(int targetVelocity) {
-        if(velocity<=targetVelocity){
-            System.out.println("abbremsen nicht durchgeführt, zu langsam");
-            countAbbremsversuch+=1;
-            return false;
-        }
-        int deceleration = velocity - targetVelocity;
-        deceleration = Math.min(deceleration, MAX_ACCELERATE);
-
-        Timer decelerationTimer = new Timer();
-        int finalDeceleration = deceleration;
-        decelerationTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                velocity -= finalDeceleration;
-                velocity = Math.max(velocity, 10);
-
-                if (velocity <= targetVelocity) {
-                    decelerationTimer.cancel();
-                    System.out.println("abbremsen beendet");
-                    countAbbremsversuch=0;
-                }
-            }
-        }, 0, 1000);
-        return false;
-    }*/
-
-
     /**
      * legt den Radius des Roboters fest
      * @param newRadius  int Wert für Radius des Roboters
