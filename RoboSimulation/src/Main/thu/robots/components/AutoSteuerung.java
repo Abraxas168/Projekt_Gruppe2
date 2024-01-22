@@ -40,6 +40,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
 
     //&&
     public void sensorDatenAuswerten(Roboter robo) {
+        boolean gelenkt = false;
         int n = this.gelesen;
         if ((sensorData != null) && (sensorData.size() > 0)) {
             while (n < sensorData.size()) {
@@ -55,7 +56,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
                     double distance = sensorData1.getDistance();
                     double angle = sensorData1.getAngle();
                     double beamwidth = relatedSensor.getBeamWidth();
-                    boolean gelenkt = lenken(relation_toRobo, distance, angle, beamwidth, robo);
+                    gelenkt = lenken(relation_toRobo, distance, angle, beamwidth, robo);
 
                     if ((distance <= ((robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordaten >= 1)) {// && !abbremsvorgang && !beschleunigungsvorgang) {
                         //if (!targetlock.isLocked()) {
@@ -75,6 +76,9 @@ public class AutoSteuerung extends Steuerung implements IObserver {
                         break;
                     }
                 }
+                // if (gelenkt) {
+                //   break;
+                // }
                 n = n + 1;
             }
         }
@@ -136,20 +140,10 @@ public class AutoSteuerung extends Steuerung implements IObserver {
                     System.out.println(" sensor 0.0 gedreht um:  " + orientation2);
 
                     return true;
-                } else if ((angle >= 0.0) && (beamwidth == (Math.PI / 5)) && (distance <= (20 + robo.getRadius()))) {
-                    robo.setOrientation(orientation2);
-                    robo.setOrientation(robo.getOrientation() - (1 * Math.PI / 5));
-                    System.out.println("sensor 0.0 gedreht um:  " + beamwidth);
 
-                    return true;
                 } else if ((angle < 0.0) && (beamwidth == (Math.PI / 3)) && (distance <= (velocity + robo.getRadius()))) {
                     robo.setOrientation(orientation1);
                     System.out.println("sensor 0.0 gedreht um:  " + orientation1);
-                    return true;
-                } else if ((angle < 0.0) && (beamwidth == (Math.PI / 5)) && (distance <= (20 + robo.getRadius()))) {
-                    robo.setOrientation(orientation1);
-                    robo.setOrientation(robo.getOrientation() + ((1 * Math.PI) / 5));
-                    System.out.println("sensor 0.0 gedreht um: beamwidth " + beamwidth);
                     return true;
                 }
 
