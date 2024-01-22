@@ -25,9 +25,11 @@ private List<IObserver> register;
 
     @Override
     public void measurementFromEnvironment(List<SensorData> data) {
-        for(int n=0; n<register.size(); n++){
-            register.get(n).update(data);
+        for (IObserver current : register) {
+            current.update(data);
         }
     }
 
 }
+  //      for(int n=0; n<register.size(); n++){
+   //     register.get(n).update(data);

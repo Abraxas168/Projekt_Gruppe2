@@ -22,6 +22,7 @@ public class Roboter implements IRobot {
     private double deltaTimeSec;
 
 
+
     /**
      * Erstellt einen Roboter, der auf einer passenden Benutzeroberfläche mit hilfe von Sensoren einen Parkour selbstständig überwinden kann
      * @param sensor1 der Klasse Sensor übermittelt umgebungsdaten an Regestrierte Komponenten abhängig von seinen Eigenschaften
@@ -45,6 +46,7 @@ public class Roboter implements IRobot {
         this.color = color;
         this.steuerung = steuerung;
         buildRegister();
+
     }
 
     /**
@@ -194,31 +196,7 @@ public class Roboter implements IRobot {
         }
     }
 
-    /**
-     * beschleunigt den Roboter abhängig vom übergebenen Ziel-Wert
-     * @param targetVelocity int zielwert für die Geschwindigkeit auf die beschleunigt werden soll
-     */
-    public void accelerate(int targetVelocity) {
-       //while (velocity<targetVelocity){
-       //     velocity+=MAX_ACCELERATE;
-        //}
-        int acceleration = targetVelocity - velocity;
-        acceleration = Math.min(acceleration, MAX_ACCELERATE);
 
-        Timer accelerationTimer = new Timer();
-        int finalAcceleration = acceleration;
-        accelerationTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                velocity += finalAcceleration;
-                velocity = Math.min(velocity, MAX_VELOCITY);
-
-                if (velocity >= targetVelocity) {
-                    accelerationTimer.cancel();
-                }
-            }
-        }, 0, 100);
-    }
 
 
     /**
@@ -226,13 +204,13 @@ public class Roboter implements IRobot {
      * @param targetVelocity int Zielwert für die Geschwindigkeit auf die Abgebremst werden soll
      * @return boolean false, sobald Methode durchgeführt wurde
      */
-    public boolean decelerate(int targetVelocity) {
-        if (velocity>targetVelocity){
-            velocity-=MAX_ACCELERATE*deltaTimeSec;
+   /* public boolean decelerate(int targetVelocity) {
+        if(velocity<=targetVelocity){
+            System.out.println("abbremsen nicht durchgeführt, zu langsam");
+            countAbbremsversuch+=1;
+            return false;
         }
-        return false;
-
-        /*int deceleration = velocity - targetVelocity;
+        int deceleration = velocity - targetVelocity;
         deceleration = Math.min(deceleration, MAX_ACCELERATE);
 
         Timer decelerationTimer = new Timer();
@@ -245,11 +223,13 @@ public class Roboter implements IRobot {
 
                 if (velocity <= targetVelocity) {
                     decelerationTimer.cancel();
+                    System.out.println("abbremsen beendet");
+                    countAbbremsversuch=0;
                 }
             }
-        }, 0, 100);
-        return false;*/
-    }
+        }, 0, 1000);
+        return false;
+    }*/
 
 
     /**
