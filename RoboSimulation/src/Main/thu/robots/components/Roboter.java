@@ -96,7 +96,7 @@ public class Roboter implements IRobot {
 
 
     /**
-     * aktiviert die Autonome Steuerung des Roboters duch eine neue Instanz der Klasse AutoSteuerung und initiirt das Erstellen eines Registers von Empfänger-Klassen für die Sensordaten
+     * aktiviert die autonome Steuerung des Roboters durch eine neue Instanz der Klasse AutoSteuerung und initiiert das Erstellen eines Registers von Empfänger-Klassen für die Sensordaten
      */
     @Override
     public void activateAutonomousStearing() {
@@ -235,7 +235,7 @@ public class Roboter implements IRobot {
     }
 
     /**
-     * gibt die Zeitdifferenz zurück mit welchem der Roboter in den Forbewegungs-Methoden rechnet
+     * gibt die Zeitdifferenz zurück, mit welcher der Roboter in den Forbewegungs-Methoden rechnet
      * @return double Zeitdifferenz, für die die Bewegung berechnet werden soll
      */
     public double getDeltaTimeSec() {
@@ -244,7 +244,7 @@ public class Roboter implements IRobot {
 
     /**
      * bei Aufruf bewegt sich der Roboter einmalig in Abhängigkeit seiner Orientierung und aktuellen Position, sowie Geschwindigkeit, und
-     * der Zeitdifferenz und initiiert zudem dessen Steuerung, falls die Autonome Steuerung aktiviert ist
+     * der Zeitdifferenz und initiiert zudem dessen Steuerung, falls die autonome Steuerung aktiviert ist
      * @param deltaTimeSec Zeitdifferenz, für die die Bewegung berechnet werden soll
      */
     @Override
