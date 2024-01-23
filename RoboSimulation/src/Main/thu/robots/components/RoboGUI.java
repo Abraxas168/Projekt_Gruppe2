@@ -203,7 +203,8 @@ public class RoboGUI extends JFrame implements IObserver{
         File file3= new File("RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung.txt");
         File file2= new File("RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung2.txt");
         File file1= new File("RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung3.txt");
-        this.environment= env.loadFromFile(file1);
+        File file4= new File("RoboSimulation/src/Main/thu/robots/components/Umgebung4.txt");
+        this.environment= env.loadFromFile(file4);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();

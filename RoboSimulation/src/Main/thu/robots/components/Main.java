@@ -21,7 +21,7 @@ public class Main {
         RobotFactory factory2 = new RobotFactory();
         IRobot hotWheels = factory2.createRobot();
         int init_posX=50;
-        int init_posY=500;
+        int init_posY=450;
         int init_orientation=0;
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
         hotWheels.activateAutonomousStearing();

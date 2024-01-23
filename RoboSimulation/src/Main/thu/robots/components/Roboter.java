@@ -7,10 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Roboter implements IRobot {
-    private final Sensor sensor1;
-    private final Sensor sensor2;
-    private final Sensor sensor3;
-    private final Sensor sensor4;
+    private final List<BaseSensor> sensoren;
     private final String name;
     private int radius;
     private int posX;
@@ -22,24 +19,18 @@ public class Roboter implements IRobot {
     private double deltaTimeSec;
 
 
-
     /**
      * Erstellt einen Roboter, der auf einer passenden Benutzeroberfläche mit hilfe von Sensoren einen Parkour selbstständig überwinden kann
-     * @param sensor1 der Klasse Sensor übermittelt umgebungsdaten an Regestrierte Komponenten abhängig von seinen Eigenschaften
-     * @param sensor2 der Klasse Sensor übermittelt umgebungsdaten an Regestrierte Komponenten abhängig von seinen Eigenschaften
-     * @param sensor3 der Klasse Sensor übermittelt umgebungsdaten an Regestrierte Komponenten abhängig von seinen Eigenschaften
-     * @param sensor4 der Klasse Sensor übermittelt umgebungsdaten an Regestrierte Komponenten abhängig von seinen Eigenschaften
-     * @param name Name des Roboters als String
-     * @param velocity Geschwindigkeit des Roboters in pixel/s
-     * @param radius Radius des Roboters in pixel
-     * @param color Farbe des Roboters in Color
+     *
+     * @param sensoren  Liste an Sensoren, der Klasse Sensor. Übermitteln jeweils Umgebungsdaten an regestrierte Komponenten abhängig von seinen Eigenschaften
+     * @param name      Name des Roboters als String
+     * @param velocity  Geschwindigkeit des Roboters in pixel/s
+     * @param radius    Radius des Roboters in pixel
+     * @param color     Farbe des Roboters in Color
      * @param steuerung Steuerung des Roboters der Klasse Steuerung bzw. seiner Unterklasse AutonomeSteuerung
      */
-    public Roboter(Sensor sensor1, Sensor sensor2, Sensor sensor3, Sensor sensor4, String name, int velocity, int radius, Color color, Steuerung steuerung) {
-        this.sensor1 = sensor1;
-        this.sensor2 = sensor2;
-        this.sensor3 = sensor3;
-        this.sensor4 = sensor4;
+    public Roboter(List<BaseSensor> sensoren, String name, int velocity, int radius, Color color, Steuerung steuerung) {
+        this.sensoren=sensoren;
         this.name = name;
         this.velocity = velocity;
         this.radius = radius;
@@ -51,15 +42,11 @@ public class Roboter implements IRobot {
 
     /**
      * Gibt eine Liste aller Sensoren des Typs BaseSensor zurück
+     *
      * @return Liste der Sensoren
      */
     @Override
     public List<BaseSensor> getSensors() {
-        List<BaseSensor> sensoren = new ArrayList<>();
-        sensoren.add(sensor1);
-        sensoren.add(sensor2);
-        sensoren.add(sensor3);
-        sensoren.add(sensor4);
         return sensoren;
     }
 
@@ -67,10 +54,10 @@ public class Roboter implements IRobot {
      * Erstellt ein default Register von Empfänger-Klassen für die Sensordaten, sobald die Autonome Steuerung aktiviert wurde und
      * gibt diese an die Sensoren weiter
      */
-    public void buildRegister(){
-    java.util.List<IObserver> register=new ArrayList<>();
+    public void buildRegister() {
+        java.util.List<IObserver> register = new ArrayList<>();
         register.add(this.steuerung);
-    List<BaseSensor> sensoren= getSensors();
+        List<BaseSensor> sensoren = getSensors();
         for (BaseSensor baseSensor : sensoren) {
             Sensor sensor = (Sensor) baseSensor;
             sensor.setRegister(register);
@@ -80,6 +67,7 @@ public class Roboter implements IRobot {
 
     /**
      * Fügt dem Register für Empfänger-Klassen für die Sensordaten eine Komponente nachträglich hinzu und übermittelt diese an die Sensoren
+     *
      * @param component vom Typ IObserver, der sich bei den Sensoren für Daten regestrieren soll
      */
     public void addToRegister(IObserver component) {
@@ -106,8 +94,9 @@ public class Roboter implements IRobot {
 
     /**
      * legt bei Aufruf einmalig die x und y-Positionen des Roboters mit gewünschten int- Werten sowie dessen Orientierung mit double-Werten in Radiant fest
-     * @param posX int Position des Roboters in x-Richtung
-     * @param posY int Position des Roboters in y-Richtung
+     *
+     * @param posX        int Position des Roboters in x-Richtung
+     * @param posY        int Position des Roboters in y-Richtung
      * @param orientation double Orientierung in Radiant
      */
     @Override
@@ -119,6 +108,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt den Namen des Roboters als String zurück
+     *
      * @return String Name des Roboters
      */
     @Override
@@ -128,6 +118,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt die aktuelle x-Position des Roboters zurück
+     *
      * @return int posX
      */
     @Override
@@ -137,6 +128,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt die aktuelle y-Position des Roboters zurück
+     *
      * @return int posY
      */
     @Override
@@ -146,6 +138,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt die aktuelle orientierung des Roboters in Radiant zurück
+     *
      * @return double orientation aktuelle Orientierung des Roboters in Radiant
      */
     @Override
@@ -156,6 +149,7 @@ public class Roboter implements IRobot {
     /**
      * legt bei Aufruf einmalig die Orientierung des Roboters mit gewünschten double-Werten in Radiant fest
      * und initiiert dabei deren Normalisierung
+     *
      * @param orientation gewünschte Orientierung des Roboters in Radiant
      */
     public void setOrientation(double orientation) {
@@ -165,6 +159,7 @@ public class Roboter implements IRobot {
     /**
      * Normalisiert übergebene double-Werte, sodass diese nicht über PI oder unter -PI steigen oder fallen, indem bei Werten über PI, 2*PI
      * abgezogen werden und bei Werten unter -PI, 2*PI dazu gezählt werden.
+     *
      * @param orientation double gewünschte Orientierung des Roboters in Radiant
      * @return orientation double normalisierte Orientierung des Roboters in Radiant
      */
@@ -179,6 +174,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt die aktuelle Geschwindigkeit des Roboters als int-Wert zurück
+     *
      * @return velocity int Geschwindigkeit in pixel/s
      */
     @Override
@@ -188,10 +184,11 @@ public class Roboter implements IRobot {
 
     /**
      * legt bei Aufruf einmalig die Geschwindigkeit des Roboters fest
+     *
      * @param velocity int Geschwindigkeit in m/s
      */
     public void setVelocity(int velocity) {
-        if (velocity <= MAX_VELOCITY && velocity>=-MAX_VELOCITY) {
+        if (velocity <= MAX_VELOCITY && velocity >= -MAX_VELOCITY) {
             this.velocity = velocity;
         }
     }
@@ -199,7 +196,8 @@ public class Roboter implements IRobot {
 
     /**
      * legt den Radius des Roboters fest
-     * @param newRadius  int Wert für Radius des Roboters
+     *
+     * @param newRadius int Wert für Radius des Roboters
      */
     public void setRadius(int newRadius) {
         if (newRadius < 1 || newRadius > 100) {
@@ -211,6 +209,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt den aktuellen Radius des Roboters zurück
+     *
      * @return int Radius des Roboters
      */
     @Override
@@ -220,6 +219,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt die aktuelle Farbe des Roboters zurück
+     *
      * @return Color Farbe des Roboters
      */
     public Color getColor() {
@@ -228,6 +228,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt die aktuelle Steuerung des Roboters zurück
+     *
      * @return Steuerung des Roboters
      */
     public Steuerung getSteuerung() {
@@ -236,6 +237,7 @@ public class Roboter implements IRobot {
 
     /**
      * gibt die Zeitdifferenz zurück mit welchem der Roboter in den Forbewegungs-Methoden rechnet
+     *
      * @return double Zeitdifferenz, für die die Bewegung berechnet werden soll
      */
     public double getDeltaTimeSec() {
@@ -245,17 +247,18 @@ public class Roboter implements IRobot {
     /**
      * bei Aufruf bewegt sich der Roboter einmalig in Abhängigkeit seiner Orientierung und aktuellen Position, sowie Geschwindigkeit, und
      * der Zeitdifferenz und initiiert zudem dessen Steuerung, falls die Autonome Steuerung aktiviert ist
+     *
      * @param deltaTimeSec Zeitdifferenz, für die die Bewegung berechnet werden soll
      */
     @Override
     public void move(double deltaTimeSec) {
-            this.deltaTimeSec=deltaTimeSec;
-            double deltaX = deltaTimeSec * velocity * Math.cos(orientation);
-            double deltaY = deltaTimeSec * velocity * Math.sin(orientation);
-            double x_neu = posX + deltaX;
-            double y_neu = posY + deltaY;
-            posX = (int) x_neu;
-            posY = (int) y_neu;
+        this.deltaTimeSec = deltaTimeSec;
+        double deltaX = deltaTimeSec * velocity * Math.cos(orientation);
+        double deltaY = deltaTimeSec * velocity * Math.sin(orientation);
+        double x_neu = posX + deltaX;
+        double y_neu = posY + deltaY;
+        posX = (int) x_neu;
+        posY = (int) y_neu;
         if (steuerung instanceof AutoSteuerung) {
             steuerung.steuern(this);
         }

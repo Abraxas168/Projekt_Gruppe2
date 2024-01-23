@@ -58,7 +58,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
                     double beamwidth = relatedSensor.getBeamWidth();
                     gelenkt = lenken(relation_toRobo, distance, angle, beamwidth, robo);
 
-                    if ((distance <= ((robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordaten >= 1)) {// && !abbremsvorgang && !beschleunigungsvorgang) {
+                    if ((distance <= ((robo.getVelocity())/2 + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordaten >= 1)) {// && !abbremsvorgang && !beschleunigungsvorgang) {
                         //if (!targetlock.isLocked()) {
 
                         //  targetlock.lock();
@@ -87,6 +87,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
 
 
     public boolean reactionDataSize(int size, Roboter robo) {
+        System.out.println(size);
         double orientation = robo.getOrientation();
         if (size == 1) {
             countSensordaten += 1;
@@ -106,7 +107,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
             }
         }
 
-        if (countSensordaten >= 50) {
+        if (countSensordaten >= 100) {
             robo.setOrientation(orientation + Math.PI);
             System.out.println("emergency Steuerung");
             countSensordaten = 0;
@@ -119,13 +120,15 @@ public class AutoSteuerung extends Steuerung implements IObserver {
     public boolean lenken(double relation_toRobo, double distance, double angle, double beamwidth, Roboter robo) {
         double orientation = robo.getOrientation();
         String relationRobot = Double.toString(relation_toRobo);
+        System.out.println(distance);
+        System.out.println(angle);
         int velocity = robo.getVelocity();
         if (velocity == 20) {
             stuckCountdown += 1;
         } else {
             stuckCountdown = 0;
         }
-        if (stuckCountdown >= 100) {
+        if (stuckCountdown >= 400) {
             robo.setOrientation(orientation + Math.PI);
             stuckCountdown = 0;
             System.out.println("EmergencyStuckOperation");
@@ -135,36 +138,36 @@ public class AutoSteuerung extends Steuerung implements IObserver {
         double orientation2 = robo.getOrientation() - ((beamwidth / 2) - Math.abs(angle));
         switch (relationRobot) {
             case "0.0":
-                if ((angle >= 0.0) && (beamwidth == (Math.PI / 3)) && (distance <= (velocity + robo.getRadius()))) {
-                    robo.setOrientation(orientation2);
+                if ((angle >= 0.0)  && (distance <= (velocity/4 + robo.getRadius()))) {
+                    robo.setOrientation(orientation2-0.3);
                     System.out.println(" sensor 0.0 gedreht um:  " + orientation2);
 
                     return true;
 
-                } else if ((angle < 0.0) && (beamwidth == (Math.PI / 3)) && (distance <= (velocity + robo.getRadius()))) {
-                    robo.setOrientation(orientation1);
+                } else if ((angle < 0.0) && (distance <= (velocity/4 + robo.getRadius()))) {
+                    robo.setOrientation(orientation1+0.3);
                     System.out.println("sensor 0.0 gedreht um:  " + orientation1);
                     return true;
                 }
 
             case "1.0471975511965976":
-                if ((angle >= 0.0) && (beamwidth == (Math.PI / 3)) && (distance <= (10 + robo.getRadius()))) {
-                    robo.setOrientation(orientation2);
+                if ((angle >= 0.0) && (distance <= (5 + robo.getRadius()))) {
+                    robo.setOrientation(orientation2-0.15);
                     System.out.println("+ pi/3 gedreht um:  " + orientation2);
                     return true;
-                } else if ((angle < 0.0) && (beamwidth == (Math.PI / 3)) && (distance <= (10 + robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() - ((beamwidth / 2) + Math.abs(angle)));
+                } else if ((angle < 0.0) && (distance <= (5 + robo.getRadius()))) {
+                    robo.setOrientation(robo.getOrientation() - ((beamwidth / 2) + Math.abs(angle))-0.15);
                     System.out.println("+ pi/3 gedreht um:  " + "beamwidth/2 und winkel");
                     return true;
                 }
             case "-1.0471975511965976":
-                if ((angle >= 0.0) && (beamwidth == (Math.PI / 3)) && (distance <= (10 + robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() + ((beamwidth / 2) + Math.abs(angle)));
+                if ((angle >= 0.0) && (distance <= (5 + robo.getRadius()))) {
+                    robo.setOrientation(robo.getOrientation() + ((beamwidth / 2) + Math.abs(angle))+0.15);
                     System.out.println("- pi/3 gedreht um:  " + "halbe beamwidth und winkel");
                     return true;
-                } else if ((angle < 0.0) && (beamwidth == (Math.PI / 3)) && (distance <= (10 + robo.getRadius()))) {
+                } else if ((angle < 0.0) && (distance <= (5 + robo.getRadius()))) {
                     robo.setOrientation(orientation1);
-                    System.out.println("- pi/3 gedreht um:  " + orientation1);
+                    System.out.println("- pi/3 gedreht um:  " + orientation1+0.15);
                     return true;
                 }
         }
@@ -205,7 +208,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
     @Override
     public void steuern(Roboter robo) {
         steps += 1;
-        //System.out.println("Schritte" + steps);
+        System.out.println("Schritte" + steps);
         zielAusrichtung(robo);
         sensorDatenAuswerten(robo);
 
