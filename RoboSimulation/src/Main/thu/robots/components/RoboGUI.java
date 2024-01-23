@@ -138,7 +138,7 @@ public class RoboGUI extends JFrame implements IObserver{
     }
 
 
-    private void formKeyPressed(KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+    private void formKeyPressed(KeyEvent evt) {
             if (robot == null) {
                 return;
             }
@@ -163,16 +163,6 @@ public class RoboGUI extends JFrame implements IObserver{
 
         }
 
-       /* private double normalizeOrientation (double orientation){
-            if (orientation <= -Math.PI) {
-                orientation = 2*Math.PI + orientation;
-            } else if (orientation > Math.PI) {
-                orientation = (orientation - Math.PI*2);
-            }
-            return orientation;
-        }*/
-
-
     private void startCalculating() {
         double deltaT = 0.1;
         updateThread = new Thread(new Runnable() {
@@ -188,10 +178,12 @@ public class RoboGUI extends JFrame implements IObserver{
                         if (hindernis != null) {
                             robot.setVelocity(0);
                             showCollisionMessage();
+                            break;
                         }
                         if (validator.checkTargetZone(robot)){
                             robot.setVelocity(0);
                             showTargetReachedMessage();
+                            break;
                              }
                     }
                     repaint();
@@ -207,21 +199,11 @@ public class RoboGUI extends JFrame implements IObserver{
         updateThread.start();
     }
 
-    /*public void setRegister(){
-        List<IObserver> register=new ArrayList<>();
-        register.add(robot.getSteuerung());
-        register.add(this);
-        List <BaseSensor> sensoren= robot.getSensors();
-        for(int n=0; n<sensoren.size(); n++){
-            Sensor sensor= (Sensor) sensoren.get(n);
-            sensor.setRegister(register);}
-    }*/
-
     public void setEnv(EnvironmentLoader env){
-        File file3= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung.txt");
-        File file2= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung2.txt");
-        File file1= new File("C:\\Users\\sarah\\Documents\\Hochschule\\3. Semester\\Software Engineering\\Projekt_Gruppe2\\RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung3.txt");
-        this.environment= env.loadFromFile(file2);
+        File file3= new File("RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung.txt");
+        File file2= new File("RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung2.txt");
+        File file1= new File("RoboSimulation\\src\\Main\\thu\\robots\\components\\Umgebung3.txt");
+        this.environment= env.loadFromFile(file1);
         environment.simulateSensorData(robot);
         this.width= environment.getWidth();
         this.hight= environment.getHeight();
@@ -239,10 +221,6 @@ public class RoboGUI extends JFrame implements IObserver{
         return width;
     }
 
-
-   // public List<List<SensorData>> getDatafromSensors() {
-     //   return robot.getAutoSteuerung().getDatafromSensors();
-    //}
 
     private void createUIComponents() {
         pDrawPanel = new JPanel() {
