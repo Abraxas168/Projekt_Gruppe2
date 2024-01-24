@@ -19,14 +19,14 @@ public class Main {
             }
         EnvironmentLoader env = new EnvironmentLoader();
         RobotFactory factory2 = new RobotFactory();
-        IRobot hotWheels = factory2.createRobot();
+        IRobot hotWheels= factory2.createRobot();
         int init_posX=50;
         int init_posY=500;
         int init_orientation=0;
         hotWheels.setInitialPose(init_posX, init_posY,init_orientation);
-        hotWheels.activateAutonomousStearing();
+        hotWheels.activateAutonomousSteering();
         RoboGUI guiFrame = new RoboGUI("RoboGUI");
-        Roboter christine= (Roboter)hotWheels;
+        Robot christine= (Robot)hotWheels;
         christine.addToRegister(guiFrame);
         guiFrame.setVisible(true);
         guiFrame.setRobot(christine);

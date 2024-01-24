@@ -4,12 +4,12 @@ import thu.robots.components.SensorData;
 
 import java.util.List;
 
-public class Steuerung implements IObserver{
+public class Steering implements IObserver{
 
-    public Steuerung(){
+    public Steering(){
 
     }
-    public void steuern(Roboter robo){}
+    public void steer(Robot robo){}
 
     @Override
     public void update(List<SensorData> sd) {

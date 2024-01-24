@@ -26,7 +26,7 @@ public interface IRobot {
     /**
      * Aktiviert das autonome Fahren. Roboter soll danach direkt selbständig losfahren.
      */
-    public void activateAutonomousStearing();
+    public void activateAutonomousSteering();
 
 
     /**

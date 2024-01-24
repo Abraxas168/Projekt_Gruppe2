@@ -2,19 +2,19 @@ package Test;
 
 import org.junit.jupiter.api.Test;
 import thu.robots.components.IRobot;
-import thu.robots.components.Roboter;
+import thu.robots.components.Robot;
 import thu.robots.components.Sensor;
-import thu.robots.components.Steuerung;
+import thu.robots.components.Steering;
 import java.awt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/*class RoboterTest {
+/*class RobotTest {
 
    @Test
     void normalizeOrientation(){
-        Roboter robot = new Roboter(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
+        Robot robot = new Roboter(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
                 new Sensor(Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/5, 30),
-                "TestRoboter", 30, 20, Color.RED, new Steuerung());
+                "TestRobot", 30, 20, Color.RED, new Steering());
 
        double normalizedOrientation1 = robot.normalizeOrientation(3 * Math.PI);
        assertEquals(Math.PI, normalizedOrientation1, 0.001);
@@ -32,9 +32,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
     @Test
     void setRadius() {
-        Roboter robot = new Roboter(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
+        Robot robot = new Robot(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
                 new Sensor(Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/5, 30),
-                "TestRoboter", 0, 0, Color.RED, new Steuerung());
+                "TestRoboter", 0, 0, Color.RED, new Steering());
 
         robot.setRadius(20);
         assertEquals(20, robot.getRadius());
@@ -46,9 +46,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
     @Test
     void move() {
-        Roboter robot = new Roboter(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
+        Robot robot = new Robot(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
                 new Sensor(Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/5, 30),
-                "TestRoboter", 0, 20, Color.RED, new Steuerung());
+                "TestRoboter", 0, 20, Color.RED, new Steering());
         robot.setVelocity(30);
         robot.move(1.0);
 

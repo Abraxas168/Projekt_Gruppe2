@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Roboter implements IRobot {
+public class Robot implements IRobot {
     private final Sensor sensor1;
     private final Sensor sensor2;
     private final Sensor sensor3;
@@ -18,7 +18,7 @@ public class Roboter implements IRobot {
     private double orientation;
     private int velocity;
     private final Color color;
-    private Steuerung steuerung;
+    private Steering steering;
     private double deltaTimeSec;
 
 
@@ -33,9 +33,9 @@ public class Roboter implements IRobot {
      * @param velocity Geschwindigkeit des Roboters in pixel/s
      * @param radius Radius des Roboters in pixel
      * @param color Farbe des Roboters in Color
-     * @param steuerung Steuerung des Roboters der Klasse Steuerung bzw. seiner Unterklasse AutonomeSteuerung
+     * @param steering Steuerung des Roboters der Klasse Steuerung bzw. seiner Unterklasse AutonomeSteuerung
      */
-    public Roboter(Sensor sensor1, Sensor sensor2, Sensor sensor3, Sensor sensor4, String name, int velocity, int radius, Color color, Steuerung steuerung) {
+    public Robot(Sensor sensor1, Sensor sensor2, Sensor sensor3, Sensor sensor4, String name, int velocity, int radius, Color color, Steering steering) {
         this.sensor1 = sensor1;
         this.sensor2 = sensor2;
         this.sensor3 = sensor3;
@@ -44,7 +44,7 @@ public class Roboter implements IRobot {
         this.velocity = velocity;
         this.radius = radius;
         this.color = color;
-        this.steuerung = steuerung;
+        this.steering = steering;
         buildRegister();
 
     }
@@ -69,7 +69,7 @@ public class Roboter implements IRobot {
      */
     public void buildRegister(){
     java.util.List<IObserver> register=new ArrayList<>();
-        register.add(this.steuerung);
+        register.add(this.steering);
     List<BaseSensor> sensoren= getSensors();
         for (BaseSensor baseSensor : sensoren) {
             Sensor sensor = (Sensor) baseSensor;
@@ -99,9 +99,9 @@ public class Roboter implements IRobot {
      * aktiviert die autonome Steuerung des Roboters durch eine neue Instanz der Klasse AutoSteuerung und initiiert das Erstellen eines Registers von Empfänger-Klassen für die Sensordaten
      */
     @Override
-    public void activateAutonomousStearing() {
-        this.steuerung = new AutoSteuerung();
-        addToRegister(this.steuerung);
+    public void activateAutonomousSteering() {
+        this.steering = new AutonomousSteering();
+        addToRegister(this.steering);
     }
 
     /**
@@ -230,9 +230,7 @@ public class Roboter implements IRobot {
      * gibt die aktuelle Steuerung des Roboters zurück
      * @return Steuerung des Roboters
      */
-    public Steuerung getSteuerung() {
-        return steuerung;
-    }
+    public Steering getsteering() { return steering; }
 
     /**
      * gibt die Zeitdifferenz zurück, mit welcher der Roboter in den Forbewegungs-Methoden rechnet
@@ -256,8 +254,8 @@ public class Roboter implements IRobot {
             double y_neu = posY + deltaY;
             posX = (int) x_neu;
             posY = (int) y_neu;
-        if (steuerung instanceof AutoSteuerung) {
-            steuerung.steuern(this);
+        if (steering instanceof AutonomousSteering) {
+            steering.steer(this);
         }
     }
 }

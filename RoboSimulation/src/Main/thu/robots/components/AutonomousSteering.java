@@ -6,29 +6,29 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-public class AutoSteuerung extends Steuerung implements IObserver {
+public class AutonomousSteering extends Steering implements IObserver {
     private List<List<SensorData>> sensorData = new ArrayList<>();
 
-    private int gelesen;
+    private int read;
     private long lastAlignmentTime;
     private static final long ALIGNMENT_INTERVAL = 4000;
-    private int countSensordaten;
+    private int countSensordata;
     private int countZeros;
     private int stuckCountdown;
     private int steps;
     private ReentrantLock targetlock = new ReentrantLock();
 
-    public AutoSteuerung() {
-        this.gelesen = 0;
+    public AutonomousSteering() {
+        this.read = 0;
         this.lastAlignmentTime = System.currentTimeMillis();
-        this.countSensordaten = 0;
+        this.countSensordata = 0;
         this.countZeros = 0;
         this.stuckCountdown = 0;
         this.steps = 0;
     }
 
 
-    public void zielAusrichtung(Roboter robo) {
+    public void goalAlignment(Robot robo) {
         int velocity = robo.getVelocity();
         long currentTime = System.currentTimeMillis();
         if (((velocity == IRobot.MAX_VELOCITY) && ((currentTime - lastAlignmentTime) >= ALIGNMENT_INTERVAL)) && (countZeros >= 80)) {
@@ -39,9 +39,9 @@ public class AutoSteuerung extends Steuerung implements IObserver {
     }
 
     //&&
-    public void sensorDatenAuswerten(Roboter robo) {
-        boolean gelenkt = false;
-        int n = this.gelesen;
+    public void EvaluateSensorData(Robot robo) {
+        boolean steered = false;
+        int n = this.read;
         if ((sensorData != null) && (sensorData.size() > 0)) {
             while (n < sensorData.size()) {
                 List<SensorData> daten = sensorData.get(n);
@@ -56,15 +56,15 @@ public class AutoSteuerung extends Steuerung implements IObserver {
                     double distance = sensorData1.getDistance();
                     double angle = sensorData1.getAngle();
                     double beamwidth = relatedSensor.getBeamWidth();
-                    gelenkt = lenken(relation_toRobo, distance, angle, beamwidth, robo);
+                    steered = steer(relation_toRobo, distance, angle, beamwidth, robo);
 
-                    if ((distance <= ((robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordaten >= 1)) {// && !abbremsvorgang && !beschleunigungsvorgang) {
+                    if ((distance <= ((robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {// && !abbremsvorgang && !beschleunigungsvorgang) {
                         //if (!targetlock.isLocked()) {
 
                         //  targetlock.lock();
                         //  try {
                         int targetVelocity1 = 20;
-                        abbremsen(robo, targetVelocity1);
+                        decelerate(robo, targetVelocity1);
                         //System.out.println("abgebremst auf:  " + robo.getVelocity());
                         // } finally {
                         //     targetlock.unlock();
@@ -72,7 +72,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
                     } //else {
                     // steps = 0;
                     // }
-                    if (gelenkt) {
+                    if (steered) {
                         break;
                     }
                 }
@@ -82,23 +82,23 @@ public class AutoSteuerung extends Steuerung implements IObserver {
                 n = n + 1;
             }
         }
-        this.gelesen = sensorData.size();
+        this.read = sensorData.size();
     }
 
 
-    public boolean reactionDataSize(int size, Roboter robo) {
+    public boolean reactionDataSize(int size, Robot robo) {
         double orientation = robo.getOrientation();
         if (size == 1) {
-            countSensordaten += 1;
+            countSensordata += 1;
             countZeros = 0;
         } else {
-            countSensordaten = 0;
+            countSensordata = 0;
             countZeros += 1;
             if (countZeros >= 4) {
                 if (robo.getVelocity() < 50) {
 
                     int targetVelocity2 = 50;
-                    beschleunigen(robo, targetVelocity2);
+                    accelerate(robo, targetVelocity2);
                     //System.out.println("beschleunigt auf: " + robo.getVelocity());
 
                 }
@@ -106,17 +106,17 @@ public class AutoSteuerung extends Steuerung implements IObserver {
             }
         }
 
-        if (countSensordaten >= 50) {
+        if (countSensordata >= 50) {
             robo.setOrientation(orientation + Math.PI);
             System.out.println("emergency Steuerung");
-            countSensordaten = 0;
+            countSensordata = 0;
             return false;
         }
         return true;
     }
 
 
-    public boolean lenken(double relation_toRobo, double distance, double angle, double beamwidth, Roboter robo) {
+    public boolean steer(double relation_toRobo, double distance, double angle, double beamwidth, Robot robo) {
         double orientation = robo.getOrientation();
         String relationRobot = Double.toString(relation_toRobo);
         int velocity = robo.getVelocity();
@@ -175,7 +175,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
     /**
      * @param robo
      */
-    public void beschleunigen(Roboter robo, int targetVelocity) {
+    public void accelerate(Robot robo, int targetVelocity) {
         int velocity = robo.getVelocity();
         if (velocity < targetVelocity - robo.MAX_ACCELERATE * robo.getDeltaTimeSec() * steps) {
             robo.setVelocity((int) (velocity + robo.MAX_ACCELERATE * robo.getDeltaTimeSec() * steps));
@@ -189,7 +189,7 @@ public class AutoSteuerung extends Steuerung implements IObserver {
     /**
      * @param robo
      */
-    public void abbremsen(Roboter robo, int targetVelocity) {
+    public void decelerate(Robot robo, int targetVelocity) {
         int velocity = robo.getVelocity();
         if (velocity > targetVelocity + robo.MAX_ACCELERATE * robo.getDeltaTimeSec() * steps) {
             robo.setVelocity((int) (velocity - (robo.MAX_ACCELERATE * robo.getDeltaTimeSec() * steps)));
@@ -203,11 +203,11 @@ public class AutoSteuerung extends Steuerung implements IObserver {
 
 
     @Override
-    public void steuern(Roboter robo) {
+    public void steer(Robot robo) {
         steps += 1;
         //System.out.println("Schritte" + steps);
-        zielAusrichtung(robo);
-        sensorDatenAuswerten(robo);
+        goalAlignment(robo);
+        EvaluateSensorData(robo);
 
     }
 
