@@ -86,7 +86,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     }
 
 
-    public boolean reactionDataSize(int size, Roboter robo) {
+    public boolean reactionDataSize(int size, Robot robo) {
         double orientation = robo.getOrientation();
         if (size == 1) {
             countSensordata += 1;
@@ -120,7 +120,6 @@ public class AutonomousSteering extends Steering implements IObserver {
         double orientation = robo.getOrientation();
         String relationRobot = Double.toString(relation_toRobo);
         int velocity = robo.getVelocity();
-        String relationRobot = Double.toString(relation_toRobo);
         System.out.println(distance);
         System.out.println(angle);
         boolean stuck = stuckCountdown(robo, orientation);

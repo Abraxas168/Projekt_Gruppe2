@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Roboter implements IRobot {
+public class Robot implements IRobot {
     private final List<BaseSensor> sensoren;
     private final String name;
     private int radius;
@@ -30,7 +30,7 @@ public class Roboter implements IRobot {
      * @param color     Farbe des Roboters in Color
      * @param steering Steuerung des Roboters der Klasse Steuerung bzw. seiner Unterklasse AutonomeSteuerung
      */
-    public Roboter(List<BaseSensor> sensoren, String name, int velocity, int radius, Color color, Steuerung steuerung) {
+    public Robot(List<BaseSensor> sensoren, String name, int velocity, int radius, Color color, Steering steering) {
         this.sensoren = sensoren;
         this.name = name;
         this.velocity = velocity;
