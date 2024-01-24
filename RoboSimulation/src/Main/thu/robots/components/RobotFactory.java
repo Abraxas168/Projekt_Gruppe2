@@ -20,8 +20,8 @@ public class RobotFactory extends AbstractRobotFactory {
         int init_velocity = 50;
         int init_radius = 10;
         Color color = Color.MAGENTA;
-        Steering steuerung = new Steering();
-        Robot hotWheels = new Roboter(sensoren, name, init_velocity, init_radius, color, steering);
+        Steering steering = new Steering();
+        Robot hotWheels = new Robot(sensoren, name, init_velocity, init_radius, color, steering);
         return hotWheels;
     }
 }
