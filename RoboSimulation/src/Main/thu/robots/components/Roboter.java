@@ -30,7 +30,7 @@ public class Roboter implements IRobot {
      * @param steuerung Steuerung des Roboters der Klasse Steuerung bzw. seiner Unterklasse AutonomeSteuerung
      */
     public Roboter(List<BaseSensor> sensoren, String name, int velocity, int radius, Color color, Steuerung steuerung) {
-        this.sensoren=sensoren;
+        this.sensoren = sensoren;
         this.name = name;
         this.velocity = velocity;
         this.radius = radius;
