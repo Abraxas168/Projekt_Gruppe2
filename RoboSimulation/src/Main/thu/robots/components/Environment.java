@@ -87,7 +87,7 @@ public class Environment {
 
 
 
-    public void simulateSensorData(Roboter r){
+    public void simulateSensorData(Robot r){
         List<BaseSensor> sensors = r.getSensors();
         for(BaseSensor s : sensors){
             LinkedList<SensorData> data = new LinkedList<SensorData>();

@@ -23,7 +23,7 @@ public class RoboGUI extends JFrame implements IObserver {
     private JLabel lRadius;
     private JPanel pDrawPanel;
     private JPanel pInfoPanel;
-    private Roboter robot;
+    private Robot robot;
     private final int velocityIncrement = 10;
     private final double orientationIncrement = 5. / 180. * Math.PI;
     private Thread updateThread;
@@ -132,7 +132,7 @@ public class RoboGUI extends JFrame implements IObserver {
         return true;
     }
 
-    public void setRobot(Roboter robot) {
+    public void setRobot(Robot robot) {
         this.robot = robot;
         startCalculating();
     }
