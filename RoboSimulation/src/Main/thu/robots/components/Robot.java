@@ -20,10 +20,10 @@ public class Robot implements IRobot {
 
 
     /**
-     * Erstellt einen Roboter, der auf einer passenden Benutzeroberfläche mit Hilfe von Sensoren einen Parkour selbstständig überwinden kann.
+     * Erstellt einen Roboter, der auf einer passenden Benutzeroberfläche mithilfe von Sensoren einen Parkour selbstständig überwinden kann.
      * Iniziiert für diesen Roboter die Erstellung eines default-Registers der Komponenten, die Zugriff auf die Sensordaten haben sollen.
      *
-     * @param sensoren Liste an Sensoren, der Klasse BaseSensor. Übermitteln jeweils Umgebungsdaten an regestrierte Komponenten abhängig von seinen Eigenschaften
+     * @param sensoren Liste an Sensoren, der Klasse BaseSensor. Übermitteln jeweils Umgebungsdaten an registrierte Komponenten abhängig von seinen Eigenschaften
      * @param name     Name des Roboters als String
      * @param velocity Geschwindigkeit des Roboters in pixel/s
      * @param radius   Radius des Roboters in pixel
@@ -68,7 +68,7 @@ public class Robot implements IRobot {
     /**
      * Fügt dem Register für Empfänger-Klassen der Sensordaten eine Komponente nachträglich hinzu und übermittelt diese an die Sensoren
      *
-     * @param component vom Typ IObserver, der sich bei den Sensoren für Daten regestrieren soll
+     * @param component vom Typ IObserver, der sich bei den Sensoren für Daten registrieren soll
      */
     public void addToRegister(IObserver component) {
         List<BaseSensor> sensoren = getSensors();
@@ -219,7 +219,7 @@ public class Robot implements IRobot {
     }
 
     /**
-     * gibt die Zeitdifferenz zurück, mit welcher der Roboter in den Forbewegungsmethoden rechnet
+     * gibt die Zeitdifferenz zurück, mit welcher der Roboter in den Fortbewegungsmethoden rechnet
      * @return double Zeitdifferenz, in welcher die Bewegung eines Schrittes berechnet werden soll
      */
     public double getDeltaTimeSec() {

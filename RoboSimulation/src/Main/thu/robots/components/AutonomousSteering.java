@@ -90,11 +90,11 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * Funktion, die auf die Anzahl der eingegangenen Sensordaten reagiert. Sie zählt dafür mit Hilfe von Zählvariablen wie oft
+     * Funktion, die auf die Anzahl der eingegangenen Sensordaten reagiert. Sie zählt dafür mithilfe von Zählvariablen wie oft
      * Sensordaten übermittelt wurden bzw. keine Sensordaten übermittelt wurden und ruft abhängig davon die Funktion
      * accelerate auf oder löst eine Notfallsteuerung aus, wobei sich der Roboter um PI dreht.
      *
-     * @param size int, länge der Liste der seit dem letzten Zeitschritt übermittelten Sensordaten
+     * @param size int, Länge der Liste der seit dem letzten Zeitschritt übermittelten Sensordaten
      * @param robo
      * @return
      */
@@ -238,8 +238,8 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * Funktion die den Roboter abbremst, falls die Geschwindigkeit nicht nach der Beschleunigung die Zielgeschwindigkeit unterschreiten würde.
-     * bremast um 20Pixel/s^2 Pro Zeitdifferenz für Berechnung der Bewegung, pro Zeitschritte, die seit dem letzten Beschleunigungsvorgang vergangen sind.
+     * Funktion, die den Roboter abbremst, falls die Geschwindigkeit nicht nach der Beschleunigung die Zielgeschwindigkeit unterschreiten würde.
+     * bremst um 20Pixel/s^2 Pro Zeitdifferenz für Berechnung der Bewegung, pro Zeitschritte, die seit dem letzten Beschleunigungsvorgang vergangen sind.
      *
      * @param robo           Roboter der Klasse Robot
      * @param targetVelocity int Zielgeschwindigkeit
@@ -271,7 +271,7 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * Koodiniert die Steuerung indem sie weitere Funktionen aufruft und die Durchläufe Zählt
+     * Koodiniert die Steuerung, indem sie weitere Funktionen aufruft und die Durchläufe Zählt
      *
      * @param robo Roboter der Klasse Robot
      */
@@ -289,7 +289,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      * Funktion, die die Sensordaten aktualisiert. Wird von den Sensoren aufgerufen, sobald neue Sensordaten simuliert wurden.
      * Diese Daten werden der List<List<SensorData> angehängt.
      *
-     * @param sd List<SensorData> Liste der Simulierten Sensordaten vom entsprechenden Sensor.
+     * @param sd List<SensorData> Liste der simulierten Sensordaten vom entsprechenden Sensor.
      */
     @Override
     public void update(List<SensorData> sd) {
