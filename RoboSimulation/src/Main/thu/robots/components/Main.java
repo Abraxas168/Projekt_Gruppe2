@@ -20,6 +20,7 @@ public class Main {
         EnvironmentLoader env = new EnvironmentLoader();
         AbstractRobotFactory factory2= new RobotFactory();
         IRobot hotWheels = factory2.createRobot();
+        //Hello
         int init_posX=50;
         int init_posY=450;
         int init_orientation=0;
