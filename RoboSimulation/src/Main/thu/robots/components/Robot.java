@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Robot implements IRobot {
-    private final List<BaseSensor> sensoren;
+    private final List<BaseSensor> sensors;
     private final String name;
     private int radius;
     private int posX;
@@ -31,7 +31,7 @@ public class Robot implements IRobot {
      * @param steering Steuerung des Roboters der Klasse Steering bzw. seiner Unterklasse AutonomousSteering
      */
     public Robot(List<BaseSensor> sensoren, String name, int velocity, int radius, Color color, Steering steering) {
-        this.sensoren = sensoren;
+        this.sensors = sensors;
         this.name = name;
         this.velocity = velocity;
         this.radius = radius;
@@ -48,7 +48,7 @@ public class Robot implements IRobot {
      */
     @Override
     public List<BaseSensor> getSensors() {
-        return sensoren;
+        return sensors;
     }
 
     /**

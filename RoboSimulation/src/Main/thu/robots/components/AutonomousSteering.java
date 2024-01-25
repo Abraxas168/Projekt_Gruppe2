@@ -18,6 +18,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int steps;
     private int targetVelocity;
 
+
     /**
      * Instanziiert eine Autonome Steuerung der Klasse AutonomousSteering mit Default-Werten für ihre Eigenschaften
      */
@@ -89,6 +90,8 @@ public class AutonomousSteering extends Steering implements IObserver {
     }
 
 
+
+    public boolean reactionDataSize(int size, Robot robo) {
     /**
      * Funktion, die auf die Anzahl der eingegangenen Sensordaten reagiert. Sie zählt dafür mithilfe von Zählvariablen wie oft
      * Sensordaten übermittelt wurden bzw. keine Sensordaten übermittelt wurden und ruft abhängig davon die Funktion
@@ -140,7 +143,6 @@ public class AutonomousSteering extends Steering implements IObserver {
     public boolean steer(double relation_toRobo, double distance, double angle, double beamwidth, Robot robo) {
         double orientation = robo.getOrientation();
         int velocity = robo.getVelocity();
-        String relationRobot = Double.toString(relation_toRobo);
         System.out.println(distance);
         System.out.println(angle);
         boolean stuck = stuckCountdown(robo, orientation);
