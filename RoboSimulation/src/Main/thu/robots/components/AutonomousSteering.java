@@ -8,7 +8,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class AutonomousSteering extends Steering implements IObserver {
     private List<List<SensorData>> sensorData = new ArrayList<>();
-
     private int read;
     private long lastAlignmentTime;
     private static final long ALIGNMENT_INTERVAL = 4000;
@@ -54,7 +53,6 @@ public class AutonomousSteering extends Steering implements IObserver {
      *
      * @param robo Roboter der Klasse Robot
      */
-    //&&
     public void EvaluateSensorData(Robot robo) {
         boolean steered = false;
         int n = this.read;
@@ -91,7 +89,7 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
 
-    public boolean reactionDataSize(int size, Robot robo) {
+
     /**
      * Funktion, die auf die Anzahl der eingegangenen Sensordaten reagiert. Sie zählt dafür mithilfe von Zählvariablen wie oft
      * Sensordaten übermittelt wurden bzw. keine Sensordaten übermittelt wurden und ruft abhängig davon die Funktion
@@ -133,16 +131,17 @@ public class AutonomousSteering extends Steering implements IObserver {
      * Erhält ausgelesene Sensor Daten der Klasse SensorData und lenkt den Roboter abhängig von den empfangenen Daten, bis das Hindernis außerhalb
      * seines Sichtfeldes ist.
      *
-     * @param relation_toRobo Orientierung des Sensors relativ zur Orientierung des Roboters
+     * @param relation_Robot Orientierung des Sensors relativ zur Orientierung des Roboters
      * @param distance        Entfernung des Datenpunktes in Pixel vom Roboter
      * @param angle           Orientierung des Datenpunktes relativ zum Sensor, der den Datenpunkt empfangen hat
      * @param beamwidth       Strahlbreite des Sensors, der den Datenpunkt empfangen hab
      * @param robo            Dazugehöriger Roboter Robo
      * @return Boolean, wenn gelenkt wurde, true
      */
-    public boolean steer(double relation_toRobo, double distance, double angle, double beamwidth, Robot robo) {
+    public boolean steer(double relation_Robot, double distance, double angle, double beamwidth, Robot robo) {
         double orientation = robo.getOrientation();
         int velocity = robo.getVelocity();
+        String relationRobot= Double.toString(relation_Robot);
         System.out.println(distance);
         System.out.println(angle);
         boolean stuck = stuckCountdown(robo, orientation);

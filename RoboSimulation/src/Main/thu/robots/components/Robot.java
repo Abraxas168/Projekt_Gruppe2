@@ -30,7 +30,7 @@ public class Robot implements IRobot {
      * @param color    Farbe des Roboters in Color
      * @param steering Steuerung des Roboters der Klasse Steering bzw. seiner Unterklasse AutonomousSteering
      */
-    public Robot(List<BaseSensor> sensoren, String name, int velocity, int radius, Color color, Steering steering) {
+    public Robot(List<BaseSensor> sensors, String name, int velocity, int radius, Color color, Steering steering) {
         this.sensors = sensors;
         this.name = name;
         this.velocity = velocity;
