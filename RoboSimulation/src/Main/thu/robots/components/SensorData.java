@@ -46,7 +46,7 @@ public class SensorData {
 
     /**
      *
-     * @return X-Position der Messung kartesich, relativ zum Sensor
+     * @return X-Position der Messung kartesisch, relativ zum Sensor
      */
     public int getX(){
         return (int)(getDistance()*Math.cos(getAngle()));
@@ -54,7 +54,7 @@ public class SensorData {
 
     /**
      *
-     * @return Y-Position der Messung kartesich, relativ zum Sensor
+     * @return Y-Position der Messung kartesisch, relativ zum Sensor
      */
     public int getY(){
         return (int)(getDistance()*Math.sin(getAngle()));

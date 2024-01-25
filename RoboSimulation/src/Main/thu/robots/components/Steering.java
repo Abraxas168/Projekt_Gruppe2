@@ -24,7 +24,7 @@ public class Steering implements IObserver {
     /**
      * Funktion, die die Sensordaten aktualisiert. Wird von den Sensoren aufgerufen, sobald neue Sensordaten simuliert wurden.
      * Diese Daten werden der List<List<SensorData> angehängt.
-     * @param sd    List<SensorData> Liste der Simulierten Sensordaten vom entsprechenden Sensor.
+     * @param sd    List<SensorData> Liste der simulierten Sensordaten vom entsprechenden Sensor.
      */
     @Override
     public void update(List<SensorData> sd) {

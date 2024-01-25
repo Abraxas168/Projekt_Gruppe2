@@ -21,7 +21,7 @@ public abstract class BaseSensor{
     }
 
     /**
-     * Berechnet die Maximale Reichweite des Sensors
+     * Berechnet die maximale Reichweite des Sensors
      * @return int Reichweite
      */
     public final int getMaxRange() {

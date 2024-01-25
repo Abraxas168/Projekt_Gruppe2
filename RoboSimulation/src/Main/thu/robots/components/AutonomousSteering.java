@@ -19,7 +19,7 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * Instanziiert eine Autonome Steuerung der Klasse AutonomousSteering mit Default-Werten für ihre Eigenschaften
+     * Instanziiert eine autonome Steuerung der Klasse AutonomousSteering mit Default-Werten für ihre Eigenschaften
      */
     public AutonomousSteering() {
         this.read = 0;

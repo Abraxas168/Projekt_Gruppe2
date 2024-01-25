@@ -39,7 +39,7 @@ public class Sensor extends BaseSensor {
     }
 
     /**
-     * Erhält die Messdaten aus der Umgebung und gibt diese an die regestrierten Komponenten, die Sensordaten erhalten sollen weiter.
+     * Erhält die Messdaten aus der Umgebung und gibt diese an die registrierten Komponenten, die Sensordaten erhalten sollen weiter.
      * @param data die empfangenen / simulierten Messdaten aus der Umgebung des Roboters für diesen Sensor
      */
     @Override

@@ -23,7 +23,7 @@ public class Robot implements IRobot {
      * Erstellt einen Roboter, der auf einer passenden Benutzeroberfläche mithilfe von Sensoren einen Parkour selbstständig überwinden kann.
      * Iniziiert für diesen Roboter die Erstellung eines default-Registers der Komponenten, die Zugriff auf die Sensordaten haben sollen.
      *
-     * @param sensoren Liste an Sensoren, der Klasse BaseSensor. Übermitteln jeweils Umgebungsdaten an registrierte Komponenten abhängig von seinen Eigenschaften
+     * @param sensors Liste an Sensoren, der Klasse BaseSensor. Übermitteln jeweils Umgebungsdaten an registrierte Komponenten abhängig von seinen Eigenschaften
      * @param name     Name des Roboters als String
      * @param velocity Geschwindigkeit des Roboters in pixel/s
      * @param radius   Radius des Roboters in pixel
@@ -227,7 +227,7 @@ public class Robot implements IRobot {
     }
 
     /**
-     * bei Aufruf bewegt sich der Roboter einmalig in Abhängigkeit seiner Orientierung und aktuellen Position, sowie Geschwindigkeit, und
+     * bei Aufruf bewegt sich der Roboter einmalig in Abhängigkeit seiner Orientierung und aktuellen Position, sowie Geschwindigkeit und
      * der Zeitdifferenz und initiiert zudem dessen Steuerung, falls die autonome Steuerung aktiviert ist
      * @param deltaTimeSec Zeitdifferenz, in welcher die Bewegung eines Schrittes berechnet werden soll
      */
