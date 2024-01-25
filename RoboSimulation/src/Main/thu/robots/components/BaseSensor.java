@@ -20,6 +20,10 @@ public abstract class BaseSensor{
         this.measurementRate = measurementRate;
     }
 
+    /**
+     * Berechnet die Maximale Reichweite des Sensors
+     * @return int Reichweite
+     */
     public final int getMaxRange() {
         // max range depends on:
         // beam width and measurement rate

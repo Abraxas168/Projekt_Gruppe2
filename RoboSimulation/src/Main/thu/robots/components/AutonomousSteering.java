@@ -77,7 +77,7 @@ public class AutonomousSteering extends Steering implements IObserver {
 
                     }
                     if (steered) {
-                        n=sensorData.size();
+                        n = sensorData.size();
                         break;
                     }
                 }
@@ -106,7 +106,7 @@ public class AutonomousSteering extends Steering implements IObserver {
         } else {
             countSensordata = 0;
             countZeros += 1;
-            System.out.println("gezählteNullen:" +countZeros);
+            System.out.println("gezählteNullen:" + countZeros);
             if (countZeros >= 50) {
                 if (robo.getVelocity() < 50) {
                     int targetVelocity2 = 50;
@@ -125,6 +125,17 @@ public class AutonomousSteering extends Steering implements IObserver {
     }
 
 
+    /**
+     * Erhält ausgelesene Sensor Daten der Klasse SensorData und lenkt den Roboter abhängig von den empfangenen Daten, bis das Hindernis außerhalb
+     * seines Sichtfeldes ist.
+     *
+     * @param relation_toRobo Orientierung des Sensors relativ zur Orientierung des Roboters
+     * @param distance        Entfernung des Datenpunktes in Pixel vom Roboter
+     * @param angle           Orientierung des Datenpunktes relativ zum Sensor, der den Datenpunkt empfangen hat
+     * @param beamwidth       Strahlbreite des Sensors, der den Datenpunkt empfangen hab
+     * @param robo            Dazugehöriger Roboter Robo
+     * @return Boolean, wenn gelenkt wurde, true
+     */
     public boolean steer(double relation_toRobo, double distance, double angle, double beamwidth, Robot robo) {
         double orientation = robo.getOrientation();
         int velocity = robo.getVelocity();
@@ -133,7 +144,7 @@ public class AutonomousSteering extends Steering implements IObserver {
         System.out.println(angle);
         boolean stuck = stuckCountdown(robo, orientation);
         if (stuck) return true;
-            double turnAngle1= (beamwidth / 2.0) - Math.abs(angle)+ 0.15;
+        double turnAngle1 = (beamwidth / 2.0) - Math.abs(angle) + 0.15;
         double orientation1 = robo.getOrientation() + (turnAngle1);
         double orientation2 = robo.getOrientation() - (turnAngle1);
         switch (relationRobot) {
@@ -148,28 +159,28 @@ public class AutonomousSteering extends Steering implements IObserver {
                     robo.setOrientation(orientation1);
                     System.out.println("sensor 0.0 gedreht um:  " + orientation1);
                     return true;
-                }else {
+                } else {
                     return false;
                 }
 
             case "1.0471975511965976":
-                if ((angle >= 0.0) && (distance <= (2* robo.getRadius()))) {
+                if ((angle >= 0.0) && (distance <= (2 * robo.getRadius()))) {
                     robo.setOrientation(orientation2);
                     System.out.println("+ pi/3 gedreht um:  " + orientation2);
                     return true;
-                } else if ((angle < 0.0) && (distance <= (2* robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() - ((beamwidth / 2.0) + Math.abs(angle)+ 0.15));
+                } else if ((angle < 0.0) && (distance <= (2 * robo.getRadius()))) {
+                    robo.setOrientation(robo.getOrientation() - ((beamwidth / 2.0) + Math.abs(angle) + 0.15));
                     System.out.println("+ pi/3 gedreht um:  " + "beamwidth/2 und winkel");
                     return true;
-                }else {
+                } else {
                     return false;
                 }
             case "-1.0471975511965976":
-                if ((angle >= 0.0) && (distance <= (2* robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() + ((beamwidth / 2.0) + Math.abs(angle)+0.15));
+                if ((angle >= 0.0) && (distance <= (2 * robo.getRadius()))) {
+                    robo.setOrientation(robo.getOrientation() + ((beamwidth / 2.0) + Math.abs(angle) + 0.15));
                     System.out.println("- pi/3 gedreht um:  " + "halbe beamwidth und winkel");
                     return true;
-                } else if ((angle < 0.0) && (distance <= (2*robo.getRadius()))) {
+                } else if ((angle < 0.0) && (distance <= (2 * robo.getRadius()))) {
                     robo.setOrientation(orientation1);
                     System.out.println("- pi/3 gedreht um:  " + orientation1);
                     return true;
@@ -182,6 +193,13 @@ public class AutonomousSteering extends Steering implements IObserver {
         }
     }
 
+    /**
+     * Funktion die den Roboter unabhängig von den Sensordaten lenkt, sobald dieser eine bestimmte Zeit lang 20P/s fährt
+     *
+     * @param robo        Roboter der Klasse Robot
+     * @param orientation Orientierung des Roboters als double in Radiant
+     * @return Boolean, true, wenn gelenkt wurde
+     */
     private boolean stuckCountdown(Robot robo, double orientation) {
         int velocity = robo.getVelocity();
         if (velocity == 20) {
@@ -200,7 +218,10 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * @param robo
+     * Funktion die den Roboter beschleunigt, falls die Geschwindigkeit nicht nach der Beschleunigung die Zielgeschwindigkeit überschreiten würde.
+     * Beschleunigt um 10Pixel/s^2 Pro Zeitdifferenz für Berechnung der Bewegung, pro Zeitschritte, die seit dem letzten Abbremsvorgang vergangen sind.
+     * @param robo           Roboter der Klasse Robot
+     * @param targetVelocity int Zielgeschwindigkeit
      */
     public void accelerate(Robot robo, int targetVelocity) {
         int velocity = robo.getVelocity();
@@ -213,14 +234,17 @@ public class AutonomousSteering extends Steering implements IObserver {
         }
     }
 
+
     /**
-     * @param robo
+     * Funktion die den Roboter abbremst, falls die Geschwindigkeit nicht nach der Beschleunigung die Zielgeschwindigkeit unterschreiten würde.
+     * bremast um 20Pixel/s^2 Pro Zeitdifferenz für Berechnung der Bewegung, pro Zeitschritte, die seit dem letzten Beschleunigungsvorgang vergangen sind.
+     * @param robo  Roboter der Klasse Robot
+     * @param targetVelocity int Zielgeschwindigkeit
      */
     public void decelerate(Robot robo, int targetVelocity) {
         int velocity = robo.getVelocity();
         if (velocity > (targetVelocity + (20 * robo.getDeltaTimeSec() * steps))) {
             robo.setVelocity((int) (velocity - (20 * robo.getDeltaTimeSec() * steps)));
-            System.out.println("wirklich abgebremst auf:  " + robo.getVelocity());
             steps = 0;
         } else {
             robo.setVelocity(targetVelocity);
@@ -229,16 +253,24 @@ public class AutonomousSteering extends Steering implements IObserver {
     }
 
 
+    /**
+     * Koodiniert die Steuerung indem sie weitere Funktionen aufruft und die Durchläufe Zählt
+     * @param robo  Roboter der Klasse Robot
+     */
     @Override
     public void steer(Robot robo) {
         steps += 1;
-        //System.out.println("Schritte" + steps);
         goalAlignment(robo);
         EvaluateSensorData(robo);
 
     }
 
 
+    /**
+     * Funktion, die die Sensordaten aktualisiert. Wird von den Sensoren aufgerufen, sobald neue Sensordaten simuliert wurden.
+     * Diese Daten werden der List<List<SensorData> angehängt.
+     * @param sd    List<SensorData> Liste der Simulierten Sensordaten vom entsprechenden Sensor.
+     */
     @Override
     public void update(List<SensorData> sd) {
         this.sensorData.add(sd);
