@@ -1,4 +1,4 @@
-package Test;
+/*package Test;
 
 import org.junit.jupiter.api.Test;
 import thu.robots.components.IRobot;
@@ -6,7 +6,7 @@ import thu.robots.components.Robot;
 import thu.robots.components.Sensor;
 import thu.robots.components.Steering;
 import java.awt.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;*/
 
 /*class RobotTest {
 

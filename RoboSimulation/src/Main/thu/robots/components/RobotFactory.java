@@ -7,6 +7,10 @@ import java.util.List;
 
 public class RobotFactory extends AbstractRobotFactory {
 
+    /**
+     * Instanziiert einen speziellen Roboter (customrobot). Dabei muss dieser auch mit Sensoren ausgestattet werden.
+     * @return der erstellte Roboter
+     */
     @Override
     public IRobot createRobot() {
         Sensor sensor1 = new Sensor(-Math.PI / 3, Math.PI / 3, 50);

@@ -18,7 +18,7 @@ public class Main {
                 e.printStackTrace();
             }
         EnvironmentLoader env = new EnvironmentLoader();
-        RobotFactory factory2 = new RobotFactory();
+        AbstractRobotFactory factory2= new RobotFactory();
         IRobot hotWheels = factory2.createRobot();
         int init_posX=50;
         int init_posY=450;
