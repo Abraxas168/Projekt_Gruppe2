@@ -172,7 +172,7 @@ public class Robot implements IRobot {
 
     /**
      * Legt bei Aufruf einmalig die Geschwindigkeit des Roboters fest
-     * @param velocity int Geschwindigkeit in m/s
+     * @param velocity int Geschwindigkeit in pixel/s
      */
     public void setVelocity(int velocity) {
         if (velocity <= MAX_VELOCITY && velocity >= -MAX_VELOCITY) {
