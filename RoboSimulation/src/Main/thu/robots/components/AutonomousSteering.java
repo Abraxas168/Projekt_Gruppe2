@@ -16,6 +16,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int countZeros;
     private int stuckCountdown;
     private int steps;
+    private int targetVelocity;
 
     /**
      * Instanziiert eine Autonome Steuerung der Klasse AutonomousSteering mit Default-Werten für ihre Eigenschaften
@@ -27,6 +28,7 @@ public class AutonomousSteering extends Steering implements IObserver {
         this.stuckCountdown = 0;
         this.steps = 0;
         this.lastAlignmentTime = System.currentTimeMillis();
+        this.targetVelocity = 50;
     }
 
 
@@ -70,10 +72,9 @@ public class AutonomousSteering extends Steering implements IObserver {
                     double angle = sensorData1.getAngle();
                     steered = steer(relation_toRobo, distance, angle, beamwidth, robo);
                     System.out.println(countSensordata);
-                    if ((distance <= ((robo.getVelocity() / 2) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
-
-                        int targetVelocity1 = 20;
-                        decelerate(robo, targetVelocity1);
+                    if ((distance <= ((robo.getVelocity() ) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
+                        this.targetVelocity = 20;
+                        // decelerate(robo, targetVelocity1);
 
                     }
                     if (steered) {
@@ -107,10 +108,10 @@ public class AutonomousSteering extends Steering implements IObserver {
             countSensordata = 0;
             countZeros += 1;
             System.out.println("gezählteNullen:" + countZeros);
-            if (countZeros >= 50) {
+            if (countZeros >= 100) {
                 if (robo.getVelocity() < 50) {
-                    int targetVelocity2 = 50;
-                    accelerate(robo, targetVelocity2);
+                    this.targetVelocity = 50;
+                    //accelerate(robo, targetVelocity2);
                 }
             }
         }
@@ -220,6 +221,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     /**
      * Funktion die den Roboter beschleunigt, falls die Geschwindigkeit nicht nach der Beschleunigung die Zielgeschwindigkeit überschreiten würde.
      * Beschleunigt um 10Pixel/s^2 Pro Zeitdifferenz für Berechnung der Bewegung, pro Zeitschritte, die seit dem letzten Abbremsvorgang vergangen sind.
+     *
      * @param robo           Roboter der Klasse Robot
      * @param targetVelocity int Zielgeschwindigkeit
      */
@@ -238,7 +240,8 @@ public class AutonomousSteering extends Steering implements IObserver {
     /**
      * Funktion die den Roboter abbremst, falls die Geschwindigkeit nicht nach der Beschleunigung die Zielgeschwindigkeit unterschreiten würde.
      * bremast um 20Pixel/s^2 Pro Zeitdifferenz für Berechnung der Bewegung, pro Zeitschritte, die seit dem letzten Beschleunigungsvorgang vergangen sind.
-     * @param robo  Roboter der Klasse Robot
+     *
+     * @param robo           Roboter der Klasse Robot
      * @param targetVelocity int Zielgeschwindigkeit
      */
     public void decelerate(Robot robo, int targetVelocity) {
@@ -252,14 +255,39 @@ public class AutonomousSteering extends Steering implements IObserver {
         }
     }
 
+    public boolean velocityRegulation(Robot robo, int targetVelocity) {
+        System.out.println(targetVelocity);
+        int velocity = robo.getVelocity();
+        if (velocity < targetVelocity) {
+            if (velocity < (targetVelocity - robo.MAX_ACCELERATE)) {
+                robo.setVelocity( (velocity + (robo.MAX_ACCELERATE)));
+                return true;
+            } else {
+                robo.setVelocity(velocity + targetVelocity);
+            }
+            if (velocity > targetVelocity) {
+            }
+            if (velocity > (targetVelocity + 20)) {
+                robo.setVelocity((velocity - 20));
+                return true;
+            } else {
+                robo.setVelocity(velocity - targetVelocity);
+            }
+
+        }
+        return false;
+    }
+
 
     /**
      * Koodiniert die Steuerung indem sie weitere Funktionen aufruft und die Durchläufe Zählt
-     * @param robo  Roboter der Klasse Robot
+     *
+     * @param robo Roboter der Klasse Robot
      */
     @Override
     public void steer(Robot robo) {
-        steps += 1;
+        //steps += 1;
+        velocityRegulation(robo, targetVelocity);
         goalAlignment(robo);
         EvaluateSensorData(robo);
 
@@ -269,7 +297,8 @@ public class AutonomousSteering extends Steering implements IObserver {
     /**
      * Funktion, die die Sensordaten aktualisiert. Wird von den Sensoren aufgerufen, sobald neue Sensordaten simuliert wurden.
      * Diese Daten werden der List<List<SensorData> angehängt.
-     * @param sd    List<SensorData> Liste der Simulierten Sensordaten vom entsprechenden Sensor.
+     *
+     * @param sd List<SensorData> Liste der Simulierten Sensordaten vom entsprechenden Sensor.
      */
     @Override
     public void update(List<SensorData> sd) {
