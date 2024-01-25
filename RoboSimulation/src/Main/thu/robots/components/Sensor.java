@@ -22,7 +22,7 @@ public class Sensor extends BaseSensor {
 
 
     /**
-     * Legt ein Register von Komponenten an, welche die SensorDaten empfangen sollen.
+     * Ersetzt das aktuelle Register für Komponenten des Typs IObserver, welche Sensordaten empfangen sollen durch ein neues.
      * @param register Liste von Komponenten der Klasse IObserver
      */
     public void setRegister(List<IObserver> register) {
@@ -31,8 +31,8 @@ public class Sensor extends BaseSensor {
 
 
     /**
-     * Fügt dem Register einen weiteren Komponenten der Klasse IObserver hinzu
-     * @param component Komponent für Register der Klasse IObserver
+     * Fügt dem Register einen weiteren Komponenten des Typs IObserver hinzu
+     * @param component Komponent für Register des Typs IObserver
      */
     public void register(IObserver component) {
         register.add(component);

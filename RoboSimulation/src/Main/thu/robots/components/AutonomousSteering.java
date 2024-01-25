@@ -3,32 +3,23 @@ package thu.robots.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 
 public class AutonomousSteering extends Steering implements IObserver {
     private List<List<SensorData>> sensorData = new ArrayList<>();
-    private int read;
-    private long lastAlignmentTime;
+    private int read = 0;
+    private long lastAlignmentTime = System.currentTimeMillis();
     private static final long ALIGNMENT_INTERVAL = 4000;
-    private int countSensordata;
-    private int countZeros;
-    private int stuckCountdown;
-    private int steps;
-    private int targetVelocity;
+    private int countSensordata = 0;
+    private int countZeros = 0;
+    private int stuckCount = 0;
+    private int steps = 0;
+    private int targetVelocity = 50;
 
 
     /**
      * Instanziiert eine autonome Steuerung der Klasse AutonomousSteering mit Default-Werten für ihre Eigenschaften
      */
     public AutonomousSteering() {
-        this.read = 0;
-        this.countSensordata = 0;
-        this.countZeros = 0;
-        this.stuckCountdown = 0;
-        this.steps = 0;
-        this.lastAlignmentTime = System.currentTimeMillis();
-        this.targetVelocity = 50;
     }
 
 
@@ -71,10 +62,8 @@ public class AutonomousSteering extends Steering implements IObserver {
                     double angle = sensorData1.getAngle();
                     steered = navigate(relation_toRobo, distance, angle, beamwidth, robo);
                     System.out.println(countSensordata);
-                    if ((distance <= ((2*(robo.getVelocity())/3) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
+                    if ((distance <= ((2 * (robo.getVelocity()) / 3) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
                         this.targetVelocity = 20;
-                        // decelerate(robo, targetVelocity1);
-
                     }
                     if (steered) {
                         n = sensorData.size();
@@ -86,8 +75,6 @@ public class AutonomousSteering extends Steering implements IObserver {
         }
         this.read = sensorData.size();
     }
-
-
 
 
     /**
@@ -112,7 +99,6 @@ public class AutonomousSteering extends Steering implements IObserver {
             if (countZeros >= 80) {
                 if (robo.getVelocity() < 50) {
                     this.targetVelocity = 50;
-                    //accelerate(robo, targetVelocity2);
                 }
             }
         }
@@ -120,7 +106,6 @@ public class AutonomousSteering extends Steering implements IObserver {
         if (countSensordata >= 400) {
             robo.setOrientation(orientation + Math.PI);
             countSensordata = 0;
-            System.out.println("EmergencySteering");
             return false;
         }
         return true;
@@ -132,20 +117,20 @@ public class AutonomousSteering extends Steering implements IObserver {
      * seines Sichtfeldes ist.
      *
      * @param relation_Robot Orientierung des Sensors relativ zur Orientierung des Roboters
-     * @param distance        Entfernung des Datenpunktes in Pixel vom Roboter
-     * @param angle           Orientierung des Datenpunktes relativ zum Sensor, der den Datenpunkt empfangen hat
-     * @param beamwidth       Strahlbreite des Sensors, der den Datenpunkt empfangen hab
-     * @param robo            Dazugehöriger Roboter Robo
+     * @param distance       Entfernung des Datenpunktes in Pixel vom Roboter
+     * @param angle          Orientierung des Datenpunktes relativ zum Sensor, der den Datenpunkt empfangen hat
+     * @param beamwidth      Strahlbreite des Sensors, der den Datenpunkt empfangen hab
+     * @param robo           Dazugehöriger Roboter Robo
      * @return Boolean, wenn gelenkt wurde, true
      */
     public boolean navigate(double relation_Robot, double distance, double angle, double beamwidth, Robot robo) {
         double orientation = robo.getOrientation();
         int velocity = robo.getVelocity();
-        String relationRobot= Double.toString(relation_Robot);
-        System.out.println(distance);
-        System.out.println(angle);
+        String relationRobot = Double.toString(relation_Robot);
         boolean stuck = stuckCountdown(robo, orientation);
-        if (stuck) return true;
+        if (stuck) {
+            return true;
+        }
         double turnAngle1 = (beamwidth / 2.0) - Math.abs(angle) + 0.15;
         double orientation1 = robo.getOrientation() + (turnAngle1);
         double orientation2 = robo.getOrientation() - (turnAngle1);
@@ -205,13 +190,13 @@ public class AutonomousSteering extends Steering implements IObserver {
     private boolean stuckCountdown(Robot robo, double orientation) {
         int velocity = robo.getVelocity();
         if (velocity == 20) {
-            stuckCountdown += 1;
+            stuckCount += 1;
         } else {
-            stuckCountdown = 0;
+            stuckCount = 0;
         }
-        if (stuckCountdown >= 700) {
+        if (stuckCount >= 700) {
             robo.setOrientation(orientation + Math.PI);
-            stuckCountdown = 0;
+            stuckCount = 0;
             System.out.println("EmergencyStuckOperation");
             return true;
         }
