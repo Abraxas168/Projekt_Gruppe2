@@ -21,9 +21,9 @@ public class Robot implements IRobot {
 
 
     /**
-     * Erstellt einen Roboter, der auf einer passenden Benutzeroberfläche mit hilfe von Sensoren einen Parkour selbstständig überwinden kann
+     * Erstellt einen Roboter, der auf einer passenden Benutzeroberfläche mithilfe von Sensoren einen Parkour selbstständig überwinden kann
      *
-     * @param sensors  Liste an Sensoren, der Klasse Sensor. Übermitteln jeweils Umgebungsdaten an regestrierte Komponenten abhängig von seinen Eigenschaften
+     * @param sensors  Liste an Sensoren, der Klasse Sensor. Übermitteln jeweils Umgebungsdaten an registrierte Komponenten abhängig von seinen Eigenschaften
      * @param name      Name des Roboters als String
      * @param velocity  Geschwindigkeit des Roboters in pixel/s
      * @param radius    Radius des Roboters in pixel
