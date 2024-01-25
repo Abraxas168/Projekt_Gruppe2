@@ -37,7 +37,6 @@ public class Robot implements IRobot {
         this.radius = radius;
         this.color = color;
         this.steering = steering;
-        buildRegister();
 
     }
 
@@ -49,19 +48,6 @@ public class Robot implements IRobot {
     @Override
     public List<BaseSensor> getSensors() {
         return sensors;
-    }
-
-    /**
-     * Erstellt ein default Register von Empfänger-Klassen für die Sensordaten.
-     */
-    public void buildRegister() {
-        java.util.List<IObserver> register = new ArrayList<>();
-        register.add(this.steering);
-        List<BaseSensor> sensoren = getSensors();
-        for (BaseSensor baseSensor : sensoren) {
-            Sensor sensor = (Sensor) baseSensor;
-            sensor.setRegister(register);
-        }
     }
 
 
