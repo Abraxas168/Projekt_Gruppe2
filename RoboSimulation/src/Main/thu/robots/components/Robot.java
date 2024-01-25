@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Robot implements IRobot {
-    private final List<BaseSensor> sensoren;
+    private final List<BaseSensor> sensors;
     private final String name;
     private int radius;
     private int posX;
@@ -23,15 +23,15 @@ public class Robot implements IRobot {
     /**
      * Erstellt einen Roboter, der auf einer passenden Benutzeroberfläche mit hilfe von Sensoren einen Parkour selbstständig überwinden kann
      *
-     * @param sensoren  Liste an Sensoren, der Klasse Sensor. Übermitteln jeweils Umgebungsdaten an regestrierte Komponenten abhängig von seinen Eigenschaften
+     * @param sensors  Liste an Sensoren, der Klasse Sensor. Übermitteln jeweils Umgebungsdaten an regestrierte Komponenten abhängig von seinen Eigenschaften
      * @param name      Name des Roboters als String
      * @param velocity  Geschwindigkeit des Roboters in pixel/s
      * @param radius    Radius des Roboters in pixel
      * @param color     Farbe des Roboters in Color
      * @param steering Steuerung des Roboters der Klasse Steuerung bzw. seiner Unterklasse AutonomeSteuerung
      */
-    public Robot(List<BaseSensor> sensoren, String name, int velocity, int radius, Color color, Steering steering) {
-        this.sensoren = sensoren;
+    public Robot(List<BaseSensor> sensors, String name, int velocity, int radius, Color color, Steering steering) {
+        this.sensors = sensors;
         this.name = name;
         this.velocity = velocity;
         this.radius = radius;
@@ -48,7 +48,7 @@ public class Robot implements IRobot {
      */
     @Override
     public List<BaseSensor> getSensors() {
-        return sensoren;
+        return sensors;
     }
 
     /**

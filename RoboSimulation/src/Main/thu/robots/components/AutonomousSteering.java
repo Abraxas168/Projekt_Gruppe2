@@ -16,7 +16,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int countZeros;
     private int stuckCountdown;
     private int steps;
-    private ReentrantLock targetlock = new ReentrantLock();
+
 
     public AutonomousSteering() {
         this.read = 0;
