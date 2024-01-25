@@ -158,8 +158,20 @@ public class Robot implements IRobot {
         } else if (orientation > Math.PI) {
             orientation = (orientation - Math.PI * 2);
         }
-        return orientation;
-    }
+       /*if(orientation>0 && orientation<=((1/12)*Math.PI)){
+           orientation=orientation+((1/36)*Math.PI);
+       }
+       if(orientation<0 && orientation>=((1/12)*Math.PI)){
+           orientation=orientation-((1/36)*Math.PI);
+       }
+       if (orientation < Math.PI && orientation >= Math.PI - ((1 / 12) * Math.PI)) {
+            orientation = Math.PI - ((1 / 12) * Math.PI) - ((1 / 36) * Math.PI);
+        }
+       if(orientation>-Math.PI && orientation<=-Math.PI+((1 / 12) * Math.PI)){
+           orientation=-Math.PI+((1 / 12) * Math.PI) + ((1 / 36) * Math.PI);
+       }*/
+            return orientation;
+        }
 
     /**
      * Gibt die aktuelle Geschwindigkeit des Roboters als int-Wert zurück
@@ -238,8 +250,8 @@ public class Robot implements IRobot {
         double deltaY = deltaTimeSec * velocity * Math.sin(orientation);
         double x_neu = posX + deltaX;
         double y_neu = posY + deltaY;
-        posX = (int) x_neu;
-        posY = (int) y_neu;
+        posX = (int) Math.round(x_neu);
+        posY = (int) Math.round(y_neu);
         if (steering instanceof AutonomousSteering) {
             steering.steer(this);
         }
