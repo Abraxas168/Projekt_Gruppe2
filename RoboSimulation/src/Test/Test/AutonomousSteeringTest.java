@@ -1,4 +1,4 @@
-/*package Test;
+package Test;
 
 import thu.robots.components.AutonomousSteering;
 import thu.robots.components.Robot;
@@ -8,9 +8,9 @@ import thu.robots.components.Steering;
 import java.awt.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;*/
+import static org.junit.jupiter.api.Assertions.*;
 
-/*public class AutonomousSteeringTest {
+public class AutonomousSteeringTest {
 
     @Test
  public void testStuckEmergencyOperation() {
@@ -40,4 +40,20 @@ import static org.junit.jupiter.api.Assertions.*;*/
     public void testevaluateSensorData() {
 
     }
-}*/
+
+    @Test
+    void goalAlignment() {
+    }
+
+    @Test
+    void evaluateSensorData() {
+    }
+
+    @Test
+    void reactionDataSize() {
+    }
+
+    @Test
+    void velocityRegulation() {
+    }
+}

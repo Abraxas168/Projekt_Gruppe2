@@ -69,9 +69,9 @@ public class AutonomousSteering extends Steering implements IObserver {
                     double beamwidth = relatedSensor.getBeamWidth();
                     double distance = sensorData1.getDistance();
                     double angle = sensorData1.getAngle();
-                    steered = steer(relation_toRobo, distance, angle, beamwidth, robo);
+                    steered = navigate(relation_toRobo, distance, angle, beamwidth, robo);
                     System.out.println(countSensordata);
-                    if ((distance <= ((robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
+                    if ((distance <= ((2*(robo.getVelocity())/3) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
                         this.targetVelocity = 20;
                         // decelerate(robo, targetVelocity1);
 
@@ -109,7 +109,7 @@ public class AutonomousSteering extends Steering implements IObserver {
             countSensordata = 0;
             countZeros += 1;
             System.out.println("gezählteNullen:" + countZeros);
-            if (countZeros >= 100) {
+            if (countZeros >= 80) {
                 if (robo.getVelocity() < 50) {
                     this.targetVelocity = 50;
                     //accelerate(robo, targetVelocity2);
@@ -138,7 +138,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      * @param robo            Dazugehöriger Roboter Robo
      * @return Boolean, wenn gelenkt wurde, true
      */
-    public boolean steer(double relation_Robot, double distance, double angle, double beamwidth, Robot robo) {
+    public boolean navigate(double relation_Robot, double distance, double angle, double beamwidth, Robot robo) {
         double orientation = robo.getOrientation();
         int velocity = robo.getVelocity();
         String relationRobot= Double.toString(relation_Robot);
@@ -219,44 +219,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     }
 
 
-    /**
-     * Funktion die den Roboter beschleunigt, falls die Geschwindigkeit nicht nach der Beschleunigung die Zielgeschwindigkeit überschreiten würde.
-     * Beschleunigt um 10Pixel/s^2 Pro Zeitdifferenz für Berechnung der Bewegung, pro Zeitschritte, die seit dem letzten Abbremsvorgang vergangen sind.
-     *
-     * @param robo           Roboter der Klasse Robot
-     * @param targetVelocity int Zielgeschwindigkeit
-     */
-    public void accelerate(Robot robo, int targetVelocity) {
-        int velocity = robo.getVelocity();
-        if (velocity < targetVelocity - robo.MAX_ACCELERATE * robo.getDeltaTimeSec() * steps) {
-            robo.setVelocity((int) (velocity + robo.MAX_ACCELERATE * robo.getDeltaTimeSec() * steps));
-            steps = 0;
-        } else {
-            robo.setVelocity(targetVelocity);
-            steps = 0;
-        }
-    }
-
-
-    /**
-     * Funktion, die den Roboter abbremst, falls die Geschwindigkeit nicht nach der Beschleunigung die Zielgeschwindigkeit unterschreiten würde.
-     * bremst um 20Pixel/s^2 Pro Zeitdifferenz für Berechnung der Bewegung, pro Zeitschritte, die seit dem letzten Beschleunigungsvorgang vergangen sind.
-     *
-     * @param robo           Roboter der Klasse Robot
-     * @param targetVelocity int Zielgeschwindigkeit
-     */
-    public void decelerate(Robot robo, int targetVelocity) {
-        int velocity = robo.getVelocity();
-        if (velocity > (targetVelocity + (20 * robo.getDeltaTimeSec() * steps))) {
-            robo.setVelocity((int) (velocity - (20 * robo.getDeltaTimeSec() * steps)));
-            steps = 0;
-        } else {
-            robo.setVelocity(targetVelocity);
-            steps = 0;
-        }
-    }
-
-    public boolean velocityRegulation(Robot robo, int targetVelocity) {
+    public boolean velocityRegulation(Robot robo) {
         System.out.println(targetVelocity);
         int velocity = robo.getVelocity();
         if (velocity < targetVelocity) {
@@ -278,8 +241,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      */
     @Override
     public void steer(Robot robo) {
-        //steps += 1;
-        velocityRegulation(robo, targetVelocity);
+        velocityRegulation(robo);
         goalAlignment(robo);
         EvaluateSensorData(robo);
 

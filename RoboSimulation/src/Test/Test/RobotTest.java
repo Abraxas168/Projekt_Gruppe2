@@ -1,4 +1,4 @@
-/*package Test;
+package Test;
 
 import org.junit.jupiter.api.Test;
 import thu.robots.components.IRobot;
@@ -6,13 +6,13 @@ import thu.robots.components.Robot;
 import thu.robots.components.Sensor;
 import thu.robots.components.Steering;
 import java.awt.*;
-import static org.junit.jupiter.api.Assertions.*;*/
+import static org.junit.jupiter.api.Assertions.*;
 
-/*class RobotTest {
+class RobotTest {
 
    @Test
     void normalizeOrientation(){
-        Robot robot = new Roboter(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
+        Robot robot = new Robot(new Sensor(-Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/3, 40),
                 new Sensor(Math.PI/3, Math.PI/3, 40), new Sensor(0, Math.PI/5, 30),
                 "TestRobot", 30, 20, Color.RED, new Steering());
 
@@ -64,4 +64,4 @@ import static org.junit.jupiter.api.Assertions.*;*/
         assertEquals(0, robot.getPosY());
 
     }
-}*/
+}
