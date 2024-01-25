@@ -72,7 +72,7 @@ public class AutonomousSteering extends Steering implements IObserver {
                     double angle = sensorData1.getAngle();
                     steered = steer(relation_toRobo, distance, angle, beamwidth, robo);
                     System.out.println(countSensordata);
-                    if ((distance <= ((robo.getVelocity() ) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
+                    if ((distance <= ((robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
                         this.targetVelocity = 20;
                         // decelerate(robo, targetVelocity1);
 
@@ -259,21 +259,12 @@ public class AutonomousSteering extends Steering implements IObserver {
         System.out.println(targetVelocity);
         int velocity = robo.getVelocity();
         if (velocity < targetVelocity) {
-            if (velocity < (targetVelocity - robo.MAX_ACCELERATE)) {
-                robo.setVelocity( (velocity + (robo.MAX_ACCELERATE)));
-                return true;
-            } else {
-                robo.setVelocity(velocity + targetVelocity);
-            }
-            if (velocity > targetVelocity) {
-            }
-            if (velocity > (targetVelocity + 20)) {
-                robo.setVelocity((velocity - 20));
-                return true;
-            } else {
-                robo.setVelocity(velocity - targetVelocity);
-            }
-
+            robo.setVelocity((velocity + robo.MAX_ACCELERATE));
+            return true;
+        }
+        if (velocity > targetVelocity) {
+            robo.setVelocity((velocity - 20));
+            return true;
         }
         return false;
     }
