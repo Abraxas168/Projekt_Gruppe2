@@ -97,7 +97,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      * @return
      */
     public boolean reactionDataSize(int size, Robot robo) {
-        System.out.println(size);
+        System.out.println("anzahl übergebener daten" + size);
         double orientation = robo.getOrientation();
         if (size >= 1) {
             countSensordata += 1;
@@ -142,18 +142,18 @@ public class AutonomousSteering extends Steering implements IObserver {
         if (stuck) {
             return true;
         }
-        double turnAngle1 = (beamwidth / 2.0) - Math.abs(angle) + 0.05;
+        double turnAngle1 = (beamwidth / 2.0) - Math.abs(angle);
         double orientation1 = robo.getOrientation() + ((Math.ceil(turnAngle1*100))/100);
         double orientation2 = robo.getOrientation() - ((Math.ceil(turnAngle1*100))/100);
         switch (relationRobot) {
             case "0.0":
-                if ((angle >= 0.0) && (distance <= ((velocity / 4.0) + robo.getRadius()))) {
+                if ((angle >= 0.0) && (distance <= (velocity + robo.getRadius()))) {
                     robo.setOrientation(orientation2-0.25);
                     System.out.println(" sensor 0.0 gedreht um:  " + orientation2);
 
                     return true;
 
-                } else if ((angle < 0.0) && (distance <= ((velocity / 4.0) + robo.getRadius()))) {
+                } else if ((angle < 0.0) && (distance <= (velocity + robo.getRadius()))) {
                     robo.setOrientation(orientation1+0.25);
                     System.out.println("sensor 0.0 gedreht um:  " + orientation1);
                     return true;
