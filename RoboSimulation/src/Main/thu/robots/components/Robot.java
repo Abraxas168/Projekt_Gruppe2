@@ -232,8 +232,8 @@ public class Robot implements IRobot {
     @Override
     public void move(double deltaTimeSec) {
         this.deltaTimeSec = deltaTimeSec;
-        double deltaX = deltaTimeSec * velocity * Math.cos(orientation);
-        double deltaY = deltaTimeSec * velocity * Math.sin(orientation);
+        double deltaX = deltaTimeSec * velocity * Math.cos(Math.ceil(orientation*100.0)/100.0);
+        double deltaY = deltaTimeSec * velocity * Math.sin(Math.ceil(orientation*100.0)/100.0);
         double x_neu = posX + deltaX;
         double y_neu = posY + deltaY;
         posX = (int) Math.round(x_neu);

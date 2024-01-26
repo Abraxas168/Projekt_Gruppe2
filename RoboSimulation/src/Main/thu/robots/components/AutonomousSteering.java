@@ -143,8 +143,8 @@ public class AutonomousSteering extends Steering implements IObserver {
             return true;
         }
         double turnAngle1 = (beamwidth / 2.0) - Math.abs(angle) + 0.05;
-        double orientation1 = robo.getOrientation() + (turnAngle1);
-        double orientation2 = robo.getOrientation() - (turnAngle1);
+        double orientation1 = robo.getOrientation() + ((Math.ceil(turnAngle1*100))/100);
+        double orientation2 = robo.getOrientation() - ((Math.ceil(turnAngle1*100))/100);
         switch (relationRobot) {
             case "0.0":
                 if ((angle >= 0.0) && (distance <= ((velocity / 4.0) + robo.getRadius()))) {
@@ -167,7 +167,7 @@ public class AutonomousSteering extends Steering implements IObserver {
                     System.out.println("+ pi/3 gedreht um:  " + orientation2);
                     return true;
                 } else if ((angle < 0.0) && (distance <= (2 * robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() - ((beamwidth / 2.0) + Math.abs(angle) + 0.05));
+                    robo.setOrientation(robo.getOrientation() - (Math.ceil(((beamwidth / 2.0) + Math.abs(angle) + 0.05)*100)/100));
                     System.out.println("+ pi/3 gedreht um:  " + "beamwidth/2 und winkel");
                     return true;
                 } else {
@@ -175,7 +175,7 @@ public class AutonomousSteering extends Steering implements IObserver {
                 }
             case "-1.0471975511965976":
                 if ((angle >= 0.0) && (distance <= (2 * robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() + ((beamwidth / 2.0) + Math.abs(angle) + 0.05));
+                    robo.setOrientation(robo.getOrientation() + (Math.ceil(((beamwidth / 2.0) + Math.abs(angle) + 0.05)*100)/100));
                     System.out.println("- pi/3 gedreht um:  " + "halbe beamwidth und winkel");
                     return true;
                 } else if ((angle < 0.0) && (distance <= (2 * robo.getRadius()))) {
