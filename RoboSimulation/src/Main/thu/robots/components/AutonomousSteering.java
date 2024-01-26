@@ -14,6 +14,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int stuckCount = 0;
     private int steps = 0;
     private int targetVelocity = 50;
+    private int freieFahrt=0;
 
 
     /**
@@ -62,8 +63,17 @@ public class AutonomousSteering extends Steering implements IObserver {
                     double angle = sensorData1.getAngle();
                     steered = navigate(relation_toRobo, distance, angle, beamwidth, robo);
                     System.out.println(countSensordata);
-                    if ((distance <= ((2 * (robo.getVelocity()) / 3) + robo.getRadius())) && (robo.getVelocity() > 20 && countSensordata >= 1)) {
+                    System.out.println("sensor:  " + relation_toRobo);
+                    if ((distance <= ((5*robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && (Double.toString(relation_toRobo).equals("0.0"))) {
                         this.targetVelocity = 20;
+                        System.out.println("gebremst bei winkel null");
+                        freieFahrt=0;
+                    }else if((distance <= (((robo.getVelocity())/3) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && !(Double.toString(relation_toRobo).equals("0.0"))){
+                        this.targetVelocity=20;
+                        System.out.println("gebremst bei winkel nicht null");
+                    }
+                    if ((distance>((robo.getVelocity()/3) + robo.getRadius())) || !(Double.toString(relation_toRobo).equals("0.0"))){
+                        freieFahrt+=1;
                     }
                     if (steered) {
                         n = sensorData.size();
@@ -96,7 +106,8 @@ public class AutonomousSteering extends Steering implements IObserver {
             countSensordata = 0;
             countZeros += 1;
             System.out.println("gezählteNullen:" + countZeros);
-            if (countZeros >= 80) {
+            System.out.println("freieFahrt:  " + freieFahrt);
+            if (freieFahrt >= 25 || countZeros>=60) {
                 if (robo.getVelocity() < 50) {
                     this.targetVelocity = 50;
                 }
@@ -131,19 +142,19 @@ public class AutonomousSteering extends Steering implements IObserver {
         if (stuck) {
             return true;
         }
-        double turnAngle1 = (beamwidth / 2.0) - Math.abs(angle) + 0.15;
+        double turnAngle1 = (beamwidth / 2.0) - Math.abs(angle) + 0.05;
         double orientation1 = robo.getOrientation() + (turnAngle1);
         double orientation2 = robo.getOrientation() - (turnAngle1);
         switch (relationRobot) {
             case "0.0":
                 if ((angle >= 0.0) && (distance <= ((velocity / 4.0) + robo.getRadius()))) {
-                    robo.setOrientation(orientation2);
+                    robo.setOrientation(orientation2-0.25);
                     System.out.println(" sensor 0.0 gedreht um:  " + orientation2);
 
                     return true;
 
                 } else if ((angle < 0.0) && (distance <= ((velocity / 4.0) + robo.getRadius()))) {
-                    robo.setOrientation(orientation1);
+                    robo.setOrientation(orientation1+0.25);
                     System.out.println("sensor 0.0 gedreht um:  " + orientation1);
                     return true;
                 } else {
@@ -156,7 +167,7 @@ public class AutonomousSteering extends Steering implements IObserver {
                     System.out.println("+ pi/3 gedreht um:  " + orientation2);
                     return true;
                 } else if ((angle < 0.0) && (distance <= (2 * robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() - ((beamwidth / 2.0) + Math.abs(angle) + 0.15));
+                    robo.setOrientation(robo.getOrientation() - ((beamwidth / 2.0) + Math.abs(angle) + 0.05));
                     System.out.println("+ pi/3 gedreht um:  " + "beamwidth/2 und winkel");
                     return true;
                 } else {
@@ -164,7 +175,7 @@ public class AutonomousSteering extends Steering implements IObserver {
                 }
             case "-1.0471975511965976":
                 if ((angle >= 0.0) && (distance <= (2 * robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() + ((beamwidth / 2.0) + Math.abs(angle) + 0.15));
+                    robo.setOrientation(robo.getOrientation() + ((beamwidth / 2.0) + Math.abs(angle) + 0.05));
                     System.out.println("- pi/3 gedreht um:  " + "halbe beamwidth und winkel");
                     return true;
                 } else if ((angle < 0.0) && (distance <= (2 * robo.getRadius()))) {
