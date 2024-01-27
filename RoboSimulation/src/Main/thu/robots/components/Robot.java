@@ -212,7 +212,7 @@ public class Robot implements IRobot {
      * Gibt die aktuelle Steuerung des Roboters zurück
      * @return Steering, Steuerung des Roboters
      */
-    public Steering getsteering() {
+    public Steering getSteering() {
         return steering;
     }
 
