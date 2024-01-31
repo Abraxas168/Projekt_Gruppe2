@@ -13,7 +13,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int countZeros = 0;
     private int stuckCount = 0;
     public int targetVelocity = 50;
-    private int freieFahrt=0;
+    private int greenLight=0;
 
 
     /**
@@ -66,13 +66,13 @@ public class AutonomousSteering extends Steering implements IObserver {
                     if ((distance <= ((5*robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && (Double.toString(relation_toRobo).equals("0.0"))) {
                         this.targetVelocity = 20;
                         System.out.println("gebremst bei winkel null");
-                        freieFahrt=0;
+                        greenLight=0;
                     }else if((distance <= (((robo.getVelocity())/3) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && !(Double.toString(relation_toRobo).equals("0.0"))){
                         this.targetVelocity=20;
                         System.out.println("gebremst bei winkel nicht null");
                     }
                     if ((distance>((robo.getVelocity()/3) + robo.getRadius())) || !(Double.toString(relation_toRobo).equals("0.0"))){
-                        freieFahrt+=1;
+                        greenLight+=1;
                     }
                     if (steered) {
                         n = sensorData.size();
@@ -105,8 +105,8 @@ public class AutonomousSteering extends Steering implements IObserver {
             countSensordata = 0;
             countZeros += 1;
             System.out.println("gezählteNullen:" + countZeros);
-            System.out.println("freieFahrt:  " + freieFahrt);
-            if (freieFahrt >= 25 || countZeros>=60) {
+            System.out.println("freieFahrt:  " + greenLight);
+            if (greenLight >= 25 || countZeros>=60) {
                 if (robo.getVelocity() < 50) {
                     this.targetVelocity = 50;
                 }
