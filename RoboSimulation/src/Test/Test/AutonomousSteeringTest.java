@@ -38,8 +38,6 @@ public class AutonomousSteeringTest {
         Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
         robot.setOrientation(Math.PI / 4);
 
-        AutonomousSteering autoSteering = (AutonomousSteering) robot.getSteering();
-        autoSteering.goalAlignment(robot);
         assertEquals(0.0, robot.getOrientation(), 0.001);
     }
 
@@ -53,5 +51,29 @@ public class AutonomousSteeringTest {
 
     @Test
     void velocityRegulation() {
+        Sensor sensor1 = new Sensor(-Math.PI / 3, Math.PI / 3, 50);
+        Sensor sensor2 = new Sensor(0, Math.PI / 3, 50);
+        Sensor sensor3 = new Sensor(Math.PI / 3, Math.PI / 3, 50);
+        List<BaseSensor> sensors = new ArrayList<>();
+
+        Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
+
+
+        AutonomousSteering autoSteering = new AutonomousSteering();
+
+        boolean velocityChanged = autoSteering.velocityRegulation(robot);
+        autoSteering.targetVelocity= 40;
+
+        assertTrue(velocityChanged);
+        assertEquals(40, robot.getVelocity());
+
+        autoSteering.targetVelocity= 40;
+
+        velocityChanged = autoSteering.velocityRegulation(robot);
+
+        assertFalse(velocityChanged);
+        assertEquals(40, robot.getVelocity());
+
+
     }
 }
