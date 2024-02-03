@@ -52,7 +52,7 @@ public class Robot implements IRobot {
 
 
     /**
-     * Fügt dem Register für Empfänger-Klassen der Sensordaten eine Komponente nachträglich hinzu und übermittelt diese an die Sensoren
+     * Fügt dem Register für Empfänger-Klassen der Sensordaten eine Komponente nachträglich hinzu und übermittelt diese an alle Sensoren
      *
      * @param component vom Typ IObserver, der sich bei den Sensoren für Daten registrieren soll
      */
@@ -140,22 +140,10 @@ public class Robot implements IRobot {
      */
     public double normalizeOrientation(double orientation) {
         if (orientation <= -Math.PI) {
-            orientation = (orientation + Math.PI * 2);
+            orientation = (orientation + Math.PI * 2.0);
         } else if (orientation > Math.PI) {
-            orientation = (orientation - Math.PI * 2);
+            orientation = (orientation - Math.PI * 2.0);
         }
-       /*if(orientation>0 && orientation<=((1/12)*Math.PI)){
-           orientation=orientation+((1/36)*Math.PI);
-       }
-       if(orientation<0 && orientation>=((1/12)*Math.PI)){
-           orientation=orientation-((1/36)*Math.PI);
-       }
-       if (orientation < Math.PI && orientation >= Math.PI - ((1 / 12) * Math.PI)) {
-            orientation = Math.PI - ((1 / 12) * Math.PI) - ((1 / 36) * Math.PI);
-        }
-       if(orientation>-Math.PI && orientation<=-Math.PI+((1 / 12) * Math.PI)){
-           orientation=-Math.PI+((1 / 12) * Math.PI) + ((1 / 36) * Math.PI);
-       }*/
             return orientation;
         }
 

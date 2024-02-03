@@ -207,7 +207,6 @@ public class RoboGUI extends JFrame implements IObserver {
         File file4 = new File("RoboSimulation/src/Main/thu/robots/components/Umgebung4.txt");
         File file5 = new File("RoboSimulation/src/Main/thu/robots/components/Umgebung5.txt");
         this.environment = env.loadFromFile(file5);
-        environment.simulateSensorData(robot);
         this.width = environment.getWidth();
         this.hight = environment.getHeight();
         this.objects = environment.getObjects();
@@ -244,7 +243,7 @@ public class RoboGUI extends JFrame implements IObserver {
 
                 String statusStr = "X: " + posX + "\n";
                 statusStr += "Y: " + posY + "\n";
-                statusStr += "Orientierung: " + (orientation * 180 / Math.PI) + "°\n";
+                statusStr += "Orientierung: " + (orientation * 180.0 / Math.PI) + "°\n";
                 statusStr += "Geschwindigkeit: " + velocity + " Pixel/s\n";
 
 

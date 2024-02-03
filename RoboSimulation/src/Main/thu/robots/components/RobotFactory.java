@@ -21,7 +21,7 @@ public class RobotFactory extends AbstractRobotFactory {
         sensoren.add(sensor2);
         sensoren.add(sensor3);
         String name = "christine";
-        int init_velocity = 50;
+        int init_velocity = 30;
         int init_radius = 10;
         Color color = Color.MAGENTA;
         Steering steering = new Steering();

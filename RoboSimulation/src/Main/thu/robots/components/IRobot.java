@@ -7,9 +7,14 @@ import java.util.List;
 public interface IRobot {
 
     /**
-     * Maximale Beschleunigung / Abbremsen in pixel/s^2
+     * Maximale Beschleunigung in pixel/s^2
      */
     public static final int MAX_ACCELERATE = 10;
+
+    /**
+     * Maximale Verzögerung (Abbremsen) in pixel/s^2
+     */
+    public static final int MAX_DECCELERATE = 20;
 
     /**
      * Maximale Geschwindigkeit in pixel/s

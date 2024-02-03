@@ -3,6 +3,9 @@ package thu.robots.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.ceil;
+import static thu.robots.components.IRobot.MAX_VELOCITY;
+
 
 public class AutonomousSteering extends Steering implements IObserver {
     private List<List<SensorData>> sensorData = new ArrayList<>();
@@ -12,9 +15,8 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int countSensordata = 0;
     private int countZeros = 0;
     private int stuckCount = 0;
-    private int steps = 0;
     private int targetVelocity = 50;
-    private int freieFahrt=0;
+    private int freieFahrt = 0;
 
 
     /**
@@ -33,26 +35,31 @@ public class AutonomousSteering extends Steering implements IObserver {
     public void goalAlignment(Robot robo) {
         int velocity = robo.getVelocity();
         long currentTime = System.currentTimeMillis();
-        if (((velocity == IRobot.MAX_VELOCITY) && ((currentTime - lastAlignmentTime) >= ALIGNMENT_INTERVAL)) && (countZeros >= 80)) {
+        if (((velocity == MAX_VELOCITY) && ((currentTime - lastAlignmentTime) >= ALIGNMENT_INTERVAL)) && (countZeros >= 80)) {
             robo.setOrientation(0.0);
             lastAlignmentTime = currentTime;
         }
     }
 
     /**
-     * Liest die gesammelten Sensordaten der Liste sensordata aus und ruft, abhängig von diesen Daten, weitere Funktionen
-     * der Klasse Steering oder Robot auf.
+     * Liest die jeweiligen Listenlängen der Sensordaten und ruft mit dieser Länge die Funktion reactionDataSize() auf.
+     * Liest die gesammelten Sensordaten der Liste Sensordata aus und ruft, mit diesen Daten die Funktion navigate() auf
+     * und setzt abhängig von der Eigenschaft distance  und der jeweiligen Orientierung des zugehörigen Sensors ,
+     * der aktuellen Sensordate die Zielgeschwindigkeit (targetVelocity) auf 20p/s.
+     * Dabei, wird auch gezählt, wie oft der Sensor mit der Orientierung 0.0 nicht betroffen ist und speichert diese Anzahl in der globalen
+     * freieFahrt Variable. Diese wird zurück gesetzt, sobald der 0.0- orientierte Sensor Daten sendet).
+     * Wertet die Wahrheitswerte der einzelnen Funktionen aus und bricht mit der Analyse der Sensordaten ab sobald gesteuert wurde.
      *
      * @param robo Roboter der Klasse Robot
      */
     public void EvaluateSensorData(Robot robo) {
-        boolean steered = false;
+        boolean steered;
         int n = this.read;
         if ((sensorData != null) && (sensorData.size() > 0)) {
             while (n < sensorData.size()) {
                 List<SensorData> data = sensorData.get(n);
-                boolean count = reactionDataSize(data.size(), robo);
-                if (!count) {
+                boolean reacted = reactionDataSize(data.size(), robo);
+                if (reacted) {
                     break;
                 }
                 for (SensorData sensorData1 : data) {
@@ -62,18 +69,14 @@ public class AutonomousSteering extends Steering implements IObserver {
                     double distance = sensorData1.getDistance();
                     double angle = sensorData1.getAngle();
                     steered = navigate(relation_toRobo, distance, angle, beamwidth, robo);
-                    System.out.println(countSensordata);
-                    System.out.println("sensor:  " + relation_toRobo);
-                    if ((distance <= ((5*robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && (Double.toString(relation_toRobo).equals("0.0"))) {
+                    if ((distance <= ((5 * robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && (Double.toString(relation_toRobo).equals("0.0"))) {
                         this.targetVelocity = 20;
-                        System.out.println("gebremst bei winkel null");
-                        freieFahrt=0;
-                    }else if((distance <= (((robo.getVelocity())/3) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && !(Double.toString(relation_toRobo).equals("0.0"))){
-                        this.targetVelocity=20;
-                        System.out.println("gebremst bei winkel nicht null");
+                        freieFahrt = 0;
+                    } else if ((distance <= (((robo.getVelocity()) / 3.0) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && !(Double.toString(relation_toRobo).equals("0.0"))) {
+                        this.targetVelocity = 20;
                     }
-                    if ((distance>((robo.getVelocity()/3) + robo.getRadius())) || !(Double.toString(relation_toRobo).equals("0.0"))){
-                        freieFahrt+=1;
+                    if ((distance > ((robo.getVelocity() / 3.0) + robo.getRadius())) || !(Double.toString(relation_toRobo).equals("0.0"))) {
+                        freieFahrt += 1;
                     }
                     if (steered) {
                         n = sensorData.size();
@@ -83,21 +86,21 @@ public class AutonomousSteering extends Steering implements IObserver {
                 n = n + 1;
             }
         }
-        this.read = sensorData.size();
+        if (sensorData != null) {
+            this.read = sensorData.size();
+        }
     }
 
 
     /**
-     * Funktion, die auf die Anzahl der eingegangenen Sensordaten reagiert. Sie zählt dafür mithilfe von Zählvariablen wie oft
-     * Sensordaten übermittelt wurden bzw. keine Sensordaten übermittelt wurden und ruft abhängig davon die Funktion
-     * accelerate auf oder löst eine Notfallsteuerung aus, wobei sich der Roboter um PI dreht.
+     * Funktion, die auf die Anzahl der eingegangenen Sensordaten reagiert und belegt abhängig von dieser Anzahl die Variable
+     * targetVelocity mit dem Zielwert 50 oder löst eine Notfallsteuerung aus.
      *
      * @param size int, Länge der Liste der seit dem letzten Zeitschritt übermittelten Sensordaten
-     * @param robo
-     * @return
+     * @param robo der Klasse Robot
+     * @return gibt einen Wahrheitswert zurück. True falls mit der Notfallsteuerung reagiert wurde.
      */
     public boolean reactionDataSize(int size, Robot robo) {
-        System.out.println("anzahl übergebener daten" + size);
         double orientation = robo.getOrientation();
         if (size >= 1) {
             countSensordata += 1;
@@ -105,27 +108,25 @@ public class AutonomousSteering extends Steering implements IObserver {
         } else {
             countSensordata = 0;
             countZeros += 1;
-            System.out.println("gezählteNullen:" + countZeros);
-            System.out.println("freieFahrt:  " + freieFahrt);
-            if (freieFahrt >= 25 || countZeros>=60) {
-                if (robo.getVelocity() < 50) {
-                    this.targetVelocity = 50;
+            if (freieFahrt >= 25 || countZeros >= 60) {
+                if (robo.getVelocity() < MAX_VELOCITY) {
+                    this.targetVelocity = MAX_VELOCITY;
                 }
             }
         }
 
-        if (countSensordata >= 400) {
+        if (countSensordata >= 200) {
             robo.setOrientation(orientation + Math.PI);
             countSensordata = 0;
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
 
     /**
-     * Erhält ausgelesene Sensor Daten der Klasse SensorData und lenkt den Roboter abhängig von den empfangenen Daten, bis das Hindernis außerhalb
-     * seines Sichtfeldes ist.
+     * Erhält jeweils ausgelesene Sensordate der Klasse SensorData und lenkt den Roboter abhängig von den empfangenen Daten,
+     * mindestens bis das Hindernis außerhalb des Sichtfeldes des betroffenen Sensors ist.
      *
      * @param relation_Robot Orientierung des Sensors relativ zur Orientierung des Roboters
      * @param distance       Entfernung des Datenpunktes in Pixel vom Roboter
@@ -142,57 +143,59 @@ public class AutonomousSteering extends Steering implements IObserver {
         if (stuck) {
             return true;
         }
-        double turnAngle1 = (beamwidth / 2.0) - Math.abs(angle);
-        double orientation1 = robo.getOrientation() + ((Math.ceil(turnAngle1*100))/100);
-        double orientation2 = robo.getOrientation() - ((Math.ceil(turnAngle1*100))/100);
+        double turnAngle1 = ((ceil(((beamwidth / 2.0) - Math.abs(angle)) * 10.0)) / 10.0);
+        double turnAngle2 = ceil(((beamwidth / 2.0) + Math.abs(angle) + 0.05) * 10.0) / 10.0;
+        double orientation1 = robo.getOrientation() + turnAngle1;
+        double orientation2 = robo.getOrientation() - turnAngle1;
+
         switch (relationRobot) {
-            case "0.0":
-                if ((angle >= 0.0) && (distance <= (velocity + robo.getRadius()))) {
-                    robo.setOrientation(orientation2-0.25);
-                    System.out.println(" sensor 0.0 gedreht um:  " + orientation2);
-
+            case "0.0" -> {
+                if ((angle >= 0.0) && (distance <= (5 + robo.getRadius()))) {
+                    robo.setOrientation(orientation - Math.PI / 2);
                     return true;
-
+                } else if ((angle >= 0.0) && (distance <= (velocity + robo.getRadius()))) {
+                    robo.setOrientation(orientation2 - 0.25);
+                    return true;
+                } else if ((angle < 0.0) && (distance <= (5 + robo.getRadius()))) {
+                    robo.setOrientation(orientation + Math.PI / 2);
+                    return true;
                 } else if ((angle < 0.0) && (distance <= (velocity + robo.getRadius()))) {
-                    robo.setOrientation(orientation1+0.25);
-                    System.out.println("sensor 0.0 gedreht um:  " + orientation1);
+                    robo.setOrientation(orientation1 + 0.25);
                     return true;
                 } else {
                     return false;
                 }
-
-            case "1.0471975511965976":
+            }
+            case "1.0471975511965976" -> {
                 if ((angle >= 0.0) && (distance <= (2 * robo.getRadius()))) {
                     robo.setOrientation(orientation2);
-                    System.out.println("+ pi/3 gedreht um:  " + orientation2);
                     return true;
                 } else if ((angle < 0.0) && (distance <= (2 * robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() - (Math.ceil(((beamwidth / 2.0) + Math.abs(angle) + 0.05)*100)/100));
-                    System.out.println("+ pi/3 gedreht um:  " + "beamwidth/2 und winkel");
+                    robo.setOrientation(robo.getOrientation() - turnAngle2);
                     return true;
                 } else {
                     return false;
                 }
-            case "-1.0471975511965976":
+            }
+            case "-1.0471975511965976" -> {
                 if ((angle >= 0.0) && (distance <= (2 * robo.getRadius()))) {
-                    robo.setOrientation(robo.getOrientation() + (Math.ceil(((beamwidth / 2.0) + Math.abs(angle) + 0.05)*100)/100));
-                    System.out.println("- pi/3 gedreht um:  " + "halbe beamwidth und winkel");
+                    robo.setOrientation(robo.getOrientation() + turnAngle2);
                     return true;
                 } else if ((angle < 0.0) && (distance <= (2 * robo.getRadius()))) {
                     robo.setOrientation(orientation1);
-                    System.out.println("- pi/3 gedreht um:  " + orientation1);
                     return true;
                 } else {
                     return false;
                 }
-                //break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + relationRobot);
+            }
+            //break;
+            default -> throw new IllegalStateException("Unexpected value: " + relationRobot);
         }
     }
 
     /**
-     * Funktion die den Roboter unabhängig von den Sensordaten lenkt, sobald dieser eine bestimmte Zeit lang 20P/s fährt
+     * Funktion die den Roboter unabhängig von den Sensordaten lenkt, sobald dieser eine bestimmte Zeit lang die Minimale Zielgeschwindigkeit von
+     * 20P/s unterschreitet.
      *
      * @param robo        Roboter der Klasse Robot
      * @param orientation Orientierung des Roboters als double in Radiant
@@ -200,7 +203,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      */
     private boolean stuckCountdown(Robot robo, double orientation) {
         int velocity = robo.getVelocity();
-        if (velocity == 20) {
+        if (velocity <= 20) {
             stuckCount += 1;
         } else {
             stuckCount = 0;
@@ -208,22 +211,6 @@ public class AutonomousSteering extends Steering implements IObserver {
         if (stuckCount >= 700) {
             robo.setOrientation(orientation + Math.PI);
             stuckCount = 0;
-            System.out.println("EmergencyStuckOperation");
-            return true;
-        }
-        return false;
-    }
-
-
-    public boolean velocityRegulation(Robot robo) {
-        System.out.println(targetVelocity);
-        int velocity = robo.getVelocity();
-        if (velocity < targetVelocity) {
-            robo.setVelocity((velocity + robo.MAX_ACCELERATE));
-            return true;
-        }
-        if (velocity > targetVelocity) {
-            robo.setVelocity((velocity - 20));
             return true;
         }
         return false;
@@ -231,7 +218,29 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * Koodiniert die Steuerung, indem sie weitere Funktionen aufruft und die Durchläufe Zählt
+     * Reguliert die Geschwindigkeit durch beschleunigen oder abbremsen um den jeweils höchtens zulässigen Beschleunigungswert
+     * (lt. Projektbeschreibung Punkt 11 und 12), je nach aktuellem Zielwert der Geschwindigkeit (targetVelocity), wobei höchstens eine
+     * Maximalgeschwindigkeit von 50 Pixel/s und eine Mindestgeschwindigkeit von 10 Pixel/s erreicht werden kann.
+     *
+     * @param robo der Klasse Robot
+     * @return gibt einen Wahrheitswert zurück. True falls beschleunigt oder abbgebremst wurde.
+     */
+    public boolean velocityRegulation(Robot robo) {
+        int velocity = robo.getVelocity();
+        if (velocity < targetVelocity) {
+            robo.setVelocity((velocity + robo.MAX_ACCELERATE));
+            return true;
+        }
+        if (velocity > targetVelocity) {
+            robo.setVelocity((velocity - robo.MAX_DECCELERATE));
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Koodiniert die Steuerung, durch den Aufruf der einzelnen Steuerungsfunktionen
      *
      * @param robo Roboter der Klasse Robot
      */
