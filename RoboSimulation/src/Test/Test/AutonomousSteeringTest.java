@@ -123,7 +123,13 @@ public class AutonomousSteeringTest {
 
     @Test
     void stuckCountdown() {
-        
+        robot.setVelocity(20);
+        autosteering.stuckCountdown(robot);
+        assertEquals(1, autosteering.getStuckCount());
+        autosteering.setStuckCount(700);
+        autosteering.stuckCountdown(robot);
+        assertEquals(Math.PI, robot.getOrientation());
+        assertEquals(0,autosteering.getStuckCount());
     }
 
     @Test

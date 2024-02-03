@@ -157,7 +157,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      * Funktion, die auf die Anzahl der eingegangenen Sensordaten reagiert und belegt abhängig von dieser Anzahl die Variable
      * targetVelocity mit dem Zielwert 50 oder löst eine Notfallsteuerung aus.
      *
-     * @param size int, Länge der Liste der seit dem letzten Zeitschritt übermittelten Sensordaten
+     * @param size int, Länge der Liste der aktuell übergebenen Liste von Sensordaten
      * @param robo der Klasse Robot
      * @return gibt einen Wahrheitswert zurück. True falls mit der Notfallsteuerung reagiert wurde.
      */
@@ -200,8 +200,7 @@ public class AutonomousSteering extends Steering implements IObserver {
         double orientation = robo.getOrientation();
         int velocity = robo.getVelocity();
         String relationRobot = Double.toString(relation_Robot);
-        boolean stuck = stuckCountdown(robo, orientation);
-        if (stuck) {
+        if (stuckCountdown(robo)) {
             return true;
         }
         double turnAngle1 = ((ceil(((beamwidth / 2.0) - Math.abs(angle)) * 10.0)) / 10.0);
@@ -258,10 +257,9 @@ public class AutonomousSteering extends Steering implements IObserver {
      * 20P/s unterschreitet.
      *
      * @param robo        Roboter der Klasse Robot
-     * @param orientation Orientierung des Roboters als double in Radiant
      * @return Boolean, true, wenn gelenkt wurde
      */
-    private boolean stuckCountdown(Robot robo, double orientation) {
+    public boolean stuckCountdown(Robot robo) {
         int velocity = robo.getVelocity();
         if (velocity <= 20) {
             stuckCount += 1;
@@ -269,7 +267,7 @@ public class AutonomousSteering extends Steering implements IObserver {
             stuckCount = 0;
         }
         if (stuckCount >= 700) {
-            robo.setOrientation(orientation + Math.PI);
+            robo.setOrientation(robo.getOrientation() + Math.PI);
             stuckCount = 0;
             return true;
         }
