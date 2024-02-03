@@ -188,7 +188,6 @@ public class AutonomousSteering extends Steering implements IObserver {
                     return false;
                 }
             }
-            //break;
             default -> throw new IllegalStateException("Unexpected value: " + relationRobot);
         }
     }
