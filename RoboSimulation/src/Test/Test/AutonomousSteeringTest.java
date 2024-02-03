@@ -108,14 +108,15 @@ public class AutonomousSteeringTest {
 
         autosteering.setGreenLight(25);
         autosteering.reactionDataSize(60, robot);
-        assertEquals(60, autosteering.getCountSensordata());
+        assertEquals(0, autosteering.getCountSensordata());
+        assertEquals(10, robot.getVelocity());
         assertEquals(0, autosteering.getCountZeros());
         assertEquals(robot.MAX_VELOCITY, autosteering.getTargetVelocity());
         autosteering.setGreenLight(0);
         autosteering.setCountZeros(60);
         assertEquals(robot.MAX_VELOCITY, autosteering.getTargetVelocity());
 
-        assertTrue(autosteering.reactionDataSize(140, robot));
+        assertTrue(autosteering.reactionDataSize(200, robot));
         assertEquals(Math.PI, robot.getOrientation());
         assertEquals(0, autosteering.getCountSensordata());
 

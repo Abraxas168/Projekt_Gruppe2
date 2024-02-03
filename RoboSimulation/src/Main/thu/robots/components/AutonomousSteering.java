@@ -176,8 +176,11 @@ public class AutonomousSteering extends Steering implements IObserver {
             }
         }
 
-        if (countSensordata >= 200) {
+        if (countSensordata >= 50) {
+            robo.setVelocity(10);
+             if (countSensordata>=200){
             robo.setOrientation(orientation + Math.PI);
+             }
             countSensordata = 0;
             return true;
         }
@@ -284,7 +287,6 @@ public class AutonomousSteering extends Steering implements IObserver {
      * @return gibt einen Wahrheitswert zurück. True falls beschleunigt oder abbgebremst wurde.
      */
     public boolean velocityRegulation(Robot robo) {
-        System.out.println(targetVelocity);
         int velocity = robo.getVelocity();
         if (velocity < targetVelocity) {
             robo.setVelocity((velocity + robo.MAX_ACCELERATE));
