@@ -25,6 +25,69 @@ public class AutonomousSteering extends Steering implements IObserver {
     public AutonomousSteering() {
     }
 
+    public List<List<SensorData>> getSensorData() {
+        return sensorData;
+    }
+
+    public int getRead() {
+        return read;
+    }
+
+    public long getLastAlignmentTime() {
+        return lastAlignmentTime;
+    }
+
+    public int getCountSensordata() {
+        return countSensordata;
+    }
+
+    public int getCountZeros() {
+        return countZeros;
+    }
+
+    public int getStuckCount() {
+        return stuckCount;
+    }
+
+    public int getTargetVelocity() {
+        return targetVelocity;
+    }
+
+    public int getGreenLight() {
+        return greenLight;
+    }
+
+    public void setSensorData(List<List<SensorData>> sensorData) {
+        this.sensorData = sensorData;
+    }
+
+    public void setRead(int read) {
+        this.read = read;
+    }
+
+    public void setLastAlignmentTime(long lastAlignmentTime) {
+        this.lastAlignmentTime = lastAlignmentTime;
+    }
+
+    public void setCountSensordata(int countSensordata) {
+        this.countSensordata = countSensordata;
+    }
+
+    public void setCountZeros(int countZeros) {
+        this.countZeros = countZeros;
+    }
+
+    public void setStuckCount(int stuckCount) {
+        this.stuckCount = stuckCount;
+    }
+
+    public void setTargetVelocity(int targetVelocity) {
+        this.targetVelocity = targetVelocity;
+    }
+
+    public void setGreenLight(int greenLight) {
+        this.greenLight = greenLight;
+    }
 
     /**
      * Richtet die Orientierung des Roboters, nach einer Zeitspanne von 4sec und abhängig von der Anzahl seiner Sensordaten sowie seiner Geschwindigkeit,
@@ -44,15 +107,13 @@ public class AutonomousSteering extends Steering implements IObserver {
     /**
      * Liest die jeweiligen Listenlängen der Sensordaten und ruft mit dieser Länge die Funktion reactionDataSize() auf.
      * Liest die gesammelten Sensordaten der Liste Sensordata aus und ruft, mit diesen Daten die Funktion navigate() auf
-     * und setzt abhängig von der Eigenschaft distance  und der jeweiligen Orientierung des zugehörigen Sensors ,
-     * der aktuellen Sensordate die Zielgeschwindigkeit (targetVelocity) auf 20p/s.
-     * Dabei, wird auch gezählt, wie oft der Sensor mit der Orientierung 0.0 nicht betroffen ist und speichert diese Anzahl in der globalen
-     * freieFahrt Variable. Diese wird zurück gesetzt, sobald der 0.0- orientierte Sensor Daten sendet).
+     * und ändert die Zielgeschwindigkeit (targetVelocity) abhängig von den Sensordaten auf 20p/s.
+     * Zählt wie oft der Sensor mit der Orientierung 0.0 (nicht) betroffen ist und passt die Variable greenLight entsprechend an.
      * Wertet die Wahrheitswerte der einzelnen Funktionen aus und bricht mit der Analyse der Sensordaten ab sobald gesteuert wurde.
      *
      * @param robo Roboter der Klasse Robot
      */
-    public void EvaluateSensorData(Robot robo) {
+        public void evaluateSensorData(Robot robo) {
         boolean steered;
         int n = this.read;
         if ((sensorData != null) && (sensorData.size() > 0)) {
@@ -103,7 +164,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     public boolean reactionDataSize(int size, Robot robo) {
         double orientation = robo.getOrientation();
         if (size >= 1) {
-            countSensordata += 1;
+            countSensordata += size;
             countZeros = 0;
         } else {
             countSensordata = 0;
@@ -248,7 +309,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     public void steer(Robot robo) {
         velocityRegulation(robo);
         goalAlignment(robo);
-        EvaluateSensorData(robo);
+        evaluateSensorData(robo);
 
     }
 
