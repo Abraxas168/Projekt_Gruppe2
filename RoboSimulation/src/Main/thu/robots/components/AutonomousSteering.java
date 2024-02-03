@@ -15,8 +15,8 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int countSensordata = 0;
     private int countZeros = 0;
     private int stuckCount = 0;
-    private int targetVelocity = 50;
-    private int freieFahrt = 0;
+    public int targetVelocity = 50;
+    private int greenLight=0;
 
 
     /**
@@ -71,12 +71,12 @@ public class AutonomousSteering extends Steering implements IObserver {
                     steered = navigate(relation_toRobo, distance, angle, beamwidth, robo);
                     if ((distance <= ((5 * robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && (Double.toString(relation_toRobo).equals("0.0"))) {
                         this.targetVelocity = 20;
-                        freieFahrt = 0;
+                        greenLight = 0;
                     } else if ((distance <= (((robo.getVelocity()) / 3.0) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && !(Double.toString(relation_toRobo).equals("0.0"))) {
                         this.targetVelocity = 20;
                     }
                     if ((distance > ((robo.getVelocity() / 3.0) + robo.getRadius())) || !(Double.toString(relation_toRobo).equals("0.0"))) {
-                        freieFahrt += 1;
+                        greenLight += 1;
                     }
                     if (steered) {
                         n = sensorData.size();
@@ -108,7 +108,7 @@ public class AutonomousSteering extends Steering implements IObserver {
         } else {
             countSensordata = 0;
             countZeros += 1;
-            if (freieFahrt >= 25 || countZeros >= 60) {
+            if (greenLight >= 25 || countZeros >= 60) {
                 if (robo.getVelocity() < MAX_VELOCITY) {
                     this.targetVelocity = MAX_VELOCITY;
                 }
@@ -226,6 +226,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      * @return gibt einen Wahrheitswert zurück. True falls beschleunigt oder abbgebremst wurde.
      */
     public boolean velocityRegulation(Robot robo) {
+        System.out.println(targetVelocity);
         int velocity = robo.getVelocity();
         if (velocity < targetVelocity) {
             robo.setVelocity((velocity + robo.MAX_ACCELERATE));

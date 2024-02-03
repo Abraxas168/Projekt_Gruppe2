@@ -158,7 +158,7 @@ public class Robot implements IRobot {
 
     /**
      * Legt bei Aufruf einmalig die Geschwindigkeit des Roboters fest
-     * @param velocity int Geschwindigkeit in m/s
+     * @param velocity int Geschwindigkeit in pixel/s
      */
     public void setVelocity(int velocity) {
         if (velocity <= MAX_VELOCITY && velocity >= -MAX_VELOCITY) {
@@ -200,7 +200,7 @@ public class Robot implements IRobot {
      * Gibt die aktuelle Steuerung des Roboters zurück
      * @return Steering, Steuerung des Roboters
      */
-    public Steering getsteering() {
+    public Steering getSteering() {
         return steering;
     }
 
