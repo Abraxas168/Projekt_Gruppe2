@@ -15,7 +15,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int countSensordata = 0;
     private int countZeros = 0;
     private int stuckCount = 0;
-    public int targetVelocity = 50;
+    private int targetVelocity = 50;
     private int greenLight=0;
 
 
