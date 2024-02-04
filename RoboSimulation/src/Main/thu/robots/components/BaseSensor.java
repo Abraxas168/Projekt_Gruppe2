@@ -1,9 +1,9 @@
-package RoboPack;
+package thu.robots.components;
 
 import java.util.List;
 
 
-public abstract class BaseSensor {
+public abstract class BaseSensor{
     protected double orientationToRobot;
     protected int measurementRate;
     protected double beamWidth;
@@ -20,6 +20,10 @@ public abstract class BaseSensor {
         this.measurementRate = measurementRate;
     }
 
+    /**
+     * Berechnet die maximale Reichweite des Sensors
+     * @return int Reichweite
+     */
     public final int getMaxRange() {
         // max range depends on:
         // beam width and measurement rate

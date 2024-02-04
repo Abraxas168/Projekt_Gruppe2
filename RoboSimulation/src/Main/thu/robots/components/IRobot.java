@@ -1,14 +1,20 @@
-package RoboPack;
+package thu.robots.components;
 
-import java.awt.*;
+import thu.robots.components.BaseSensor;
+
 import java.util.List;
 
 public interface IRobot {
 
     /**
-     * Maximale Beschleunigung / Abbremsen in pixel/s^2
+     * Maximale Beschleunigung in pixel/s^2
      */
     public static final int MAX_ACCELERATE = 10;
+
+    /**
+     * Maximale Verzögerung (Abbremsen) in pixel/s^2
+     */
+    public static final int MAX_DECCELERATE = 20;
 
     /**
      * Maximale Geschwindigkeit in pixel/s
@@ -25,13 +31,8 @@ public interface IRobot {
     /**
      * Aktiviert das autonome Fahren. Roboter soll danach direkt selbständig losfahren.
      */
-    public void activateAutonomousStearing();
+    public void activateAutonomousSteering();
 
-    /**
-     *  gibt ein Bild zurück, das zur Darstellung des Sensors verwendet werden kann.
-      * @return Ein Bild oder null (dann wird kein Bild angezeigt)
-     */
-    public Image getImage();
 
     /**
      * Legt die initiale Position und Orientierung fest
@@ -48,7 +49,7 @@ public interface IRobot {
     public String getName();
 
     /**
-     * Liefert die X-Position zurück (wird weitergeleitet/delegiert an Stearing)
+     * Liefert die X-Position zurück (wird weitergeleitet/delegiert an Steering)
      * @return
      */
     public int getPosX();
@@ -75,7 +76,9 @@ public interface IRobot {
      * Liefert die Breite des Roboters zurück
      * @return
      */
-    public int getRadius();
+    public int getRadius(
+
+    );
 
 
     /**
