@@ -49,7 +49,7 @@ public interface IRobot {
     public String getName();
 
     /**
-     * Liefert die X-Position zurück (wird weitergeleitet/delegiert an Stearing)
+     * Liefert die X-Position zurück (wird weitergeleitet/delegiert an Steering)
      * @return
      */
     public int getPosX();

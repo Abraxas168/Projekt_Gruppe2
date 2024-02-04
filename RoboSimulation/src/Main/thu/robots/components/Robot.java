@@ -75,7 +75,7 @@ public class Robot implements IRobot {
     }
 
     /**
-     * Legt bei Aufruf einmalig die x und y-Position des Roboters mit gewünschten int- Werten in Pixel, sowie dessen Orientierung mit double-Werten in Radiant fest
+     * Legt bei Aufruf einmalig die x und y-Position des Roboters mit gewünschten int-Werten in Pixel, sowie dessen Orientierung mit double-Werten in Radiant fest
      * @param posX        int Position des Roboters in x-Richtung
      * @param posY        int Position des Roboters in y-Richtung
      * @param orientation double Orientierung in Radiant

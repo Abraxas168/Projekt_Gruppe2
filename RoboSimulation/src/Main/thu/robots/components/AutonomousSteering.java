@@ -299,9 +299,8 @@ public class AutonomousSteering extends Steering implements IObserver {
 
     /**
      * Funktion, die die Sensordaten aktualisiert. Wird von den Sensoren aufgerufen, sobald neue Sensordaten simuliert wurden.
-     * Diese Daten werden der List<List<SensorData> angehängt.
-     *
-     * @param sd List<SensorData> Liste der simulierten Sensordaten vom entsprechenden Sensor.
+     * Diese Daten werden der List&ltList&ltSensorData&gt&gt angehängt.
+     * @param sd List &ltSensorData&gt Liste der simulierten Sensordaten vom entsprechenden Sensor.
      */
     @Override
     public void update(List<SensorData> sd) {
