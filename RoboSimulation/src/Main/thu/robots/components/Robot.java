@@ -220,12 +220,23 @@ public class Robot implements IRobot {
     @Override
     public void move(double deltaTimeSec) {
         this.deltaTimeSec = deltaTimeSec;
-        double deltaX = deltaTimeSec * velocity * Math.cos(Math.ceil(orientation*100.0)/100.0);
-        double deltaY = deltaTimeSec * velocity * Math.sin(Math.ceil(orientation*100.0)/100.0);
-        double x_neu = posX + deltaX;
-        double y_neu = posY + deltaY;
-        posX = (int) Math.round(x_neu);
-        posY = (int) Math.round(y_neu);
+        if(orientation<0){
+            double deltaX = deltaTimeSec * velocity * Math.cos(Math.floor(orientation * 100.0) / 100.0);
+            double deltaY = deltaTimeSec * velocity * Math.sin(Math.floor(orientation * 100.0) / 100.0);
+            double x_neu = posX + Math.round(deltaX);
+            double y_neu = posY + Math.round(deltaY);
+
+            posX = (int) (x_neu);
+            posY = (int) (y_neu);
+        }else {
+            double deltaX = deltaTimeSec * velocity * Math.cos(Math.ceil(orientation * 100.0) / 100.0);
+            double deltaY = deltaTimeSec * velocity * Math.sin(Math.ceil(orientation * 100.0) / 100.0);
+        double x_neu = posX + Math.round(deltaX);
+        double y_neu = posY + Math.round(deltaY);
+
+        posX = (int) (x_neu);
+        posY = (int) (y_neu);
+        }
         if (steering instanceof AutonomousSteering) {
             steering.steer(this);
         }
