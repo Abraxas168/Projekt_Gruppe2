@@ -7,6 +7,9 @@ import static java.lang.Math.ceil;
 import static thu.robots.components.IRobot.MAX_VELOCITY;
 
 
+/**
+ * Autonome Steuerung welche durch die Regulierung der Geschwindigkeit des Roboters und durch dessen Lenkung diesen selbstständig um Hindernisse herum fahren lässt
+ */
 public class AutonomousSteering extends Steering implements IObserver {
     private List<List<SensorData>> sensorData = new ArrayList<>();
     private int read = 0;
@@ -299,9 +302,9 @@ public class AutonomousSteering extends Steering implements IObserver {
 
     /**
      * Funktion, die die Sensordaten aktualisiert. Wird von den Sensoren aufgerufen, sobald neue Sensordaten simuliert wurden.
-     * Diese Daten werden der List<List<SensorData> angehängt.
+     * Diese Daten werden der Liste von Listen an Sensordaten angehängt.
      *
-     * @param sd List<SensorData> Liste der simulierten Sensordaten vom entsprechenden Sensor.
+     * @param sd  Liste der simulierten Sensordaten vom entsprechenden Sensor.
      */
     @Override
     public void update(List<SensorData> sd) {

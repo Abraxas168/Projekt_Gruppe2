@@ -5,6 +5,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasse die mit der Funktion createRobot einen Roboter erstellt, der das Interface IRobot implementiert
+ */
 public class RobotFactory extends AbstractRobotFactory {
 
     /**
