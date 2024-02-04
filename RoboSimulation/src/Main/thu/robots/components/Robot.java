@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Ein Roboter mit speziellen Eigenschaften wie Sensoren und einer Steuerung, der in einer passenden Benutzeroberfläche beweget werden, oder im autonomen Modus selbstständig Hindernisse umfahren kann.
+ */
 public class Robot implements IRobot {
     private final List<BaseSensor> sensors;
     private final String name;
@@ -43,7 +46,7 @@ public class Robot implements IRobot {
     /**
      * Gibt eine Liste aller Sensoren des Typs BaseSensor zurück
      *
-     * @return List<BaseSensor> der Sensoren
+     * @return   Liste der Sensoren
      */
     @Override
     public List<BaseSensor> getSensors() {
