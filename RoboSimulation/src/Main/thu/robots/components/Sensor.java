@@ -4,6 +4,9 @@ package thu.robots.components;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Unterklasse der Klasse BaseSensor. Sensor mit speziellen Eigenschaften.
+ */
 public class Sensor extends BaseSensor {
 
     private List<IObserver> register;

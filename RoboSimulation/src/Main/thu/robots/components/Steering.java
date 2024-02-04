@@ -4,6 +4,9 @@ import thu.robots.components.SensorData;
 
 import java.util.List;
 
+/**
+ * Oberklasse der Steuerung
+ */
 public class Steering implements IObserver {
 
     /**
