@@ -68,7 +68,7 @@ public class AutonomousSteeringTest {
             //Abweichung durch Runden in Funktion höchstens um 0.2 also ca 11 grad. diese Rundung wird benötigt damit sehr kleine
             //lenkbewegungen auch berücksichtigt werden.
 
-            assertTrue(autosteering.navigate(0.0, 14.0, -(testAngle), Math.PI / 3, robot));
+            assertTrue(autosteering.navigate(0.0, 17.0, -(testAngle), Math.PI / 3, robot));
             assertEquals(Math.PI / 2, robot.getOrientation(), 0.15);
 
             assertTrue(((AutonomousSteering) robot.getSteering()).navigate(0.0, 39, -(testAngle), Math.PI / 3, robot));
@@ -82,7 +82,7 @@ public class AutonomousSteeringTest {
             assertTrue(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 19.0, -(testAngle), Math.PI / 3, robot));
             assertEquals(actualOrientation + gegenwinkel, robot.getOrientation(), 0.2);
 
-            assertTrue(((AutonomousSteering) robot.getSteering()).navigate(0.0, 14.0, (testAngle), Math.PI / 3, robot));
+            assertTrue(((AutonomousSteering) robot.getSteering()).navigate(0.0, 17.0, (testAngle), Math.PI / 3, robot));
             assertEquals(actualOrientation + gegenwinkel - Math.PI / 2, robot.getOrientation(), 0.2);
 
             assertTrue(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 19.0, (testAngle), Math.PI / 3, robot));
