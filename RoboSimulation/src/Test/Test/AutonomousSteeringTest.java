@@ -5,6 +5,7 @@ import thu.robots.components.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -35,15 +36,25 @@ public class AutonomousSteeringTest {
 
     @Test
     public void goalAlignment() {
-       /* Sensor sensor1 = new Sensor(-Math.PI / 3, Math.PI / 3, 50);
-        Sensor sensor2 = new Sensor(0, Math.PI / 3, 50);
-        Sensor sensor3 = new Sensor(Math.PI / 3, Math.PI / 3, 50);
-        List<BaseSensor> sensors = new ArrayList<>();
+        for (int velocity : Arrays.asList(IRobot.MAX_VELOCITY, IRobot.MAX_VELOCITY - 1)) {
+            for (long timeDifference : Arrays.asList(4000, 4000 - 1)) {
+                for (int zeroCount : Arrays.asList(80, 79)) {
+                    for (double initialOrientation : Arrays.asList(Math.PI / 4, Math.PI / 2)) {
+                        robot.setVelocity(velocity);
+                        autosteering.setLastAlignmentTime(System.currentTimeMillis() - timeDifference);
+                        autosteering.setCountZeros(zeroCount);
+                        robot.setOrientation(initialOrientation);
 
-        Robot robot = new Robot(sensors, "Testrobot", 30, 10, Color.RED, new Steering());*/
-        robot.setOrientation(Math.PI / 4);
-
-        assertEquals(0.0, robot.getOrientation(), 0.001);
+                        autosteering.goalAlignment(robot);
+                        if (velocity == IRobot.MAX_VELOCITY && timeDifference >= 4000 && zeroCount >= 80) {
+                            assertEquals(0.0, robot.getOrientation());
+                        } else {
+                            assertEquals(initialOrientation, robot.getOrientation());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Test
@@ -135,29 +146,19 @@ public class AutonomousSteeringTest {
 
     @Test
     public void velocityRegulation() {
-       /* Sensor sensor1 = new Sensor(-Math.PI / 3, Math.PI / 3, 50);
-        Sensor sensor2 = new Sensor(0, Math.PI / 3, 50);
-        Sensor sensor3 = new Sensor(Math.PI / 3, Math.PI / 3, 50);
-        List<BaseSensor> sensors = new ArrayList<>();
-
-        Robot robot = new Robot(sensors, "Testrobot", 30, 10, Color.RED, new Steering());*/
-
-
-        AutonomousSteering autoSteering = new AutonomousSteering();
-
-        boolean velocityChanged = autoSteering.velocityRegulation(robot);
-        autoSteering.targetVelocity = 40;
-
-        assertTrue(velocityChanged);
-        assertEquals(40, robot.getVelocity());
-
-        autoSteering.targetVelocity = 40;
-
-        velocityChanged = autoSteering.velocityRegulation(robot);
-
-        assertFalse(velocityChanged);
-        assertEquals(40, robot.getVelocity());
-
-
+        Random random = new Random();
+        for (int i = 0; i < 3; i++) {
+            int randomVelocity = random.nextInt(5) * 10;
+            robot.setVelocity(randomVelocity);
+            boolean velocityChanged = false;
+            for (int j = 0; j < 6; j++) {
+                velocityChanged = autosteering.velocityRegulation(robot) || velocityChanged;
+            }
+            if (velocityChanged) {
+                assertEquals(robot.MAX_VELOCITY, robot.getVelocity());
+            } else {
+                assertEquals(randomVelocity, robot.getVelocity());
+            }
+        }
     }
 }
