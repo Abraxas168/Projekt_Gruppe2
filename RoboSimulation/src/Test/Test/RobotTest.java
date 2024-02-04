@@ -3,7 +3,6 @@ package Test;
 import org.junit.jupiter.api.Test;
 import thu.robots.components.BaseSensor;
 import thu.robots.components.Robot;
-import thu.robots.components.Sensor;
 import thu.robots.components.Steering;
 
 import java.awt.*;
@@ -13,6 +12,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class RobotTest {
 
    @Test
@@ -24,7 +24,6 @@ class RobotTest {
        for (int i = 0; i < 3; i++) {
            double randomOrientation = 2 * Math.PI * (random.nextDouble() - 0.5);
            double normalizedOrientation = robot.normalizeOrientation(randomOrientation);
-
            assertEquals(randomOrientation, normalizedOrientation);
        }
     }
@@ -35,7 +34,7 @@ class RobotTest {
         Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
-            int randomRadius = random.nextInt(100);
+            int randomRadius = random.nextInt(101);
             robot.setRadius(randomRadius);
             assertEquals(randomRadius, robot.getRadius());
         }
@@ -66,6 +65,7 @@ class RobotTest {
     void setVelocity(){
         List<BaseSensor> sensors = new ArrayList<>();
         Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
+
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
             int randomVelocity = random.nextInt(50);
@@ -77,18 +77,20 @@ class RobotTest {
     void move() {
         List<BaseSensor> sensors = new ArrayList<>();
         Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
-        robot.move(1.0);
 
-        assertEquals(30, robot.getPosX());
-        assertEquals(0, robot.getPosY());
-
-        robot.move(0.5);
-        assertEquals(45, robot.getPosX());
-        assertEquals(0, robot.getPosY());
-
-        robot.move(0.0);
-        assertEquals(45, robot.getPosX());
-        assertEquals(0, robot.getPosY());
-
+        Random random = new Random();
+        for (int i = 0; i < 3; i++) {
+            double initialPosX = robot.getPosX();
+            double initialPosY = robot.getPosY();
+            double initialVelocity = robot.getVelocity();
+            double randomDeltaTimeSec = random.nextDouble();
+            robot.move(randomDeltaTimeSec);
+            double expectedPosX = initialPosX + randomDeltaTimeSec * initialVelocity * Math.cos(Math.ceil(robot.getOrientation() * 100.0) / 100.0);
+            double expectedPosY = initialPosY + randomDeltaTimeSec * initialVelocity * Math.sin(Math.ceil(robot.getOrientation() * 100.0) / 100.0);
+            int newPosX = (int) Math.round(expectedPosX);
+            int newPosY = (int) Math.round(expectedPosY);
+            assertEquals(newPosX, robot.getPosX());
+            assertEquals(newPosY, robot.getPosY());
+        }
     }
 }
