@@ -16,25 +16,13 @@ public class AutonomousSteering extends Steering implements IObserver {
     private int countZeros = 0;
     private int stuckCount = 0;
     private int targetVelocity = 50;
-    private int greenLight=0;
+    private int greenLight = 0;
 
 
     /**
      * Instanziiert eine autonome Steuerung der Klasse AutonomousSteering mit Default-Werten für ihre Eigenschaften
      */
     public AutonomousSteering() {
-    }
-
-    public List<List<SensorData>> getSensorData() {
-        return sensorData;
-    }
-
-    public int getRead() {
-        return read;
-    }
-
-    public long getLastAlignmentTime() {
-        return lastAlignmentTime;
     }
 
     public int getCountSensordata() {
@@ -53,24 +41,8 @@ public class AutonomousSteering extends Steering implements IObserver {
         return targetVelocity;
     }
 
-    public int getGreenLight() {
-        return greenLight;
-    }
-
-    public void setSensorData(List<List<SensorData>> sensorData) {
-        this.sensorData = sensorData;
-    }
-
-    public void setRead(int read) {
-        this.read = read;
-    }
-
     public void setLastAlignmentTime(long lastAlignmentTime) {
         this.lastAlignmentTime = lastAlignmentTime;
-    }
-
-    public void setCountSensordata(int countSensordata) {
-        this.countSensordata = countSensordata;
     }
 
     public void setCountZeros(int countZeros) {
@@ -79,10 +51,6 @@ public class AutonomousSteering extends Steering implements IObserver {
 
     public void setStuckCount(int stuckCount) {
         this.stuckCount = stuckCount;
-    }
-
-    public void setTargetVelocity(int targetVelocity) {
-        this.targetVelocity = targetVelocity;
     }
 
     public void setGreenLight(int greenLight) {
@@ -113,10 +81,10 @@ public class AutonomousSteering extends Steering implements IObserver {
      *
      * @param robo Roboter der Klasse Robot
      */
-        public void evaluateSensorData(Robot robo) {
+    public void evaluateSensorData(Robot robo) {
         boolean steered;
         int n = this.read;
-        int i=this.read;
+        int i = this.read;
         if ((sensorData != null) && (sensorData.size() > 0)) {
             while (i < sensorData.size()) {
                 List<SensorData> data = sensorData.get(i);
@@ -127,16 +95,12 @@ public class AutonomousSteering extends Steering implements IObserver {
                 for (SensorData sensorData1 : data) {
                     BaseSensor relatedSensor = sensorData1.getRelatedSensor();
                     double relation_toRobo = relatedSensor.getOrientationToRobot();
-                    double beamwidth = relatedSensor.getBeamWidth();
-                    double distance = sensorData1.getDistance();
-                    double angle = sensorData1.getAngle();
-                    if(relation_toRobo== 0.0) {
-                        steered = navigate(relation_toRobo, distance, angle, beamwidth, robo);
+                    if (relation_toRobo == 0.0) {
+                        steered = navigate(sensorData1, robo);
                         if (steered) {
-                           // n = sensorData.size();
-                            i=sensorData.size();
-                            n=sensorData.size();
-                            this.read=sensorData.size();
+                            i = sensorData.size();
+                            n = sensorData.size();
+                            this.read = sensorData.size();
                             break;
                         }
                     }
@@ -145,17 +109,8 @@ public class AutonomousSteering extends Steering implements IObserver {
             }
             while (n < sensorData.size()) {
                 List<SensorData> data = sensorData.get(n);
-                boolean reacted = reactionDataSize(data.size(), robo);
-                if (reacted) {
-                    break;
-                }
                 for (SensorData sensorData1 : data) {
-                    BaseSensor relatedSensor = sensorData1.getRelatedSensor();
-                    double relation_toRobo = relatedSensor.getOrientationToRobot();
-                    double beamwidth = relatedSensor.getBeamWidth();
-                    double distance = sensorData1.getDistance();
-                    double angle = sensorData1.getAngle();
-                    steered = navigate(relation_toRobo, distance, angle, beamwidth, robo);
+                    steered = navigate(sensorData1, robo);
                     if (steered) {
                         n = sensorData.size();
                         break;
@@ -195,9 +150,9 @@ public class AutonomousSteering extends Steering implements IObserver {
 
         if (countSensordata >= 50) {
             robo.setVelocity(10);
-             if (countSensordata>=200){
-            robo.setOrientation(orientation + Math.PI);
-             }
+            if (countSensordata >= 200) {
+                robo.setOrientation(orientation + Math.PI);
+            }
             countSensordata = 0;
             return true;
         }
@@ -209,27 +164,29 @@ public class AutonomousSteering extends Steering implements IObserver {
      * Erhält jeweils ausgelesene Sensordaten der Klasse SensorData und lenkt den Roboter abhängig von den empfangenen Daten,
      * mindestens bis das Hindernis außerhalb des Sichtfeldes des betroffenen Sensors ist.
      *
-     * @param relation_Robot Orientierung des Sensors relativ zur Orientierung des Roboters
-     * @param distance       Entfernung des Datenpunktes in Pixel vom Roboter
-     * @param angle          Orientierung des Datenpunktes relativ zum Sensor, der den Datenpunkt empfangen hat
-     * @param beamwidth      Strahlbreite des Sensors, der den Datenpunkt empfangen hab
-     * @param robo           Dazugehöriger Roboter Robo
-     * @return Boolean, wenn gelenkt wurde, true
+     * @param sensorData1 SensorData
+     * @param robo        Dazugehöriger Roboter Robo
+     * @return Boolean    wenn gelenkt wurde, true
      */
-    public boolean navigate(double relation_Robot, double distance, double angle, double beamwidth, Robot robo) {
+    public boolean navigate(SensorData sensorData1, Robot robo) {
         double orientation = robo.getOrientation();
         int velocity = robo.getVelocity();
-        String relationRobot = Double.toString(relation_Robot);
+        BaseSensor relatedSensor = sensorData1.getRelatedSensor();
+        double relation_toRobo = relatedSensor.getOrientationToRobot();
+        double beamwidth = relatedSensor.getBeamWidth();
+        double distance = sensorData1.getDistance();
+        double angle = sensorData1.getAngle();
+        String relationRobot = Double.toString(relation_toRobo);
         if (stuckCountdown(robo)) {
             return true;
         }
-        if ((distance <= ((5 * robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && (Double.toString(relation_Robot).equals("0.0"))) {
+        if ((distance <= ((5 * robo.getVelocity()) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && relationRobot.equals("0.0")) {
             this.targetVelocity = 20;
             greenLight = 0;
-        } else if ((distance <= (((robo.getVelocity()) / 3.0) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && !(Double.toString(relation_Robot).equals("0.0"))) {
+        } else if ((distance <= (((robo.getVelocity()) / 3.0) + robo.getRadius())) && (robo.getVelocity() > 20) && (countSensordata >= 1) && !relationRobot.equals("0.0")) {
             this.targetVelocity = 20;
         }
-        if ((distance > ((robo.getVelocity() / 3.0) + robo.getRadius())) || !(Double.toString(relation_Robot).equals("0.0"))) {
+        if ((distance > ((robo.getVelocity() / 3.0) + robo.getRadius())) || !relationRobot.equals("0.0")) {
             greenLight += 1;
         }
         double turnAngle1 = ((ceil(((beamwidth / 2.0) - Math.abs(angle)) * 10.0)) / 10.0);
@@ -285,7 +242,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      * Funktion die den Roboter unabhängig von den Sensordaten lenkt, sobald dieser eine bestimmte Zeit lang die minimale Zielgeschwindigkeit von
      * 20P/s unterschreitet.
      *
-     * @param robo        Roboter der Klasse Robot
+     * @param robo Roboter der Klasse Robot
      * @return Boolean, true, wenn gelenkt wurde
      */
     public boolean stuckCountdown(Robot robo) {
