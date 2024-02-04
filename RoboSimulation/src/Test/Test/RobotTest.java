@@ -1,9 +1,9 @@
 package Test;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import thu.robots.components.BaseSensor;
+import thu.robots.components.*;
 import thu.robots.components.Robot;
-import thu.robots.components.Steering;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,12 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RobotTest {
-
+    private Robot robot;
+    @BeforeEach
+    public void beforeEach() {
+        List<BaseSensor> sensors = new ArrayList<>();
+        robot = new Robot(sensors, "Testrobot", 30, 10, Color.RED, new Steering());
+    }
    @Test
     void normalizeOrientation(){
-       List<BaseSensor> sensors = new ArrayList<>();
-       Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
-
        Random random = new Random();
        for (int i = 0; i < 3; i++) {
            double randomOrientation = 2 * Math.PI * (random.nextDouble() - 0.5);
@@ -30,8 +32,6 @@ class RobotTest {
 
     @Test
     void setRadius() {
-        List<BaseSensor> sensors = new ArrayList<>();
-        Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
             int randomRadius = random.nextInt(101);
@@ -40,14 +40,10 @@ class RobotTest {
         }
 
         assertThrows(IllegalStateException.class, () -> robot.setRadius(-100));
-
         assertThrows(IllegalStateException.class, () -> robot.setRadius(150));
     }
     @Test
     void setInitialPose(){
-        List<BaseSensor> sensors = new ArrayList<>();
-        Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
-
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
             int randomPosX = random.nextInt(301);
@@ -63,9 +59,6 @@ class RobotTest {
     }
     @Test
     void setVelocity(){
-        List<BaseSensor> sensors = new ArrayList<>();
-        Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
-
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
             int randomVelocity = random.nextInt(50);
@@ -75,9 +68,6 @@ class RobotTest {
     }
     @Test
     void move() {
-        List<BaseSensor> sensors = new ArrayList<>();
-        Robot robot = new Robot(sensors, "Testrobot", 30, 20, Color.RED, new Steering());
-
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
             double initialPosX = robot.getPosX();
