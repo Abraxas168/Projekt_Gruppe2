@@ -36,8 +36,8 @@ public class AutonomousSteeringTest {
 
     @Test
     public void goalAlignment() {
-        for (int velocity : Arrays.asList(IRobot.MAX_VELOCITY, IRobot.MAX_VELOCITY - 1)) {
-            for (long timeDifference : Arrays.asList(4000, 4000 - 1)) {
+        for (int velocity : Arrays.asList(robot.MAX_VELOCITY, robot.MAX_VELOCITY - 1)) {
+            for (long timeDifference : Arrays.asList(4000, 3999)) {
                 for (int zeroCount : Arrays.asList(80, 79)) {
                     for (double initialOrientation : Arrays.asList(Math.PI / 4, Math.PI / 2)) {
                         robot.setVelocity(velocity);
@@ -159,13 +159,10 @@ public class AutonomousSteeringTest {
             robot.setVelocity(randomVelocity);
             boolean velocityChanged = false;
             for (int j = 0; j < 6; j++) {
-                velocityChanged = autosteering.velocityRegulation(robot);// || velocityChanged;
+                velocityChanged = autosteering.velocityRegulation(robot);
             }
-           // if (velocityChanged) {
-                assertEquals(robot.MAX_VELOCITY, robot.getVelocity());
-           // } else {
-           //     assertEquals(randomVelocity, robot.getVelocity());
-           // }
+            assertEquals(robot.MAX_VELOCITY, robot.getVelocity());
+
         }
     }
 }

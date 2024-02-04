@@ -22,12 +22,15 @@ class RobotTest {
     }
    @Test
     void normalizeOrientation(){
-       Random random = new Random();
-       for (int i = 0; i < 3; i++) {
-           double randomOrientation = 2 * Math.PI * (random.nextDouble() - 0.5);
-           double normalizedOrientation = robot.normalizeOrientation(randomOrientation);
-           assertEquals(randomOrientation, normalizedOrientation);
-       }
+       double result1 = robot.normalizeOrientation(2.0);
+       assertEquals(2.0, result1);
+
+       double result2 = robot.normalizeOrientation(-3*Math.PI);
+       assertEquals(-Math.PI, result2);
+
+       double result4 = robot.normalizeOrientation(-Math.PI);
+       assertEquals(Math.PI, result4);
+
     }
 
     @Test
@@ -68,19 +71,16 @@ class RobotTest {
     }
     @Test
     void move() {
-        Random random = new Random();
-        for (int i = 0; i < 3; i++) {
-            double initialPosX = robot.getPosX();
-            double initialPosY = robot.getPosY();
-            double initialVelocity = robot.getVelocity();
-            double randomDeltaTimeSec = random.nextDouble();
-            robot.move(randomDeltaTimeSec);
-            double expectedPosX = initialPosX + randomDeltaTimeSec * initialVelocity * Math.cos(Math.ceil(robot.getOrientation() * 100.0) / 100.0);
-            double expectedPosY = initialPosY + randomDeltaTimeSec * initialVelocity * Math.sin(Math.ceil(robot.getOrientation() * 100.0) / 100.0);
-            int newPosX = (int) Math.round(expectedPosX);
-            int newPosY = (int) Math.round(expectedPosY);
-            assertEquals(newPosX, robot.getPosX());
-            assertEquals(newPosY, robot.getPosY());
-        }
+        robot.move(1.0);
+        assertEquals(robot.getVelocity(), robot.getPosX());
+        assertEquals(0, robot.getPosY());
+
+        robot.move(0.5);
+        assertEquals(robot.getVelocity()+0.5*30, robot.getPosX());
+        assertEquals(0, robot.getPosY());
+
+        robot.move(0.2);
+        assertEquals(robot.getVelocity()+0.5*30+0.2*30, robot.getPosX());
+        assertEquals(0, robot.getPosY());
     }
 }
