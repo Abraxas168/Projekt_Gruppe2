@@ -59,52 +59,59 @@ public class AutonomousSteeringTest {
 
     @Test
     public void navigate() {
-        double testAngle = (Math.PI / 6) - 0.1;
-        //double testAngle=
+        for (int n = 0; n < 100; n++) {
+            robot.setOrientation(0.0);
+            Random random = new Random();
+            double gegenwinkel = random.nextDouble() * (Math.PI / 6);
+            double testAngle = (Math.PI / 6) - gegenwinkel;
 
-        assertTrue(autosteering.navigate(0.0, 14.0, -(testAngle), Math.PI / 3, robot));
-        assertEquals(Math.PI / 2, robot.getOrientation());
+            //Abweichung durch Runden in Funktion höchstens um 0.2 also ca 11 grad. diese Rundung wird benötigt damit sehr kleine
+            //lenkbewegungen auch berücksichtigt werden.
 
-        assertTrue(((AutonomousSteering) robot.getSteering()).navigate(0.0, 39, -(testAngle), Math.PI / 3, robot));
-        assertEquals(Math.PI / 2 + 0.1 + 0.25, robot.getOrientation());
+            assertTrue(autosteering.navigate(0.0, 14.0, -(testAngle), Math.PI / 3, robot));
+            assertEquals(Math.PI / 2, robot.getOrientation(), 0.15);
 
-        assertTrue(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 19.0, -(testAngle), Math.PI / 3, robot));
-        double turnangle2 = ceil(((Math.PI / 6) + (testAngle) + 0.05) * 10.0) / 10.0;
-        double actualOrientation = (Math.PI / 2 + 0.1 + 0.25) - turnangle2;
-        assertEquals(actualOrientation, robot.getOrientation());
+            assertTrue(((AutonomousSteering) robot.getSteering()).navigate(0.0, 39, -(testAngle), Math.PI / 3, robot));
+            assertEquals(Math.PI / 2 + gegenwinkel + 0.25, robot.getOrientation(), 0.15);
 
-        assertTrue(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 19.0, -(testAngle), Math.PI / 3, robot));
-        assertEquals(actualOrientation + 0.1, robot.getOrientation());
+            assertTrue(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 19.0, -(testAngle), Math.PI / 3, robot));
+            double turnangle2 = ceil(((Math.PI / 6) + (testAngle) + 0.05) * 10.0) / 10.0;
+            double actualOrientation = (Math.PI / 2 + gegenwinkel + 0.25) - turnangle2;
+            assertEquals(actualOrientation, robot.getOrientation(), 0.15);
 
-        assertTrue(((AutonomousSteering) robot.getSteering()).navigate(0.0, 14.0, (testAngle), Math.PI / 3, robot));
-        assertEquals(actualOrientation + 0.1 - Math.PI / 2, robot.getOrientation());
+            assertTrue(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 19.0, -(testAngle), Math.PI / 3, robot));
+            assertEquals(actualOrientation + gegenwinkel, robot.getOrientation(), 0.2);
 
-        assertTrue(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 19.0, (testAngle), Math.PI / 3, robot));
-        assertEquals((actualOrientation + 0.1 - Math.PI / 2) - 0.1, robot.getOrientation());
+            assertTrue(((AutonomousSteering) robot.getSteering()).navigate(0.0, 14.0, (testAngle), Math.PI / 3, robot));
+            assertEquals(actualOrientation + gegenwinkel - Math.PI / 2, robot.getOrientation(), 0.2);
 
-        double actualOrientation2 = ((actualOrientation + 0.1 - Math.PI / 2) - 0.1) + turnangle2;
+            assertTrue(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 19.0, (testAngle), Math.PI / 3, robot));
+            assertEquals((actualOrientation + gegenwinkel - Math.PI / 2) - gegenwinkel, robot.getOrientation(), 0.2);
 
-        assertTrue(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 19.0, (testAngle), Math.PI / 3, robot));
-        assertEquals(actualOrientation2, robot.getOrientation());
+            double actualOrientation2 = ((actualOrientation + gegenwinkel - Math.PI / 2) - gegenwinkel) + turnangle2;
 
-        assertFalse(((AutonomousSteering) robot.getSteering()).navigate(0.0, 41.0, -(testAngle), Math.PI / 3, robot));
-        assertEquals(actualOrientation2, robot.getOrientation());
+            assertTrue(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 19.0, (testAngle), Math.PI / 3, robot));
+            assertEquals(actualOrientation2, robot.getOrientation(), 0.2);
 
-        assertFalse(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 21.0, -(testAngle), Math.PI / 3, robot));
-        assertEquals(actualOrientation2, robot.getOrientation());
+            assertFalse(((AutonomousSteering) robot.getSteering()).navigate(0.0, 41.0, -(testAngle), Math.PI / 3, robot));
+            assertEquals(actualOrientation2, robot.getOrientation(), 0.2);
 
-        assertFalse(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 21.0, -(testAngle), Math.PI / 3, robot));
-        assertEquals(actualOrientation2, robot.getOrientation());
+            assertFalse(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 21.0, -(testAngle), Math.PI / 3, robot));
+            assertEquals(actualOrientation2, robot.getOrientation(), 0.2);
 
-        assertFalse(((AutonomousSteering) robot.getSteering()).navigate(0.0, 41.0, testAngle, Math.PI / 3, robot));
-        assertEquals(actualOrientation2, robot.getOrientation());
+            assertFalse(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 21.0, -(testAngle), Math.PI / 3, robot));
+            assertEquals(actualOrientation2, robot.getOrientation(), 0.2);
 
-        assertFalse(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 21.0, testAngle, Math.PI / 3, robot));
-        assertEquals(actualOrientation2, robot.getOrientation());
+            assertFalse(((AutonomousSteering) robot.getSteering()).navigate(0.0, 41.0, testAngle, Math.PI / 3, robot));
+            assertEquals(actualOrientation2, robot.getOrientation(), 0.2);
 
-        assertFalse(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 21.0, testAngle, Math.PI / 3, robot));
-        assertEquals(actualOrientation2, robot.getOrientation());
+            assertFalse(((AutonomousSteering) robot.getSteering()).navigate(Math.PI / 3, 21.0, testAngle, Math.PI / 3, robot));
+            assertEquals(actualOrientation2, robot.getOrientation(), 0.2);
 
+            assertFalse(((AutonomousSteering) robot.getSteering()).navigate(-Math.PI / 3, 21.0, testAngle, Math.PI / 3, robot));
+            assertEquals(actualOrientation2, robot.getOrientation(), 0.2);
+
+        }
     }
 
     @Test
@@ -139,7 +146,7 @@ public class AutonomousSteeringTest {
         autosteering.stuckCountdown(robot);
         assertEquals(1, autosteering.getStuckCount());
         autosteering.setStuckCount(700);
-        autosteering.stuckCountdown(robot);
+        assertTrue(autosteering.stuckCountdown(robot));
         assertEquals(Math.PI, robot.getOrientation());
         assertEquals(0,autosteering.getStuckCount());
     }
@@ -152,13 +159,13 @@ public class AutonomousSteeringTest {
             robot.setVelocity(randomVelocity);
             boolean velocityChanged = false;
             for (int j = 0; j < 6; j++) {
-                velocityChanged = autosteering.velocityRegulation(robot) || velocityChanged;
+                velocityChanged = autosteering.velocityRegulation(robot);// || velocityChanged;
             }
-            if (velocityChanged) {
+           // if (velocityChanged) {
                 assertEquals(robot.MAX_VELOCITY, robot.getVelocity());
-            } else {
-                assertEquals(randomVelocity, robot.getVelocity());
-            }
+           // } else {
+           //     assertEquals(randomVelocity, robot.getVelocity());
+           // }
         }
     }
 }
