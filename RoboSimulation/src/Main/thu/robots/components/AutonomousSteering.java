@@ -109,7 +109,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      * Liest die gesammelten Sensordaten der Liste Sensordata aus und ruft, mit diesen Daten die Funktion navigate() auf
      * und ändert die Zielgeschwindigkeit (targetVelocity) abhängig von den Sensordaten auf 20p/s.
      * Zählt wie oft der Sensor mit der Orientierung 0.0 (nicht) betroffen ist und passt die Variable greenLight entsprechend an.
-     * Wertet die Wahrheitswerte der einzelnen Funktionen aus und bricht mit der Analyse der Sensordaten ab sobald gesteuert wurde.
+     * Wertet die Wahrheitswerte der einzelnen Funktionen aus und bricht mit der Analyse der Sensordaten ab, sobald gesteuert wurde.
      *
      * @param robo Roboter der Klasse Robot
      */
@@ -159,7 +159,7 @@ public class AutonomousSteering extends Steering implements IObserver {
      *
      * @param size int, Länge der Liste der aktuell übergebenen Liste von Sensordaten
      * @param robo der Klasse Robot
-     * @return gibt einen Wahrheitswert zurück. True falls mit der Notfallsteuerung reagiert wurde.
+     * @return gibt einen Wahrheitswert zurück. True, falls mit der Notfallsteuerung reagiert wurde.
      */
     public boolean reactionDataSize(int size, Robot robo) {
         double orientation = robo.getOrientation();
@@ -189,7 +189,7 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * Erhält jeweils ausgelesene Sensordate der Klasse SensorData und lenkt den Roboter abhängig von den empfangenen Daten,
+     * Erhält jeweils ausgelesene Sensordaten der Klasse SensorData und lenkt den Roboter abhängig von den empfangenen Daten,
      * mindestens bis das Hindernis außerhalb des Sichtfeldes des betroffenen Sensors ist.
      *
      * @param relation_Robot Orientierung des Sensors relativ zur Orientierung des Roboters
@@ -256,7 +256,7 @@ public class AutonomousSteering extends Steering implements IObserver {
     }
 
     /**
-     * Funktion die den Roboter unabhängig von den Sensordaten lenkt, sobald dieser eine bestimmte Zeit lang die Minimale Zielgeschwindigkeit von
+     * Funktion die den Roboter unabhängig von den Sensordaten lenkt, sobald dieser eine bestimmte Zeit lang die minimale Zielgeschwindigkeit von
      * 20P/s unterschreitet.
      *
      * @param robo        Roboter der Klasse Robot
@@ -279,12 +279,12 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * Reguliert die Geschwindigkeit durch beschleunigen oder abbremsen um den jeweils höchtens zulässigen Beschleunigungswert
+     * Reguliert die Geschwindigkeit durch Beschleunigen oder Abbremsen um den jeweils höchtens zulässigen Beschleunigungswert
      * (lt. Projektbeschreibung Punkt 11 und 12), je nach aktuellem Zielwert der Geschwindigkeit (targetVelocity), wobei höchstens eine
      * Maximalgeschwindigkeit von 50 Pixel/s und eine Mindestgeschwindigkeit von 10 Pixel/s erreicht werden kann.
      *
      * @param robo der Klasse Robot
-     * @return gibt einen Wahrheitswert zurück. True falls beschleunigt oder abbgebremst wurde.
+     * @return gibt einen Wahrheitswert zurück. True, falls beschleunigt oder abgebremst wurde.
      */
     public boolean velocityRegulation(Robot robo) {
         int velocity = robo.getVelocity();
@@ -301,7 +301,7 @@ public class AutonomousSteering extends Steering implements IObserver {
 
 
     /**
-     * Koodiniert die Steuerung, durch den Aufruf der einzelnen Steuerungsfunktionen
+     * Koordiniert die Steuerung, durch den Aufruf der einzelnen Steuerungsfunktionen
      *
      * @param robo Roboter der Klasse Robot
      */
